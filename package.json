@@ -1,0 +1,48 @@
+{
+  "name": "svelte-github-corner",
+  "description": "Display an animated Octocat in a corner of the screen to link to the GitHub repo.",
+  "author": "Janosh Riebesell <janosh.riebesell@gmail.com>",
+  "homepage": "https://svelte-github-corner.netlify.app",
+  "repository": "https://github.com/janosh/svelte-github-corner",
+  "license": "MIT",
+  "version": "0.0.0",
+  "type": "module",
+  "svelte": "index.js",
+  "bugs": "https://github.com/janosh/svelte-github-corner/issues",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "preview": "svelte-kit preview",
+    "package": "svelte-kit package",
+    "serve": "yarn build && yarn preview",
+    "check": "svelte-check --ignore package"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "^1.0.0-next.24",
+    "@sveltejs/kit": "^1.0.0-next.218",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "eslint": "^8.6.0",
+    "eslint-plugin-svelte3": "^3.3.0",
+    "mdsvex": "^0.9.8",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.5.1",
+    "svelte": "^3.45.0",
+    "svelte-check": "^2.2.11",
+    "svelte-preprocess": "^4.10.1",
+    "svelte2tsx": "^0.4.12",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.10"
+  },
+  "keywords": [
+    "svelte",
+    "github",
+    "corner",
+    "octocat",
+    "repo link",
+    "docs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
