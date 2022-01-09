@@ -5,7 +5,7 @@
   "homepage": "https://svelte-github-corner.netlify.app",
   "repository": "https://github.com/janosh/svelte-github-corner",
   "license": "MIT",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "svelte": "index.js",
   "bugs": "https://github.com/janosh/svelte-github-corner/issues",
