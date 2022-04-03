@@ -1,4 +1,7 @@
-<h1 align="center">Svelte GitHub Corner</h1>
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/janosh/svelte-github-corner/main/static/favicon.svg" alt="Octocat" height=60>
+  <br>&ensp;Svelte GitHub Corner
+</h1>
 
 <h4 align="center">
 
@@ -8,11 +11,10 @@
 
 </h4>
 
-<div class="hide-in-demo">
+<strong class="hide-in-docs">
 
-**[Live demo](https://svelte-github-corner.netlify.app)**
-
-</div>
+[Live demo](https://svelte-github-corner.netlify.app)
+</strong>
 
 ## Installation
 
@@ -45,8 +47,6 @@ yarn add -D svelte-github-corner
 
 ## Props
 
-`GitHubCorner.svelte` accepts the following props
-
 - `href: string`: (required) The GitHub URL to link to.
 - `title: string = 'View code on GitHub'`: Text to display in hover tooltip.
 - `ariaLabel: string = title`: Accessible name for SVG button describing its function. [See MDN](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-label). Should not be set to empty string.
@@ -56,12 +56,12 @@ yarn add -D svelte-github-corner
 
 ## Styling
 
-`GitHubCorner.svelte` exposes the following CSS variables:
+With CSS variables:
 
 ```css
-a {
-  fill: var(--ghc-bg, black);
-  color: var(--ghc-color, white);
-  width: var(--ghc-size, min(50pt, 15vw));
-}
+fill: var(--ghc-bg, black);
+color: var(--ghc-color, white);
+width: var(--ghc-size, min(50pt, 15vw));
 ```
+
+Can be passed as props or set in a global stylesheet.
