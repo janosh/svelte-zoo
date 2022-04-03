@@ -9,15 +9,5 @@ export default {
 
   kit: {
     adapter: adapter(),
-
-    // hydrate the <body> element in src/app.html
-    target: `body`,
-
-    vite: {
-      server: {
-        // needed to import readme.md in src/routes/index.svelte
-        fs: { allow: [`..`] },
-      },
-    },
   },
 }
