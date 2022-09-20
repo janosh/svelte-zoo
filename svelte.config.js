@@ -9,14 +9,5 @@ export default {
 
   kit: {
     adapter: adapter(),
-
-    prerender: { default: true },
-
-    vite: {
-      server: {
-        // needed to import readme.md in src/routes/index.svelte
-        fs: { allow: [`..`] },
-      },
-    },
   },
 }

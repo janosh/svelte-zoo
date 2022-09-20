@@ -1,6 +1,6 @@
 <script lang="ts">
   import Readme from '../../readme.md'
-  import GitHubCorner from '../lib/GitHubCorner.svelte'
+  import GitHubCorner from '$lib/GitHubCorner.svelte'
   import '../app.css'
 </script>
 
