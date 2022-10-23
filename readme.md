@@ -19,7 +19,7 @@
 ## Installation
 
 ```sh
-yarn add -D svelte-github-corner
+npm install -D svelte-github-corner
 ```
 
 ## Usage
