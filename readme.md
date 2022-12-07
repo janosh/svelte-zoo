@@ -6,14 +6,14 @@
 <h4 align="center">
 
 [![NPM version](https://img.shields.io/npm/v/svelte-github-corner?color=blue&logo=NPM)](https://npmjs.com/package/svelte-github-corner)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c3213069-e3cc-45ef-a446-b2358b9a35fb/deploy-status)](https://app.netlify.com/sites/svelte-github-corner/deploys)
+[![GitHub Pages](https://github.com/janosh/svelte-github-corner/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/janosh/svelte-github-corner/actions/workflows/gh-pages.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/janosh/svelte-github-corner/main.svg)](https://results.pre-commit.ci/latest/github/janosh/svelte-github-corner/main)
 
 </h4>
 
 <strong class="hide-in-docs">
 
-[Live demo](https://svelte-github-corner.netlify.app)
+[Live demo](https://github-corner.janosh.dev)
 </strong>
 
 ## Installation
