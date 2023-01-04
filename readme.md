@@ -16,13 +16,13 @@
 [Live demo](https://github-corner.janosh.dev)
 </strong>
 
-## Installation
+## 🔨 &thinsp; Installation
 
 ```sh
 npm install -D svelte-github-corner
 ```
 
-## Usage
+## 📙 &thinsp; Usage
 
 ```svelte
 <script>
@@ -35,26 +35,26 @@ npm install -D svelte-github-corner
 <!-- kitchen sink -->
 <GitHubCorner
   href="https://github.com/janosh/svelte-github-corner"
-  title="My eloquent title"
+  title="Fancy words"
   ariaLabel="Click here for riches"
   target="_blank"
-  corner="topLeft"
+  corner="top-left"
   style="z-index: 42;"
   --ghc-bg="white"
   --ghc-color="var(--bodyBg)"
 />
 ```
 
-## Props
+## 🔣 &thinsp; Props
 
 - `href: string`: (required) The GitHub URL to link to.
 - `title: string = 'View code on GitHub'`: Text to display in hover tooltip.
 - `ariaLabel: string = title`: Accessible name for SVG button describing its function. [See MDN](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-label). Should not be set to empty string.
 - `target: '_self' | '_blank' = '_self'`: Whether to open `href` in same (`'_self'`) or new tab (`'_blank'`).
-- `corner: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' = 'topRight'`: Which corner of the screen to position the Octocat. `'bottomLeft/Right'` look bad, shouldn't normally be used.
+- `corner: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' = 'top-right'`: Which corner of the screen to position the Octocat. `'bottom-(left|right)'` look bad, shouldn't normally be used.
 - `style: string = ''`: Inline styles that will be applied to the `<a>` tag.
 
-## Styling
+## ✨ &thinsp; Styling
 
 With CSS variables:
 

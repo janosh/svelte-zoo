@@ -5,17 +5,19 @@
   export let ariaLabel = title
   export let target: '_self' | '_blank' = `_self`
   // bottomLeft/Right look bad, shouldn't normally be used
-  export let corner: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' = `topRight`
+  export let corner:
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right' = `top-right`
   export let style = ``
 
-  const cornerCss = {
-    topLeft: `top: 0; left: 0; transform: rotate(-90deg);`,
-    topRight: `top: 0; right: 0; transform: rotate(0deg);`,
-    bottomLeft: `bottom: 0; left: 0; transform: rotate(180deg);`,
-    bottomRight: `bottom: 0; right: 0; transform: rotate(90deg);`,
+  $: style += {
+    'top-left': `top: 0; left: 0; transform: rotate(-90deg);`,
+    'top-right': `top: 0; right: 0; transform: rotate(0deg);`,
+    'bottom-left': `bottom: 0; left: 0; transform: rotate(180deg);`,
+    'bottom-right': `bottom: 0; right: 0; transform: rotate(90deg);`,
   }[corner]
-
-  $: style += cornerCss
 </script>
 
 <a {href} {target} {title} aria-label={ariaLabel} {style}>
@@ -42,6 +44,8 @@
     color: var(--ghc-color, white);
     width: var(--ghc-size, min(50pt, 15vw));
     z-index: 1;
+    top: 0;
+    right: 0;
   }
   a:hover .octo-arm {
     animation: octocat-wave 0.5s ease-in-out;
