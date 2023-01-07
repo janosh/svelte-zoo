@@ -1,0 +1,52 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install chromium
+
+      - name: Run tests
+        id: tests
+        run: npm run test
+
+  release:
+    runs-on: ubuntu-latest
+    needs: tests
+    if: github.event_name == 'release' && needs.tests.result == 'success'
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          registry-url: https://registry.npmjs.org
+
+      - name: Build package and publish to NPM
+        run: |
+          npm install
+          npm run package
+          npm publish ./package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

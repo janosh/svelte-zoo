@@ -1,13 +1,28 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import { UserConfig } from 'vite'
+import examples from 'mdsvexamples/vite'
+import { resolve } from 'path'
+import type { UserConfig } from 'vite'
+import type { UserConfig as VitestConfig } from 'vitest'
 
-const vite_config: UserConfig = {
-  plugins: [sveltekit()],
+const vite_config: UserConfig & { test: VitestConfig } = {
+  plugins: [sveltekit(), examples],
+
+  test: {
+    environment: `jsdom`,
+    css: true,
+    coverage: {
+      reporter: [`text`, `json-summary`],
+    },
+  },
+
+  resolve: {
+    alias: {
+      $root: resolve(`.`),
+    },
+  },
 
   server: {
-    fs: {
-      allow: [`..`], // needed to import readme.md in src/routes/index.svelte
-    },
+    fs: { allow: [`..`] }, // needed to import from $root
     port: 3000,
   },
 
@@ -15,4 +30,5 @@ const vite_config: UserConfig = {
     port: 3000,
   },
 }
+
 export default vite_config

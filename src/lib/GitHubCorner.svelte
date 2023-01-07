@@ -1,4 +1,5 @@
 <script lang="ts">
+  // Display an animated Octocat in a corner of the screen to link to the GitHub repo.
   // adapted from https://github.com/tholman/github-corners
   export let href: string
   export let title = `View code on GitHub`

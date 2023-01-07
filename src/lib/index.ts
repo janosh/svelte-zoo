@@ -1,1 +1,6 @@
-export { default } from './GitHubCorner.svelte'
+export { default as CodeExample } from './CodeExample.svelte'
+export { default as CodeLinks } from './CodeLinks.svelte'
+export { default as Confetti } from './Confetti.svelte'
+export { default as CopyButton } from './CopyButton.svelte'
+export { default as GitHubCorner } from './GitHubCorner.svelte'
+export { default as Icon } from './Icon.svelte'
