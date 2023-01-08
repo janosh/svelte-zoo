@@ -42,7 +42,7 @@
     <slot name="example" />
   {/if}
 
-  <details class:open>
+  <section class:open>
     <aside>
       <CopyButton content={node?.innerText ?? src} />
       {#if !meta.collapsible}
@@ -50,7 +50,7 @@
       {/if}
     </aside>
     <pre><code bind:this={node}><slot name="code" /></code></pre>
-  </details>
+  </section>
 
   {#if meta.code_above}
     <slot name="example" />
@@ -58,14 +58,14 @@
 </div>
 
 <style>
-  details {
+  section {
     position: relative;
     visibility: hidden;
     opacity: 0;
     max-height: 0;
     transition: max-height 0.3s, opacity 0.3s, visibility 0.3s;
   }
-  details.open {
+  section.open {
     visibility: visible;
     opacity: 1;
     max-height: 9999vh;

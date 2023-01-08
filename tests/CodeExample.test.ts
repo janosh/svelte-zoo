@@ -16,12 +16,9 @@ test.each([[true, false]])(`CodeExample`, (collapsible) => {
 })
 
 vi.mock(`$app/stores`, async () => {
-  const { readable, writable } = await import(`svelte/store`)
+  const { readable } = await import(`svelte/store`)
   const getStores = () => ({
-    navigating: readable(null),
     page: readable({ url: new URL(`http://localhost`), params: {} }),
-    session: writable(null),
-    updated: readable(false),
   })
   const page = {
     subscribe(fn: (value: unknown) => void) {

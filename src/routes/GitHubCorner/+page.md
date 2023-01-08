@@ -1,6 +1,6 @@
 ```svelte example
 <script lang="ts">
-  import GitHubCorner from '$lib'
+  import { GitHubCorner } from '$lib'
 </script>
 
 <!-- minimal -->
