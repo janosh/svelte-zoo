@@ -37,7 +37,7 @@
   </nav>
 {/if}
 <!-- wrap in div with id for precise CSS selectors in playwright E2E tests -->
-<div id={meta.id}>
+<div id={meta.id} class="code-example">
   {#if !meta.code_above}
     <slot name="example" />
   {/if}

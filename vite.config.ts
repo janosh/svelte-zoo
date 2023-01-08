@@ -13,6 +13,7 @@ const vite_config: UserConfig & { test: VitestConfig } = {
     coverage: {
       reporter: [`text`, `json-summary`],
     },
+    setupFiles: [`tests/index.ts`],
   },
 
   resolve: {

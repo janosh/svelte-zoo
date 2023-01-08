@@ -1,7 +1,7 @@
 import { CodeLinks } from '$lib'
 import { repository } from '$root/package.json'
 import { doc_query } from 'tests'
-import { expect, test, vi } from 'vitest'
+import { expect, test } from 'vitest'
 
 test(`CodeLinks`, () => {
   const file = `-/src/lib/CodeLinks.svelte`
@@ -27,17 +27,4 @@ test(`CodeLinks`, () => {
       )}']`
     )
   ).toBeInstanceOf(HTMLAnchorElement)
-})
-
-vi.mock(`$app/stores`, async () => {
-  const { readable } = await import(`svelte/store`)
-  const getStores = () => ({
-    page: readable({ url: new URL(`http://localhost`), params: {} }),
-  })
-  const page = {
-    subscribe(fn: (value: unknown) => void) {
-      return getStores().page.subscribe(fn)
-    },
-  }
-  return { getStores, page }
 })

@@ -1,4 +1,4 @@
-import { beforeEach } from 'vitest'
+import { beforeEach, vi } from 'vitest'
 
 beforeEach(() => {
   document.body.innerHTML = ``
@@ -13,3 +13,18 @@ export function doc_query<T extends HTMLElement>(selector: string): T {
   if (!node) throw new Error(`No element found for selector: ${selector}`)
   return node as T
 }
+
+// mock the SvelteKit $app/stores module
+// https://github.com/sveltejs/kit/issues/5525#issuecomment-1186390654
+vi.mock(`$app/stores`, async () => {
+  const { readable } = await import(`svelte/store`)
+  const getStores = () => ({
+    page: readable({ url: new URL(`http://localhost`), params: {} }),
+  })
+  const page = {
+    subscribe(fn: (value: unknown) => void) {
+      return getStores().page.subscribe(fn)
+    },
+  }
+  return { getStores, page }
+})
