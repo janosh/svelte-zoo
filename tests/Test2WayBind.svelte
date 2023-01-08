@@ -8,4 +8,4 @@
   $: dispatch(`selected-changed`, { selected })
 </script>
 
-<svelte:component this={component} bind:selected {...$$props} />
+<svelte:component this={component} bind:selected {...$$restProps} />

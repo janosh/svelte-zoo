@@ -3,9 +3,15 @@ import { mdsvex } from 'mdsvex'
 import examples from 'mdsvexamples'
 import preprocess from 'svelte-preprocess'
 
-const remarkPlugins = [
-  [examples, { defaults: { Wrapper: `/src/lib/CodeExample.svelte` } }],
-]
+const { default: pkg } = await import(`./package.json`, {
+  assert: { type: `json` },
+})
+const defaults = {
+  Wrapper: `/src/lib/CodeExample.svelte`,
+  pkg: pkg.name,
+  repo: pkg.repository,
+}
+const remarkPlugins = [[examples, { defaults }]]
 
 /** @type {import('@sveltejs/kit').Config} */
 export default {

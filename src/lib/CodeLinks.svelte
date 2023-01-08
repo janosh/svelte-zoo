@@ -17,7 +17,6 @@
   // https://github.com/sveltejs/kit/issues/8318
 
   $: repo_handle = repo.split(`/`).slice(-2).join(`/`)
-  $: stackblitz_url = `https://stackblitz.com/github/${repo_handle}`
   $: serving_file = `src/routes${$page.url.pathname}/+page.svx`
 
   const links = { target: `_blank`, rel: `noreferrer`, class: `btn` }
@@ -30,7 +29,7 @@
   </a>
 {/if}
 
-{#if github}
+{#if github && repo}
   {@const href = `${repo}/blob/-/${typeof github == `string` ? github : file}`}
   <a {href} {...links}>
     <Icon icon="GitHub" />
@@ -38,9 +37,10 @@
   </a>
 {/if}
 
-{#if stackblitz}
+{#if stackblitz && repo_handle}
   <!-- file param defaults to path of file serving the current page if stackblitz=true -->
   {@const file = encodeURIComponent(stackblitz == true ? serving_file : stackblitz)}
+  {@const stackblitz_url = `https://stackblitz.com/github/${repo_handle}`}
   <a href="{stackblitz_url}?file={file}" {...links}>
     <Icon icon="StackBlitz" />
     StackBlitz

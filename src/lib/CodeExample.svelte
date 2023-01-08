@@ -1,6 +1,5 @@
 <script lang="ts">
   // see svelte.config.js where this component is passed to mdsvexamples
-  import { name } from '$root/package.json'
   import { onMount } from 'svelte'
   import { CodeLinks, CopyButton, Icon } from '.'
 
@@ -14,45 +13,47 @@
     repl?: string // Svelte REPL URL
     github?: string | boolean // GitHub URL or true to link to the file serving the current page
     stackblitz?: string | boolean // StackBlitz URL or true to link to the file serving the current page
+    repo?: string // GitHub repo URL
+    pkg?: string // package name
   } = {}
   export let open = !meta.collapsible
 
   let node: HTMLElement // the <code> element
-  $: ({ repl, github, stackblitz } = meta)
+  $: ({ id, collapsible, code_above, pkg, ...links } = meta)
 
   onMount(() => {
     // replace $lib with package name in code
-    node.innerHTML = node.innerHTML?.replaceAll(`$lib`, name)
+    if (pkg) node.innerHTML = node.innerHTML?.replaceAll(`$lib`, pkg)
   })
 </script>
 
-{#if meta.collapsible}
+{#if collapsible}
   <nav>
     <slot name="title" />
     <button on:click={() => (open = !open)}>
       <Icon icon={open ? `collapse` : `expand`} />
       {open ? `Close` : `View code`}
     </button>
-    <CodeLinks {repl} {github} {stackblitz} />
+    <CodeLinks {...links} />
   </nav>
 {/if}
 <!-- wrap in div with id for precise CSS selectors in playwright E2E tests -->
-<div id={meta.id} class="code-example">
-  {#if !meta.code_above}
+<div {id} class="code-example">
+  {#if !code_above}
     <slot name="example" />
   {/if}
 
   <section class:open>
     <aside>
       <CopyButton content={node?.innerText ?? src} />
-      {#if !meta.collapsible}
-        <CodeLinks {repl} {github} {stackblitz} />
+      {#if !collapsible}
+        <CodeLinks {...links} />
       {/if}
     </aside>
-    <pre><code bind:this={node}><slot name="code" /></code></pre>
+    <pre><code bind:this={node}><slot name="code">{src}</slot></code></pre>
   </section>
 
-  {#if meta.code_above}
+  {#if code_above}
     <slot name="example" />
   {/if}
 </div>
