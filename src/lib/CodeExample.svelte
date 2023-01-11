@@ -85,4 +85,30 @@
     justify-content: end;
     margin-top: 1em;
   }
+  pre code {
+    background-color: transparent;
+    display: inline-block;
+  }
+  pre {
+    border-radius: 4pt;
+    font-size: 9.5pt;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1em;
+    overflow-x: auto;
+  }
+
+  :global(div.code-example :is(button, a.btn)) {
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 3pt;
+    background-color: var(--zoo-example-btn-bg, darkcyan);
+    padding: 2pt 4pt;
+    font-size: 12pt;
+    line-height: initial;
+    transition: background-color 0.2s;
+  }
+  :global(div.code-example :is(button, a.btn)):hover {
+    background-color: var(--zoo-example-btn-bg-hover, teal);
+  }
 </style>

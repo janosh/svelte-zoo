@@ -44,3 +44,17 @@ ul li {
 .hide-in-docs {
   display: none;
 }
+
+label {
+  display: flex;
+  gap: 1ex;
+}
+input[type='number'] {
+  background: transparent;
+  color: inherit;
+  border: 0s1px dashed white;
+  border-radius: 5pt;
+  text-align: center;
+  padding: 0 4pt;
+  outline: none;
+}

@@ -1,15 +1,17 @@
 <script lang="ts">
-  // let confetti emoji rain across the screen
-  // to playfully show some event was triggered
+  // let emojis rain across the screen to playfully show some event was triggered
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
-  export let speed = 0.4
-  export let nItems = 50
+  export let speed = 0.2
+  export let n_items = 50
+  export let freeze = false
 
   const emojis = [`🥳`, `🎉`, `✨`]
 
-  let confetti = [...Array(nItems).keys()]
+  let confetti: { emoji: string; x: number; y: number; r: number }[] = [
+    ...Array(n_items).keys(),
+  ]
     .map((idx) => ({
       emoji: emojis[idx % emojis.length],
       x: Math.random() * 100,
@@ -17,24 +19,26 @@
       r: 0.1 + Math.random() * 1,
     }))
     .sort((a, b) => a.r - b.r)
+  let frame_id: number
+
+  function loop() {
+    if (typeof requestAnimationFrame == `undefined`) return
+    frame_id = requestAnimationFrame(loop)
+
+    confetti = confetti.map((emoji) => {
+      emoji.y += speed * emoji.r
+      if (emoji.y > 120) emoji.y = -20
+      return emoji
+    })
+  }
 
   onMount(() => {
-    let frameId: number
-
-    function loop() {
-      frameId = requestAnimationFrame(loop)
-
-      confetti = confetti.map((emoji) => {
-        emoji.y += speed * emoji.r
-        if (emoji.y > 120) emoji.y = -20
-        return emoji
-      })
-    }
-
     loop()
-
-    return () => cancelAnimationFrame(frameId)
+    return () => cancelAnimationFrame(frame_id)
   })
+
+  $: if (freeze) cancelAnimationFrame(frame_id)
+  $: if (!freeze) loop()
 </script>
 
 <div transition:fade>
