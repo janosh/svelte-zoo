@@ -15,6 +15,7 @@
   // set to '' to link to repo itself, not any of its files
   // TODO makes bad assumption about file path ending in .svx
   // https://github.com/sveltejs/kit/issues/8318
+  export let btn_text: { repl?: string; github?: string; stackblitz?: string } | null = {}
 
   $: repo_handle = repo.split(`/`).slice(-2).join(`/`)
   $: serving_file = `src/routes${$page.url.pathname}/+page.svx`
@@ -25,7 +26,7 @@
 {#if repl}
   <a href={repl} {...links}>
     <Icon icon="Svelte" />
-    REPL
+    {#if btn_text?.repl}&thinsp;{btn_text.repl}{/if}
   </a>
 {/if}
 
@@ -33,7 +34,7 @@
   {@const href = `${repo}/blob/-/${typeof github == `string` ? github : file}`}
   <a {href} {...links}>
     <Icon icon="GitHub" />
-    &thinsp;GitHub
+    {#if btn_text?.github}&thinsp;{btn_text.github}{/if}
   </a>
 {/if}
 
@@ -43,6 +44,6 @@
   {@const stackblitz_url = `https://stackblitz.com/github/${repo_handle}`}
   <a href="{stackblitz_url}?file={file}" {...links}>
     <Icon icon="StackBlitz" />
-    StackBlitz
+    {#if btn_text?.stackblitz}&thinsp;{btn_text.stackblitz}{/if}
   </a>
 {/if}

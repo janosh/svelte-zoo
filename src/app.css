@@ -52,7 +52,7 @@ label {
 input[type='number'] {
   background: transparent;
   color: inherit;
-  border: 0s1px dashed white;
+  border: 1px dotted white;
   border-radius: 5pt;
   text-align: center;
   padding: 0 4pt;
