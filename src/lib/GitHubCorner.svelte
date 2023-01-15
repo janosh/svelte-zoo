@@ -41,9 +41,9 @@
 <style>
   a {
     position: fixed;
-    fill: var(--ghc-bg, black);
-    color: var(--ghc-color, white);
-    width: var(--ghc-size, min(50pt, 15vw));
+    fill: var(--zoo-github-corner-bg, black);
+    color: var(--zoo-github-corner-color, white);
+    width: var(--zoo-github-corner-size, min(50pt, 15vw));
     z-index: 1;
     top: 0;
     right: 0;

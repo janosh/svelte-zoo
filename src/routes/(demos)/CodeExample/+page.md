@@ -5,12 +5,18 @@
 
   const meta = {
     collapsible: true,
-    pkg_name: name,
+    pkg: name,
     id: `uniq-id`,
   }
 </script>
 
-<CodeExample {meta} />
+<CodeExample {meta}>
+  <svelte:fragment slot="code">
+    <script>
+      let some = 'svelte code'
+    </script>
+  </svelte:fragment>
+</CodeExample>
 ```
 
 Use CSS selector `div.code-example` to apply global styles to your code examples.

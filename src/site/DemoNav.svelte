@@ -30,9 +30,10 @@
     display: flex;
     gap: 1em 1ex;
     flex-wrap: wrap;
+    margin: 2em auto;
   }
   nav > a {
-    padding: 0 4pt;
+    padding: 3pt 5pt;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 3pt;
     transition: 0.2s;

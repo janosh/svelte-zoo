@@ -26,7 +26,7 @@
 {#if repl}
   <a href={repl} {...links}>
     <Icon icon="Svelte" />
-    {#if btn_text?.repl}&thinsp;{btn_text.repl}{/if}
+    {#if btn_text?.repl}{btn_text.repl}{/if}
   </a>
 {/if}
 
@@ -34,7 +34,7 @@
   {@const href = `${repo}/blob/-/${typeof github == `string` ? github : file}`}
   <a {href} {...links}>
     <Icon icon="GitHub" />
-    {#if btn_text?.github}&thinsp;{btn_text.github}{/if}
+    {#if btn_text?.github}{btn_text.github}{/if}
   </a>
 {/if}
 
@@ -44,6 +44,16 @@
   {@const stackblitz_url = `https://stackblitz.com/github/${repo_handle}`}
   <a href="{stackblitz_url}?file={file}" {...links}>
     <Icon icon="StackBlitz" />
-    {#if btn_text?.stackblitz}&thinsp;{btn_text.stackblitz}{/if}
+    {#if btn_text?.stackblitz}{btn_text.stackblitz}{/if}
   </a>
 {/if}
+
+<style>
+  :where(a) {
+    display: inline-flex;
+    gap: 4pt;
+  }
+  :where(a + a) {
+    margin: 0 0 0 9pt;
+  }
+</style>

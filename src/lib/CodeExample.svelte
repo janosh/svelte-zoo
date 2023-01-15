@@ -4,7 +4,7 @@
   import { CodeLinks, CopyButton, Icon } from '.'
 
   // src+meta are passed in by mdsvexamples
-  export let src: string // code fence content, sadly without indentation so we prefer node?.innerText below
+  export let src = `` // code fence content, sadly without indentation so we prefer node?.innerText below
   export let meta: {
     // code fence metadata
     collapsible?: boolean // whether to show a button to expand/collapse the code
@@ -59,6 +59,9 @@
 </div>
 
 <style>
+  div.code-example {
+    margin: var(--zoo-example-margin, 2em auto);
+  }
   section {
     position: relative;
     visibility: hidden;
@@ -70,7 +73,7 @@
     visibility: visible;
     opacity: 1;
     max-height: 9999vh;
-    margin-top: 2em;
+    margin: var(--zoo-example-code-margin, 1em 0 0 0);
   }
   aside {
     position: absolute;
