@@ -100,7 +100,7 @@
     overflow-x: auto;
   }
 
-  :global(div.code-example :is(button, a.btn)) {
+  :global(div.code-example :is(nav, section > aside) :is(button, a.btn)) {
     color: white;
     cursor: pointer;
     border: none;

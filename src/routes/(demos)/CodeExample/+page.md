@@ -10,12 +10,8 @@
   }
 </script>
 
-<CodeExample {meta}>
-  <svelte:fragment slot="code">
-    <script>
-      let some = 'svelte code'
-    </script>
-  </svelte:fragment>
+<CodeExample {meta} src="<button>some button</button>">
+  <button slot="example">some button</button>
 </CodeExample>
 ```
 

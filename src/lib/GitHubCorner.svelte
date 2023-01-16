@@ -5,6 +5,8 @@
   export let title = `View code on GitHub`
   export let ariaLabel = title
   export let target: '_self' | '_blank' = `_self`
+  export let color: string | null = null
+  export let fill: string | null = null
   // bottomLeft/Right look bad, shouldn't normally be used
   export let corner:
     | 'top-left'
@@ -12,16 +14,18 @@
     | 'bottom-left'
     | 'bottom-right' = `top-right`
   export let style = ``
-
-  $: style += {
-    'top-left': `top: 0; left: 0; transform: rotate(-90deg);`,
-    'top-right': `top: 0; right: 0; transform: rotate(0deg);`,
-    'bottom-left': `bottom: 0; left: 0; transform: rotate(180deg);`,
-    'bottom-right': `bottom: 0; right: 0; transform: rotate(90deg);`,
-  }[corner]
 </script>
 
-<a {href} {target} {title} aria-label={ariaLabel} {style}>
+<a
+  {href}
+  {target}
+  {title}
+  aria-label={ariaLabel}
+  {style}
+  class={corner}
+  style:color
+  style:fill
+>
   <svg viewBox="0 0 250 250" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" />
     <path
@@ -41,12 +45,29 @@
 <style>
   a {
     position: fixed;
+    z-index: 1;
     fill: var(--zoo-github-corner-bg, black);
     color: var(--zoo-github-corner-color, white);
-    width: var(--zoo-github-corner-size, min(50pt, 15vw));
-    z-index: 1;
+    width: var(--zoo-github-corner-size, 70px);
+  }
+  a.top-right {
     top: 0;
     right: 0;
+  }
+  a.top-left {
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+  }
+  a.bottom-left {
+    bottom: 0;
+    left: 0;
+    transform: rotate(180deg);
+  }
+  a.bottom-right {
+    bottom: 0;
+    right: 0;
+    transform: rotate(90deg);
   }
   a:hover .octo-arm {
     animation: octocat-wave 0.5s ease-in-out;

@@ -1,5 +1,8 @@
 :root {
   --page-bg: #090019;
+
+  --zoo-github-corner-bg: white;
+  --zoo-github-corner-color: var(--page-bg);
 }
 body {
   background: var(--page-bg);
