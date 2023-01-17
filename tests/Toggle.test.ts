@@ -3,16 +3,18 @@ import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
 
 test.each([
-  [true, null],
-  [false, `id`],
-])(`Toggle switches state when clicked`, (required, id) => {
-  new Toggle({ target: document.body, props: { required, id } })
+  [true, ``, ``],
+  [false, `id`, `color: red;`],
+])(`Toggle switches state when clicked`, (required, id, style) => {
+  new Toggle({ target: document.body, props: { required, id, style } })
 
   expect(document.querySelector(`input:checked`)).toBeNull()
 
-  doc_query(`label`).click()
+  const label = doc_query(`label`)
+  label.click()
   const input = doc_query<HTMLInputElement>(`input`)
   expect(input).toBeInstanceOf(HTMLInputElement)
   expect(input.required).toBe(required)
   expect(input.id).toBe(id ?? ``)
+  expect(label.style.cssText).toBe(style)
 })

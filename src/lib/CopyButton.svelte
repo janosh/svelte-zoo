@@ -3,8 +3,7 @@
 
   export let content: string
   export let style: string | null = null
-
-  let state: 'default' | 'success' | 'error' = `default`
+  export let state: 'default' | 'success' | 'error' = `default`
 
   const labels = {
     default: [`Copy`, `Copy`],
