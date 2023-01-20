@@ -33,6 +33,7 @@ test(`CopyButton throws error when clipboard is not available`, async () => {
   await sleep()
   expect(btn.textContent?.trim()).toBe(`Error`)
   expect(console.error).toHaveBeenCalledOnce()
+  // TODO: figure out why argument doesn't match, seems to be surrounded by pesky quotes inside vitest which i have no control over
   // expect(console.error).toHaveBeenCalledWith(
   //   `[TypeError: Cannot read properties of undefined (reading 'writeText')],`
   // )

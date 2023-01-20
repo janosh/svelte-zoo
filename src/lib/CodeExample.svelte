@@ -31,7 +31,7 @@
   <nav>
     <slot name="title" />
     <button on:click={() => (open = !open)}>
-      <Icon icon={open ? `collapse` : `expand`} />
+      <Icon icon={open ? `collapse` : `Expand`} />
       {open ? `Close` : `View code`}
     </button>
     <CodeLinks {...links} />

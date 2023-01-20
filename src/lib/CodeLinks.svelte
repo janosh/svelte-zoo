@@ -51,9 +51,9 @@
 <style>
   :where(a) {
     display: inline-flex;
-    gap: 4pt;
+    gap: var(--zoo-codelinks-icon-gap, 4pt);
   }
   :where(a + a) {
-    margin: 0 0 0 9pt;
+    margin: var(--zoo-codelinks-btn-margin, 0 0 0 9pt);
   }
 </style>
