@@ -23,3 +23,24 @@ test(`2-way binding of RadioButtons`, async () => {
   expect(detail).toStrictEqual({ selected: 1 })
   expect(cb).toHaveBeenCalledOnce()
 })
+
+test(`RadioButtons forwards update and click events`, async () => {
+  const change = vi.fn()
+  const click = vi.fn()
+  const buttons = new RadioButtons({
+    target: document.body,
+    props: { options: [1, 2, 3] },
+  })
+
+  buttons.$on(`change`, change)
+  buttons.$on(`click`, click)
+
+  expect(change).not.toHaveBeenCalled()
+  expect(click).not.toHaveBeenCalled()
+
+  doc_query(`div.zoo-radio-btn > label > input`).click()
+  await sleep()
+
+  expect(change).toHaveBeenCalledOnce()
+  expect(click).toHaveBeenCalledOnce()
+})

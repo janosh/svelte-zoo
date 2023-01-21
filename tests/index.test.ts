@@ -1,4 +1,4 @@
-import * as zoo from '$lib'
+import * as lib from '$lib'
 import * as icons from '$lib/icons'
 import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
@@ -8,7 +8,7 @@ test(`src/lib/index.ts re-exports all Svelte components`, () => {
     (path) => path.split(`/`).pop()?.split(`.`).shift()
   )
   // $lib is also allowed to export other things, so we use arrayContaining()
-  expect(Object.keys(zoo)).toEqual(expect.arrayContaining(components))
+  expect(Object.keys(lib)).toEqual(expect.arrayContaining(components))
 })
 
 test(`src/lib/icons/index.ts re-exports all icons`, () => {
@@ -29,7 +29,7 @@ test(`get_bg_color() returns the background color of an element`, () => {
   const div = doc_query(`div`)
   const par = doc_query(`p`)
   const span = doc_query(`span`)
-  expect(zoo.get_bg_color(div)).toBe(`red`)
-  expect(zoo.get_bg_color(par)).toBe(`green`)
-  expect(zoo.get_bg_color(span)).toBe(`green`)
+  expect(lib.get_bg_color(div)).toBe(`red`)
+  expect(lib.get_bg_color(par)).toBe(`green`)
+  expect(lib.get_bg_color(span)).toBe(`green`)
 })

@@ -17,6 +17,8 @@
   // https://github.com/sveltejs/kit/issues/8318
   export let btn_text: { repl?: string; github?: string; stackblitz?: string } | null = {}
   export let target: '_blank' | '_self' = `_blank`
+  export let margin: string | null = null
+  export let padding: string | null = null
 
   $: repo_handle = repo.split(`/`).slice(-2).join(`/`)
 
@@ -28,7 +30,7 @@
 </script>
 
 {#if repl}
-  <a href={repl} {...links} title="Svelte REPL">
+  <a href={repl} {...links} title="Svelte REPL" style:padding style:margin>
     <Icon icon="Svelte" />
     {#if btn_text?.repl}{btn_text.repl}{/if}
   </a>
@@ -36,7 +38,7 @@
 
 {#if github && repo}
   {@const href = `${repo}/blob/-/${typeof github == `string` ? github : file}`}
-  <a {href} {...links} title="GitHub">
+  <a {href} {...links} title="GitHub" style:padding style:margin>
     <Icon icon="GitHub" />
     {#if btn_text?.github}{btn_text.github}{/if}
   </a>
@@ -46,7 +48,13 @@
   <!-- file param defaults to path of file serving the current page if stackblitz=true -->
   {@const uri = encodeURIComponent(stackblitz == true ? file : stackblitz)}
   {@const stackblitz_url = `https://stackblitz.com/github/${repo_handle}`}
-  <a href="{stackblitz_url}?file={uri}" {...links} title="StackBlitz">
+  <a
+    href="{stackblitz_url}?file={uri}"
+    {...links}
+    title="StackBlitz"
+    style:padding
+    style:margin
+  >
     <Icon icon="StackBlitz" />
     {#if btn_text?.stackblitz}{btn_text.stackblitz}{/if}
   </a>
@@ -56,8 +64,7 @@
   :where(a) {
     display: inline-flex;
     gap: var(--zoo-codelinks-icon-gap, 4pt);
-  }
-  :where(a + a) {
-    margin: var(--zoo-codelinks-btn-margin, 0 0 0 9pt);
+    margin: var(--zoo-codelinks-btn-margin);
+    padding: var(--zoo-codelinks-btn-padding);
   }
 </style>

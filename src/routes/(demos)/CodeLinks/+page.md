@@ -6,7 +6,7 @@
   const repl = `https://svelte.dev/repl`
 </script>
 
-<CodeLinks github stackblitz {repo} {repl} />
+<CodeLinks github stackblitz {repo} {repl} margin="0 1ex" />
 ```
 
 Use the `btn_text` prop to set custom button text:
@@ -31,5 +31,5 @@ Use the `btn_text` prop to set custom button text:
   }
 </script>
 
-<CodeLinks {...props} />
+<CodeLinks {...props} margin="0 1ex" />
 ```

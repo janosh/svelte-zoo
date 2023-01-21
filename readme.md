@@ -31,12 +31,16 @@ More docs to come...
 ```svelte
 <script>
   import {
-    GitHubCorner, // place an animated GitHub icon linking to your repo in the screen corner
+    CircleSpinner, // animated rotating circle to indicate content is loading
     CodeExample, // to be used with mdsvexamples, syntax-highlights Svelte code and renders it
-    Codelinks, // link code fences to Svelte REPL, GitHub or StackBlitz for interactive sandboxing
+    CodeLinks, // link code fences to Svelte REPL, GitHub or StackBlitz for interactive sandboxing
     Confetti, // let confetti emoji rain across the screen to playfully show some event was triggered
     CopyButton, // add to code fences to allow copying its contents
+    GitHubCorner, // place an animated GitHub icon linking to your repo in the screen corner
     Icon, // used by the other components to render the occasional icon but can also be imported for outside use
+    RadioButtons, // horizontally arranged group of buttons where selecting one auto-deselects the previous one
+    Toggle, // boolean control
+    Tooltip, // box to show extra info on hovering any DOM element
   } from 'svelte-zoo'
 </script>
 ```
