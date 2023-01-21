@@ -3,8 +3,7 @@ import { repository } from '$root/package.json'
 import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
 
-test(`CodeLinks`, () => {
-  const file = `-/src/lib/CodeLinks.svelte`
+test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
   const props = {
     repo: repository,
     github: file,
@@ -28,3 +27,26 @@ test(`CodeLinks`, () => {
     )
   ).toBeInstanceOf(HTMLAnchorElement)
 })
+
+test.each([[null], [``]])(
+  `raises error on stackblitz=true and no file`,
+  (file) => {
+    expect(() => {
+      new CodeLinks({
+        target: document.body,
+        props: { stackblitz: true, file },
+      })
+    }).toThrow(`stackblitz=true requires passing 'file' prop`)
+  }
+)
+
+test.each([[`_blank`], [`_self`]])(
+  `applies target prop to all links`,
+  (target) => {
+    new CodeLinks({ target: document.body, props: { target } })
+
+    for (const link of document.querySelectorAll(`a`)) {
+      expect(link.target, `${link} has wrong target`).toBe(target)
+    }
+  }
+)

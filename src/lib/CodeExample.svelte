@@ -111,7 +111,7 @@
     line-height: initial;
     transition: background-color 0.2s;
   }
-  :global(div.code-example :is(button, a.btn)):hover {
+  :global(div.code-example aside :is(button, a.btn)):hover {
     background-color: var(--zoo-example-btn-bg-hover, teal);
   }
 </style>

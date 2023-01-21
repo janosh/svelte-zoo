@@ -19,7 +19,11 @@ export function doc_query<T extends HTMLElement>(selector: string): T {
 vi.mock(`$app/stores`, async () => {
   const { readable } = await import(`svelte/store`)
   const getStores = () => ({
-    page: readable({ url: new URL(`http://localhost`), params: {} }),
+    page: readable({
+      url: new URL(`http://localhost`),
+      params: {},
+      route: { id: `test` },
+    }),
   })
   const page = {
     subscribe(fn: (value: unknown) => void) {
