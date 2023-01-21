@@ -9,17 +9,21 @@
     // code fence metadata
     collapsible?: boolean // whether to show a button to expand/collapse the code
     code_above?: boolean // whether to show the code above the example, default is below
-    id?: string // id of the <div> wrapping the code and example (e.g. for testing selectors)
+    id?: string // id of the <div> wrapping the code and example (e.g. to write very specific testing selectors)
     repl?: string // Svelte REPL URL
     github?: string | boolean // GitHub URL or true to link to the file serving the current page
     stackblitz?: string | boolean // StackBlitz URL or true to link to the file serving the current page
     repo?: string // GitHub repo URL
     pkg?: string // package name
+    Wrapper?: string // Svelte component to wrap the example
+    example?: boolean
+    file?: string
   } = {}
   export let open = !meta.collapsible
 
   let node: HTMLElement // the <code> element
-  $: ({ id, collapsible, code_above, pkg, ...links } = meta)
+  $: ({ id, collapsible, code_above, pkg } = meta)
+  $: ({ repl, github, stackblitz, file, repo } = meta)
 
   onMount(() => {
     // replace $lib with package name in code
@@ -34,7 +38,7 @@
       <Icon icon={open ? `collapse` : `Expand`} />
       {open ? `Close` : `View code`}
     </button>
-    <CodeLinks {...links} />
+    <CodeLinks {github} {repl} {stackblitz} {file} />
   </nav>
 {/if}
 <!-- wrap in div with id for precise CSS selectors in playwright E2E tests -->
@@ -47,7 +51,7 @@
     <aside>
       <CopyButton content={node?.innerText ?? src} />
       {#if !collapsible}
-        <CodeLinks {...links} />
+        <CodeLinks {github} {repl} {stackblitz} {file} {repo} />
       {/if}
     </aside>
     <pre><code bind:this={node}><slot name="code">{src}</slot></code></pre>

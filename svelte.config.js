@@ -30,7 +30,6 @@ const defaults = {
   Wrapper: `/src/lib/CodeExample.svelte`,
   pkg: pkg.name,
   repo: pkg.repository,
-  github: false,
 }
 const remarkPlugins = [[mdsvexamples, { defaults }]]
 

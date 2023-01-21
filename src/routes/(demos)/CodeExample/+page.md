@@ -1,12 +1,15 @@
 ```svelte example
 <script>
+  // this is the actual example, above is just its output
   import { CodeExample } from '$lib'
-  import { repository, name } from '$root/package.json'
+  import { repository as repo, name } from '$root/package.json'
 
   const meta = {
-    collapsible: true,
     pkg: name,
     id: `uniq-id`,
+    repo,
+    stackblitz: true,
+    github: true,
   }
 </script>
 
@@ -16,3 +19,35 @@
 ```
 
 Use CSS selector `div.code-example` to apply global styles to your code examples.
+
+The DOM structure of this component is a bit ugly but here you go. Might help write CSS selectors.
+
+```html
+{#if collapsible}
+<nav>
+  <slot name="title" />
+  <button on:click="{toggle_open}" />
+  <CodeLinks {github} {repl} {stackblitz} {file} />
+</nav>
+{/if}
+
+<div {id} class="code-example">
+  {#if !code_above}
+  <slot name="example" />
+  {/if}
+
+  <section class:open>
+    <aside>
+      <CopyButton content="{node?.innerText" ?? src} />
+      {#if !collapsible}
+      <CodeLinks {github} {repl} {stackblitz} {file} />
+      {/if}
+    </aside>
+    <pre><code bind:this={node}><slot name="code">{src}</slot></code></pre>
+  </section>
+
+  {#if code_above}
+  <slot name="example" />
+  {/if}
+</div>
+```
