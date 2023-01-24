@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from './Icon.svelte'
+  import { Icon } from '.'
 
   export let content: string
   export let style: string | null = null
