@@ -1,24 +1,25 @@
 <script lang="ts">
-  import { get_bg_color } from '$lib'
-
   export let text: string | null = null
   export let max_width = `14em`
   export let min_width = `0`
   // set e.g. to cursor='help' to inform the user the tooltip refers to the hovered element
   export let cursor: string | null = null
+  export let style: string | null = null
+  export let tip_style: string | null = null
 
-  let span: HTMLSpanElement
-  $: bg_color = get_bg_color(span)
+  $: if (text && $$slots.tip) {
+    console.error(
+      `svelte-zoo tooltip: both text prop and slot='tip' were passed, only one is allowed`
+    )
+  }
 </script>
 
-{#if $$slots.tip}
-  <span bind:this={span} style="--default-bg: {bg_color}" style:cursor>
+{#if $$slots.tip || text}
+  <span style:cursor {style}>
     <slot />
     <slot name="trigger" />
-    <div style:min-width={min_width} style:max-width={max_width}>
-      <slot name="tip">
-        <span>{text}</span>
-      </slot>
+    <div style:min-width={min_width} style:max-width={max_width} style={tip_style}>
+      <slot name="tip">{text}</slot>
     </div>
   </span>
 {:else}
@@ -35,7 +36,6 @@
     visibility: hidden;
     opacity: 0;
     cursor: default;
-    transition: var(--zoo-tooltip-transition, 0.2s);
     position: absolute;
     top: 100%;
     padding: 5pt 1ex;
@@ -46,7 +46,10 @@
     box-shadow: 0 0 1ex -3pt black;
     width: fit-content;
     box-sizing: border-box;
+    transition: var(--zoo-tooltip-transition, 0.2s);
     background: var(--zoo-tooltip-bg, gray);
+    color: var(--zoo-tooltip-color, white);
+    border: var(--zoo-tooltip-border);
   }
   span > div::before {
     content: '';

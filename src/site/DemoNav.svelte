@@ -31,6 +31,7 @@
     gap: 1em 1ex;
     flex-wrap: wrap;
     margin: 2em auto;
+    place-items: center;
   }
   nav > a {
     padding: 3pt 5pt;

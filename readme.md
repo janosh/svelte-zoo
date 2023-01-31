@@ -5,9 +5,10 @@
 
 <h4 align="center">
 
-[![NPM version](https://img.shields.io/npm/v/svelte-zoo?color=blue&logo=NPM)](https://npmjs.com/package/svelte-zoo)
+[![Tests](https://github.com/janosh/svelte-zoo/actions/workflows/test.yml/badge.svg)](https://github.com/janosh/svelte-zoo/actions/workflows/test.yml)
 [![GitHub Pages](https://github.com/janosh/svelte-zoo/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/janosh/svelte-zoo/actions/workflows/gh-pages.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/janosh/svelte-zoo/main.svg)](https://results.pre-commit.ci/latest/github/janosh/svelte-zoo/main)
+[![NPM version](https://img.shields.io/npm/v/svelte-zoo?color=blue&logo=NPM)](https://npmjs.com/package/svelte-zoo)
 
 </h4>
 
