@@ -2,6 +2,7 @@
   export let options: (string | number)[]
   export let selected: string | number | null = null
   export { className as class }
+
   let className = `zoo-radio-btn`
 </script>
 

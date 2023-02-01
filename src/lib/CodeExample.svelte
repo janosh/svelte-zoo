@@ -4,7 +4,7 @@
   import { CodeLinks, CopyButton, Icon } from '.'
 
   // src+meta are passed in by mdsvexamples
-  export let src = `` // code fence content, sadly without indentation so we prefer node?.innerText below
+  export let src: string = `` // code fence content, sadly without indentation so we prefer node?.innerText below
   export let meta: {
     // code fence metadata
     collapsible?: boolean // whether to show a button to expand/collapse the code
@@ -19,7 +19,7 @@
     example?: boolean
     file?: string
   } = {}
-  export let open = !meta.collapsible
+  export let open: boolean = !meta.collapsible
 
   let node: HTMLElement // the <code> element
   $: ({ id, collapsible, code_above, pkg } = meta)

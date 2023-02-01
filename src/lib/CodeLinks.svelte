@@ -2,7 +2,7 @@
   import { page } from '$app/stores'
   import { Icon } from '$lib'
 
-  export let repo = `` // GitHub repo URL
+  export let repo: string = `` // GitHub repo URL
   // ref can be branch, tag, or SHA (master, v1.0.0, 73f70eb), defaults to `-` which
   // points to HEAD of the repo's default branch
   export let repl: string | null = null

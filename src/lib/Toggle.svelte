@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let checked = false // whether the toggle is on or off
-  export let required = false
-  export let style = ``
-  export let id = ``
+  export let checked: boolean = false // whether the toggle is on or off
+  export let required: boolean = false
+  export let style: string = ``
+  export let id: string = ``
 
   // normally input type=checkbox toggles on space bar, this handler also responds to enter
   function handleKeydown(event: KeyboardEvent) {

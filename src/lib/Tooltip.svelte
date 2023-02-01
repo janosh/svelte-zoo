@@ -1,7 +1,7 @@
 <script lang="ts">
   export let text: string | null = null
-  export let max_width = `14em`
-  export let min_width = `0`
+  export let max_width: string = `14em`
+  export let min_width: string = `0`
   // set e.g. to cursor='help' to inform the user the tooltip refers to the hovered element
   export let cursor: string | null = null
   export let style: string | null = null

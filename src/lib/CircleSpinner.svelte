@@ -2,8 +2,8 @@
   import { onMount } from 'svelte'
 
   export let color: string | null = null
-  export let duration = `1.5s`
-  export let size = `1em`
+  export let duration: string = `1.5s`
+  export let size: string = `1em`
 
   let div: HTMLDivElement
   onMount(() => {

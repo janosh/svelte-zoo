@@ -3,9 +3,9 @@
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
-  export let speed = 0.2
-  export let n_items = 50
-  export let freeze = false
+  export let speed: number = 0.2
+  export let n_items: number = 50
+  export let freeze: boolean = false
 
   const emojis = [`🥳`, `🎉`, `✨`]
 

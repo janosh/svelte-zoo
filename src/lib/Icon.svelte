@@ -2,9 +2,9 @@
   import * as icons from './icons'
 
   export let icon: string
-  export let style = `display: inline-block; vertical-align: middle;`
-  export let width = `1em`
-  export let height = width
+  export let style: string = `display: inline-block; vertical-align: middle;`
+  export let width: string = `1em`
+  export let height: string = width
 
   if (!icons[icon]) {
     console.error(`Icon '${icon}' not found`)

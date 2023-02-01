@@ -2,8 +2,8 @@
   // Display an animated Octocat in a corner of the screen to link to the GitHub repo.
   // adapted from https://github.com/tholman/github-corners
   export let href: string
-  export let title = `View code on GitHub`
-  export let ariaLabel = title
+  export let title: string = `View code on GitHub`
+  export let ariaLabel: string = title
   export let target: '_self' | '_blank' = `_self`
   export let color: string | null = null
   export let fill: string | null = null
@@ -13,7 +13,7 @@
     | 'top-right'
     | 'bottom-left'
     | 'bottom-right' = `top-right`
-  export let style = ``
+  export let style: string = ``
 </script>
 
 <a
