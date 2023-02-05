@@ -1,7 +1,8 @@
 <script lang="ts">
   export let text: string | null = null
   export let max_width: string = `14em`
-  export let min_width: string = `0`
+  export let min_width: string = `max-content`
+  export let bg: string | null = null
   // set e.g. to cursor='help' to inform the user the tooltip refers to the hovered element
   export let cursor: string | null = null
   export let style: string | null = null
@@ -18,7 +19,12 @@
   <span style:cursor {style}>
     <slot />
     <slot name="trigger" />
-    <div style:min-width={min_width} style:max-width={max_width} style={tip_style}>
+    <div
+      style:min-width={min_width}
+      style:max-width={max_width}
+      style:background={bg}
+      style={tip_style}
+    >
       <slot name="tip">{text}</slot>
     </div>
   </span>
@@ -47,7 +53,7 @@
     width: fit-content;
     box-sizing: border-box;
     transition: var(--zoo-tooltip-transition, 0.2s);
-    background: var(--zoo-tooltip-bg, gray);
+    background: var(--zoo-tooltip-bg, rgba(0, 0, 0, 0.3));
     color: var(--zoo-tooltip-color, white);
     border: var(--zoo-tooltip-border);
   }

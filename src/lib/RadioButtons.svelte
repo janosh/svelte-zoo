@@ -8,20 +8,22 @@
 
 <div class={className}>
   {#each options as value}
-    <label>
+    <label class:active={value === selected}>
       <input type="radio" bind:group={selected} {value} on:change on:input on:click />
-      <span>{value}</span>
+      <slot name="option" {value} {selected} active={value === selected}>
+        <span>{value}</span>
+      </slot>
     </label>
   {/each}
 </div>
 
 <style>
   div {
-    display: flex;
-    border-radius: 3pt;
     max-width: max-content;
     overflow: hidden;
     height: fit-content;
+    display: var(--zoo-radio-btn-display, inline-flex);
+    border-radius: var(--zoo-radio-btn-border-radius, 0.5em);
   }
   input {
     display: none;
@@ -34,11 +36,11 @@
     background: var(--zoo-radio-btn-bg, black);
     transition: var(--zoo-radio-btn-transition, background 0.3s, transform 0.3s);
   }
-  input:not(:checked) + span:hover {
+  label:not(.active) span:hover {
     background: var(--zoo-radio-btn-hover-bg, cornflowerblue);
     color: var(--zoo-radio-btn-hover-color, white);
   }
-  input:checked + span {
+  label.active span {
     box-shadow: var(--zoo-radio-btn-checked-shadow, inset 0 0 1em -3pt black);
     background: var(--zoo-radio-btn-checked-bg, darkcyan);
   }

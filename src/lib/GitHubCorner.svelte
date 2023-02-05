@@ -3,7 +3,7 @@
   // adapted from https://github.com/tholman/github-corners
   export let href: string
   export let title: string = `View code on GitHub`
-  export let ariaLabel: string = title
+  export let aria_label: string = title
   export let target: '_self' | '_blank' = `_self`
   export let color: string | null = null
   export let fill: string | null = null
@@ -20,7 +20,7 @@
   {href}
   {target}
   {title}
-  aria-label={ariaLabel}
+  aria-label={aria_label}
   {style}
   class={corner}
   style:color

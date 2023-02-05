@@ -44,7 +44,7 @@ test(`replaces $lib import with package name if passed as meta.pkg`, async () =>
 
   new CodeExample({ target: document.body, props: { src, meta: { pkg } } })
 
-  await sleep(10)
+  await sleep()
 
   expect(doc_query(`section > pre > code`).textContent).toBe(expected)
 })

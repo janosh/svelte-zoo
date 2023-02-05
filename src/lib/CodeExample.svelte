@@ -1,6 +1,5 @@
 <script lang="ts">
   // see svelte.config.js where this component is passed to mdsvexamples
-  import { onMount } from 'svelte'
   import { CodeLinks, CopyButton, Icon } from '.'
 
   // src+meta are passed in by mdsvexamples
@@ -14,7 +13,7 @@
     github?: string | boolean // GitHub URL or true to link to the file serving the current page
     stackblitz?: string | boolean // StackBlitz URL or true to link to the file serving the current page
     repo?: string // GitHub repo URL
-    pkg?: string // package name
+    pkg?: string // package name will replace $lib in code
     Wrapper?: string // Svelte component to wrap the example
     example?: boolean
     file?: string
@@ -25,10 +24,10 @@
   $: ({ id, collapsible, code_above, pkg } = meta)
   $: ({ repl, github, stackblitz, file, repo } = meta)
 
-  onMount(() => {
+  $: if (pkg && node) {
     // replace $lib with package name in code
-    if (pkg) node.innerHTML = node.innerHTML?.replaceAll(`$lib`, pkg)
-  })
+    node.innerHTML = node.innerHTML?.replaceAll(`$lib`, pkg)
+  }
 </script>
 
 {#if collapsible}
@@ -98,10 +97,9 @@
   }
   pre {
     border-radius: 4pt;
-    font-size: 9.5pt;
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 1em;
     overflow-x: auto;
+    background-color: var(--zoo-example-code-bg, rgba(255, 255, 255, 0.05));
+    padding: var(--zoo-example-code-padding, 1em);
   }
 
   :global(div.code-example :is(nav, section > aside) :is(button, a.btn)) {

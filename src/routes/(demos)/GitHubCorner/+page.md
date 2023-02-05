@@ -1,5 +1,5 @@
 ```svelte example
-<script lang="ts">
+<script>
   import { GitHubCorner } from '$lib'
   const href = 'https://github.com/janosh/svelte-zoo'
 </script>
@@ -11,7 +11,7 @@
 <GitHubCorner
   {href}
   title="Fancy words"
-  ariaLabel="Click here for riches"
+  aria_label="Click here for riches"
   target="_blank"
   corner="top-left"
   style="z-index: 42;"
@@ -28,7 +28,7 @@
 
 - `href: string`: (required) The GitHub URL to link to.
 - `title: string = 'View code on GitHub'`: Text to display in hover tooltip.
-- `ariaLabel: string = title`: Accessible name for SVG button describing its function. [See MDN](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-label). Should not be set to the empty string.
+- `aria_label: string = title`: Accessible name for SVG button describing its function. [See MDN](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-label). Should not be set to the empty string.
 - `target: '_self' | '_blank' = '_self'`: Whether to open `href` in same (`'_self'`) or new tab (`'_blank'`).
 - `corner: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' = 'top-right'`: Which corner of the screen to position the Octocat. `'bottom-(left|right)'` look bad, shouldn't normally be used.
 - `style: string = ''`: Inline styles that will be applied to the `<a>` tag.

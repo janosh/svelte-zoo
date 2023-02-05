@@ -1,5 +1,5 @@
 ```svelte example
-<script lang="ts">
+<script>
   import * as icons from '$lib/icons'
 </script>
 
