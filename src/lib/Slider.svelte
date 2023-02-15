@@ -6,10 +6,13 @@
   export let step: number = 1
   export let style: string = ``
   export let disabled: boolean = false
+  export let id: string | null = null
 </script>
 
-<label {style} aria-disabled={disabled ? `true` : `false`}>
-  {label}
+<label {id} {style} aria-disabled={disabled ? `true` : `false`}>
+  <slot name="label">
+    <slot>{label}</slot>
+  </slot>
   <input type="number" bind:value {min} {max} {step} on:click on:input {disabled} />
   <input type="range" bind:value {min} {max} {step} on:change on:drag {disabled} />
 </label>
@@ -17,16 +20,22 @@
 <style>
   label {
     display: flex;
-    gap: 1ex;
+    place-items: center;
+    gap: var(--zoo-slider-gap, 1ex);
+    margin: var(--zoo-slider-margin);
+    padding: var(--zoo-slider-padding, 0 4pt);
   }
   input[type='number'] {
     background: transparent;
     color: inherit;
-    border: 1px solid white;
     border-radius: 5pt;
     text-align: center;
-    padding: 0 4pt;
     outline: none;
+    box-sizing: border-box;
+    font-size: var(--zoo-slider-input-font-size);
+    width: var(--zoo-slider-input-width, 3em);
+    padding: var(--zoo-slider-input-padding, 0 4pt);
+    border: var(--zoo-slider-input-border);
   }
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {

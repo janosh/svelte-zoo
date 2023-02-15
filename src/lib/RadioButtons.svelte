@@ -1,17 +1,34 @@
 <script lang="ts">
   export let options: (string | number)[]
   export let selected: string | number | null = null
-  export { className as class }
+  export { class_name as class }
+  export let style: string | null = null
+  export let id: string | null = null
+  export let name: string | null = null
+  export let disabled: boolean = false
+  export let required: boolean = false
+  export let aria_label: string | null = null
 
-  let className = `zoo-radio-btn`
+  let class_name = `zoo-radio-btn`
 </script>
 
-<div class={className}>
+<div {id} {style} class={class_name}>
   {#each options as value}
-    <label class:active={value === selected}>
-      <input type="radio" bind:group={selected} {value} on:change on:input on:click />
-      <slot name="option" {value} {selected} active={value === selected}>
-        <span>{value}</span>
+    {@const active = value === selected}
+    <label class:active aria-label={aria_label}>
+      <input
+        type="radio"
+        {value}
+        {name}
+        {disabled}
+        {required}
+        bind:group={selected}
+        on:change
+        on:input
+        on:click
+      />
+      <slot name="option" {value} {selected} {active}>
+        <slot {value} {selected} {active}><span>{value}</span></slot>
       </slot>
     </label>
   {/each}

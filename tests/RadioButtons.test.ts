@@ -44,3 +44,21 @@ test(`RadioButtons forwards update and click events`, async () => {
   expect(change).toHaveBeenCalledOnce()
   expect(click).toHaveBeenCalledOnce()
 })
+
+test.each([[true], [false]])(
+  `disabled RadioButtons can't be changed`,
+  async (disabled) => {
+    const binder = new Test2WayBind({
+      target: document.body,
+      props: { component: RadioButtons, options: [1, 2, 3], disabled },
+    })
+    const spy = vi.fn()
+    binder.$on(`selected-changed`, spy)
+
+    const input = doc_query(`div.zoo-radio-btn > label > input`)
+    input.click()
+    await sleep()
+
+    expect(spy).toHaveBeenCalledTimes(disabled ? 0 : 1)
+  }
+)

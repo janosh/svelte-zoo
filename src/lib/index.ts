@@ -20,3 +20,11 @@ export function get_bg_color(elem: HTMLElement | null): string {
   if (bg && bg !== transparent) return bg
   return get_bg_color(elem.parentElement)
 }
+
+export function range(start: number, end: number, step = 1): number[] {
+  const arr = []
+  for (let i = start; i < end; i += step) {
+    arr.push(i)
+  }
+  return arr
+}

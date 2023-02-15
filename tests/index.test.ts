@@ -33,3 +33,15 @@ test(`get_bg_color() returns the background color of an element`, () => {
   expect(lib.get_bg_color(par)).toBe(`green`)
   expect(lib.get_bg_color(span)).toBe(`green`)
 })
+
+test(`range() returns an array of numbers`, () => {
+  expect(lib.range(0, 5)).toStrictEqual([0, 1, 2, 3, 4])
+  expect(lib.range(0, 5, 2)).toStrictEqual([0, 2, 4])
+  expect(lib.range(0, 5, 3)).toStrictEqual([0, 3])
+  expect(lib.range(0, 5, 5)).toStrictEqual([0])
+  expect(lib.range(0, 5, 6)).toStrictEqual([0])
+  expect(lib.range(0, 0.61, 0.3)).toStrictEqual([0, 0.3, 0.6])
+  expect(lib.range(-3, 2)).toStrictEqual([-3, -2, -1, 0, 1])
+  expect(lib.range(-3, 2, 2)).toStrictEqual([-3, -1, 1])
+  expect(lib.range(-1, 1, 0.5)).toStrictEqual([-1, -0.5, 0, 0.5])
+})
