@@ -7,7 +7,7 @@
   "license": "MIT",
   "version": "0.2.6",
   "type": "module",
-  "svelte": "index.js",
+  "svelte": "./dist/index.js",
   "bugs": "https://github.com/janosh/svelte-zoo/issues",
   "scripts": {
     "dev": "vite dev",
@@ -18,10 +18,13 @@
     "check": "svelte-check --ignore package",
     "test": "vitest"
   },
+  "dependencies": {
+    "svelte": "^3.55.1",
+    "@sveltejs/kit": "^1.7.2"
+  },
   "devDependencies": {
     "@sveltejs/adapter-static": "^2.0.1",
-    "@sveltejs/kit": "^1.5.6",
-    "@sveltejs/package": "^1.0.2",
+    "@sveltejs/package": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "@vitest/coverage-c8": "^0.28.5",
@@ -35,12 +38,11 @@
     "prettier-plugin-svelte": "^2.9.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
-    "svelte": "^3.55.1",
     "svelte-check": "^3.0.3",
     "svelte-preprocess": "^5.0.1",
     "svelte2tsx": "^0.6.1",
     "typescript": "^4.9.5",
-    "vite": "^4.1.1",
+    "vite": "^4.1.2",
     "vitest": "^0.28.5"
   },
   "keywords": [
@@ -51,5 +53,28 @@
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./actions": {
+      "types": "./dist/actions.d.ts",
+      "default": "./dist/actions.js"
+    },
+    "./icons": {
+      "types": "./dist/icons/index.d.ts",
+      "svelte": "./dist/icons/index.js",
+      "default": "./dist/icons/index.js"
+    },
+    "./stores": {
+      "types": "./dist/stores.d.ts",
+      "default": "./dist/stores.js"
+    }
+  },
+  "files": [
+    "dist"
+  ]
 }
