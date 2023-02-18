@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let options: (string | number)[]
+  export let options: Option[]
   export let selected: string | number | null = null
   export { class_name as class }
   export let style: string | null = null
@@ -9,16 +9,32 @@
   export let required: boolean = false
   export let aria_label: string | null = null
 
+  type GenericOption = string | number | { value: unknown; label: string | number }
+  type Option = $$Generic<GenericOption>
+
+  // get the label key from an option object or the option itself if it's a string or number
+  const get_label = (op: GenericOption) => {
+    if (op instanceof Object) {
+      if (op.label === undefined) {
+        console.error(
+          `RadioButton option ${JSON.stringify(op)} is an object but has no label key`
+        )
+      }
+      return op.label
+    }
+    return op
+  }
   let class_name = `zoo-radio-btn`
 </script>
 
 <div {id} {style} class={class_name}>
-  {#each options as value}
-    {@const active = value === selected}
+  {#each options as option}
+    {@const label = get_label(option)}
+    {@const active = selected && get_label(option) === get_label(selected)}
     <label class:active aria-label={aria_label}>
       <input
         type="radio"
-        {value}
+        value={option}
         {name}
         {disabled}
         {required}
@@ -27,8 +43,8 @@
         on:input
         on:click
       />
-      <slot name="option" {value} {selected} {active}>
-        <slot {value} {selected} {active}><span>{value}</span></slot>
+      <slot name="option" {option} {selected} {active}>
+        <slot {option} {selected} {active}><span>{label}</span></slot>
       </slot>
     </label>
   {/each}
