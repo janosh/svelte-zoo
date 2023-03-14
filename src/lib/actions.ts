@@ -2,7 +2,8 @@ export function sortable(
   node: HTMLElement,
   { header_selector = `thead th` } = {}
 ) {
-  // this action can be applied to bob-standard HTML tables to make them sortable by clicking on column headers (and clicking again to toggle sorting direction)
+  // this action can be applied to bob-standard HTML tables to make them sortable by
+  // clicking on column headers (and clicking again to toggle sorting direction)
   const headers = node.querySelectorAll<HTMLTableCellElement>(header_selector)
   let sort_col_idx: number
   let sort_dir = 1 // 1 = asc, -1 = desc
