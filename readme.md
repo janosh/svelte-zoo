@@ -39,6 +39,7 @@ More docs to come...
     CopyButton, // add to code fences to allow copying its contents
     GitHubCorner, // place an animated GitHub icon linking to your repo in the screen corner
     Icon, // used by the other components to render the occasional icon but can also be imported for outside use
+    PrevNext, // links to previous and next posts/pages/items in a list
     RadioButtons, // horizontally arranged group of buttons where selecting one auto-deselects the previous one
     Toggle, // boolean control
     Tooltip, // box to show extra info on hovering any DOM element
