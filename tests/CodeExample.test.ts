@@ -1,6 +1,7 @@
 import { CodeExample } from '$lib'
 import { repository as repo } from '$root/package.json'
-import { doc_query, sleep } from 'tests'
+import { tick } from 'svelte'
+import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
 
 const [id, src] = [`uniq-id`, `some code`]
@@ -17,7 +18,7 @@ test.each([[true, false]])(
     if (collapsible) {
       expect(document.querySelector(`section.open`)).toBeNull()
       doc_query(`nav > button`).click()
-      await sleep()
+      await tick()
       expect(document.querySelector(`section.open`)).toBeInstanceOf(HTMLElement)
     }
   }
@@ -44,7 +45,7 @@ test(`replaces $lib import with package name if passed as meta.pkg`, async () =>
 
   new CodeExample({ target: document.body, props: { src, meta: { pkg } } })
 
-  await sleep()
+  await tick()
 
   expect(doc_query(`section > pre > code`).textContent).toBe(expected)
 })

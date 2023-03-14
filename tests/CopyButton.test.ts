@@ -1,5 +1,6 @@
 import { CopyButton } from '$lib'
-import { doc_query, sleep } from 'tests'
+import { tick } from 'svelte'
+import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
 
 test.each([
@@ -16,7 +17,7 @@ test.each([
 
   vi.stubGlobal(`navigator`, { clipboard: { writeText: vi.fn() } }) // mock clipboard
   btn.click()
-  await sleep()
+  await tick()
   expect(btn.style.cssText).toBe(style)
   expect(btn.textContent?.trim()).toBe(`Copied`)
   expect(navigator.clipboard.writeText).toBeCalledWith(content)
@@ -30,7 +31,7 @@ test(`CopyButton throws error when clipboard is not available`, async () => {
   console.error = vi.fn()
   const btn = doc_query(`button`)
   btn.click()
-  await sleep()
+  await tick()
   expect(btn.textContent?.trim()).toBe(`Error`)
   expect(console.error).toHaveBeenCalledOnce()
   // TODO: figure out why argument doesn't match, seems to be surrounded by pesky quotes inside vitest which i have no control over

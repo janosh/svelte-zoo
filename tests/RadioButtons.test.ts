@@ -1,5 +1,5 @@
-import { RadioButtons } from '$lib'
-import { doc_query, sleep } from 'tests'
+import { tick } from 'svelte'
+import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
 import Test2WayBind from './Test2WayBind.svelte'
 
@@ -18,7 +18,7 @@ test(`2-way binding of RadioButtons`, async () => {
   binder.$on(`selected-changed`, cb)
 
   doc_query(`div.zoo-radio-btn > label > input`).click()
-  await sleep()
+  await tick()
 
   expect(detail).toStrictEqual({ selected: 1 })
   expect(cb).toHaveBeenCalledOnce()
@@ -39,7 +39,7 @@ test(`RadioButtons forwards update and click events`, async () => {
   expect(click).not.toHaveBeenCalled()
 
   doc_query(`div.zoo-radio-btn > label > input`).click()
-  await sleep()
+  await tick()
 
   expect(change).toHaveBeenCalledOnce()
   expect(click).toHaveBeenCalledOnce()
@@ -57,7 +57,7 @@ test.each([[true], [false]])(
 
     const input = doc_query(`div.zoo-radio-btn > label > input`)
     input.click()
-    await sleep()
+    await tick()
 
     expect(spy).toHaveBeenCalledTimes(disabled ? 0 : 1)
   }
