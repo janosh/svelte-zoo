@@ -1,14 +1,18 @@
 :root {
   --page-bg: #090019;
+  --text-color: #ddd;
 
-  --zoo-github-corner-bg: white;
+  --zoo-github-corner-bg: whitesmoke;
   --zoo-github-corner-color: var(--page-bg);
+  --zoo-pr-link-bg: rgba(255, 255, 255, 0.1);
+  --zoo-pr-link-padding: 2pt 5pt;
+  --zoo-pr-link-border-radius: 3pt;
 }
 body {
   background: var(--page-bg);
   padding: 2em;
   font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-  color: white;
+  color: var(--text-color);
   max-width: 45em;
   margin: auto;
   margin-bottom: 3rem;

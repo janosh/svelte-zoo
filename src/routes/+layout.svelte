@@ -2,7 +2,19 @@
   import { page } from '$app/stores'
   import { GitHubCorner } from '$lib'
   import { repository } from '$root/package.json'
+  import { demos } from '$site/stores'
   import '../app.css'
+
+  $demos = Object.keys(
+    import.meta.glob(
+      /* eslint-disable-next-line @typescript-eslint/quotes */
+      './\\(demos\\)/**/+page*.{svx,md,svelte}'
+    )
+  ).map((filename) => `/` + filename.split(`/`).at(-2))
+
+  if ($demos.length < 3) {
+    console.error(`Too few demo routes found: ${$demos.length}`)
+  }
 </script>
 
 <GitHubCorner href={repository} />

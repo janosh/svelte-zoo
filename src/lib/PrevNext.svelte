@@ -1,34 +1,38 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
 
-  export let routes: Item[] = []
+  export let items: (string | Item)[] = []
   export let node: string = `nav`
   export let current: string = ``
   export let style: string | null = null
-  export let on_keyup: (obj: {
-    prev: [string, unknown?]
-    next: [string, unknown?]
-  }) => Record<string, string> = ({ prev, next }) => ({
-    ArrowLeft: prev[0],
-    ArrowRight: next[0],
-    Escape: `/`,
-  })
+  export let on_keyup: (obj: { prev: Item; next: Item }) => Record<string, string> = ({
+    prev,
+    next,
+  }) => ({ ArrowLeft: prev[0], ArrowRight: next[0], Escape: `/` })
   export let goto_options: { replaceState: boolean; noScroll: boolean } = {
     replaceState: true,
     noScroll: true,
   }
+  export let titles: { prev: string; next: string } = {
+    prev: `&larr; Previous`,
+    next: `Next &rarr;`,
+  }
 
-  type Item = string | [string, unknown?] | Record<string, unknown>
+  type Item = [string, unknown]
 
-  $: arr = (Array.isArray(routes) ? routes : Object.entries(routes)).map((itm) =>
-    typeof itm == `string` ? [itm] : itm
-  ) as [string, unknown][]
-  $: if (arr.length < 2) console.error(`PrevNext only received ${arr.length} routes`)
-  $: idx = arr.findIndex((slug) =>
-    typeof slug == `string` ? slug == current : slug[0] == current
-  )
-  $: prev = arr[idx - 1] ?? arr[arr.length - 1] ?? {}
-  $: next = arr[idx + 1] ?? arr[0] ?? {}
+  $: arr = (items ?? []).map((itm) =>
+    typeof itm == `string` ? [itm, itm] : itm
+  ) as Item[]
+  $: if (arr.length < 2) console.error(`PrevNext received ${arr.length} items`)
+  $: idx = arr.findIndex(([key]) => key == current)
+  $: if (idx < 0) {
+    const valid = arr.map(([key]) => key)
+    console.error(
+      `PrevNext received invalid current=${current}, expected one of ${valid}`
+    )
+  }
+  $: prev = arr[idx - 1] ?? arr[arr.length - 1]
+  $: next = arr[idx + 1] ?? arr[0]
 
   function handle_keyup(event: KeyboardEvent) {
     const to = on_keyup({ prev, next })[event.key]
@@ -39,32 +43,43 @@
 <svelte:window on:keyup={handle_keyup} />
 
 <svelte:element this={node} {style} class="prev-next">
-  <div>
-    <slot name="prev" item={prev}>
-      <slot item={prev}>
-        <p>&larr; Previous</p>
+  <slot name="prev" item={prev[1]}>
+    <slot kind="prev" item={prev[1]}>
+      <div>
+        {#if titles.prev}<span>{@html titles.prev}</span>{/if}
         <a href={prev[0]}>{prev[0]}</a>
-      </slot>
+      </div>
     </slot>
-  </div>
+  </slot>
   <slot name="between" />
-  <div>
-    <slot name="next" item={next}>
-      <slot item={next}>
-        <p>Next &rarr;</p>
+  <slot name="next" item={next[1]}>
+    <slot kind="next" item={next[1]}>
+      <div>
+        {#if titles.next}<span>{@html titles.next}</span>{/if}
         <a href={next[0]}>{next[0]}</a>
-      </slot>
+      </div>
     </slot>
-  </div>
+  </slot>
 </svelte:element>
 
 <style>
   .prev-next {
     display: flex;
     list-style: none;
-    padding: 0;
     place-content: space-between;
-    gap: 2em;
+    gap: var(--zoo-pr-gap, 2em);
+    padding: var(--zoo-pr-padding, 0);
+    margin: var(--zoo-pr-margin, 1em auto);
+  }
+  .prev-next a {
+    color: var(--zoo-pr-color);
+    background: var(--zoo-pr-link-bg);
+    padding: var(--zoo-pr-link-padding);
+    border-radius: var(--zoo-pr-link-border-radius);
+  }
+  .prev-next span {
+    display: block;
+    margin: var(--zoo-pr-label-margin, 0 auto 1ex);
   }
   .prev-next > div:nth-child(2) {
     text-align: right;
