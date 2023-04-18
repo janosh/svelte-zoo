@@ -1,3 +1,4 @@
+import { RadioButtons } from '$lib'
 import { tick } from 'svelte'
 import { expect, test, vi } from 'vitest'
 import { doc_query } from '.'
