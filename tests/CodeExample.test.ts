@@ -1,8 +1,8 @@
 import { CodeExample } from '$lib'
 import { repository as repo } from '$root/package.json'
 import { tick } from 'svelte'
-import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
+import { doc_query } from '.'
 
 const [id, src] = [`uniq-id`, `some code`]
 

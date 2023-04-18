@@ -1,6 +1,6 @@
 import { Confetti } from '$lib'
-import { doc_query } from 'tests'
 import { describe, expect, test } from 'vitest'
+import { doc_query } from '.'
 
 describe(`Confetti`, () => {
   test.each([[20], [undefined]])(

@@ -1,6 +1,6 @@
 import { Slider } from '$lib'
-import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
+import { doc_query } from '.'
 
 test(`forwards DOM events`, () => {
   const input_spy = vi.fn()

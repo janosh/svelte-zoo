@@ -1,7 +1,7 @@
 import { CopyButton } from '$lib'
 import { tick } from 'svelte'
-import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
+import { doc_query } from '.'
 
 test.each([
   [``, ``],

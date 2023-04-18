@@ -1,7 +1,7 @@
 import * as lib from '$lib'
 import * as icons from '$lib/icons'
-import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
+import { doc_query } from '.'
 
 test(`src/lib/index.ts re-exports all Svelte components`, () => {
   const components = Object.keys(import.meta.glob(`$lib/*.svelte`)).map(

@@ -1,7 +1,7 @@
 import { CodeLinks } from '$lib'
 import { repository } from '$root/package.json'
-import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
+import { doc_query } from '.'
 
 test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
   const props = {

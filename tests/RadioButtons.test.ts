@@ -1,6 +1,6 @@
 import { tick } from 'svelte'
-import { doc_query } from 'tests'
 import { expect, test, vi } from 'vitest'
+import { doc_query } from '.'
 import Test2WayBind from './Test2WayBind.svelte'
 
 test(`2-way binding of RadioButtons`, async () => {
