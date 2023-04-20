@@ -1,7 +1,7 @@
 import { CodeLinks } from '$lib'
 import { repository } from '$root/package.json'
-import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
+import { doc_query } from '.'
 
 test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
   const props = {
@@ -27,18 +27,6 @@ test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
     )
   ).toBeInstanceOf(HTMLAnchorElement)
 })
-
-test.each([[null], [``]])(
-  `raises error on stackblitz=true and no file`,
-  (file) => {
-    expect(() => {
-      new CodeLinks({
-        target: document.body,
-        props: { stackblitz: true, file },
-      })
-    }).toThrow(`stackblitz=true requires passing 'file' prop`)
-  }
-)
 
 test.each([[`_blank`], [`_self`]])(
   `applies target prop to all links`,

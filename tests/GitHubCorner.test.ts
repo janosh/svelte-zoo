@@ -1,7 +1,7 @@
 import { GitHubCorner } from '$lib'
 import { repository } from '$root/package.json'
-import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
+import { doc_query } from '.'
 
 test.each([[`top-left`], [`top-right`], [`bottom-left`], [`bottom-right`]])(
   `GitHubCorner`,

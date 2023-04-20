@@ -30,6 +30,7 @@ code {
   padding: 0 4pt;
   border-radius: 4pt;
   background-color: #004040;
+  font-size: 11pt;
 }
 pre code {
   background-color: transparent;

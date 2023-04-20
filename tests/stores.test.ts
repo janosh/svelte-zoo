@@ -1,20 +1,23 @@
-import { session_store, url_param_store } from '$lib'
+import { persisted_store, url_param_store, type StorageType } from '$lib'
 import { get } from 'svelte/store'
 import { expect, test } from 'vitest'
 
-test(`session_store`, () => {
-  const store = session_store(`test`, `initial`)
-  expect(get(store)).toBe(`initial`)
-  expect(sessionStorage[`test`]).toBe(`"initial"`)
+test.each([[`localStorage`], [`sessionStorage`]])(
+  `persisted_store`,
+  (type: StorageType) => {
+    const store = persisted_store(`test`, `initial`, type)
+    expect(get(store)).toBe(`initial`)
+    expect(window[type][`test`]).toBe(`"initial"`)
 
-  store.set(`new`)
-  expect(get(store)).toBe(`new`)
-  expect(sessionStorage[`test`]).toBe(`"new"`)
+    store.set(`new`)
+    expect(get(store)).toBe(`new`)
+    expect(window[type][`test`]).toBe(`"new"`)
 
-  store.update((val) => val + `_suffix`)
-  expect(get(store)).toBe(`new_suffix`)
-  expect(sessionStorage[`test`]).toBe(`"new_suffix"`)
-})
+    store.update((val) => val + `_suffix`)
+    expect(get(store)).toBe(`new_suffix`)
+    expect(window[type][`test`]).toBe(`"new_suffix"`)
+  }
+)
 
 test(`url_param_store`, () => {
   const store = url_param_store(`test`, `initial`)

@@ -1,6 +1,6 @@
 import { Toggle } from '$lib'
-import { doc_query } from 'tests'
 import { expect, test } from 'vitest'
+import { doc_query } from '.'
 
 test.each([
   [true, ``, ``],

@@ -69,7 +69,7 @@
     place-content: space-between;
     gap: var(--zoo-pr-gap, 2em);
     padding: var(--zoo-pr-padding, 0);
-    margin: var(--zoo-pr-margin, 1em auto);
+    margin: var(--zoo-pr-margin, 3em auto);
   }
   .prev-next a {
     color: var(--zoo-pr-color);

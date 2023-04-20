@@ -1,14 +1,27 @@
 import { writable } from 'svelte/store'
 
-export function session_store<T>(name: string, initial: T) {
-  function set_session_val(name: string, val: T) {
-    if (typeof sessionStorage !== `undefined`) {
-      sessionStorage[name] = JSON.stringify(val)
+export type StorageType = 'localStorage' | 'sessionStorage'
+
+export function persisted_store<T>(
+  name: string,
+  initial: T,
+  type: StorageType = `localStorage`
+) {
+  function set_storage_val(name: string, val: T, type: StorageType) {
+    if (typeof window !== `undefined`) {
+      window[type][name] = JSON.stringify(val)
     }
   }
-  if (typeof sessionStorage !== `undefined`) {
-    if (sessionStorage[name]) initial = JSON.parse(sessionStorage[name])
-    else set_session_val(name, initial)
+
+  // runs during store initialization
+  if (typeof window !== `undefined`) {
+    if (window[type][name]) {
+      // if the value is already in storage, use that
+      initial = JSON.parse(window[type][name])
+    } else {
+      // else set it
+      set_storage_val(name, initial, type)
+    }
   }
 
   const { set, update, ...store } = writable(initial)
@@ -16,13 +29,13 @@ export function session_store<T>(name: string, initial: T) {
   return {
     ...store,
     set: (val: T) => {
-      set_session_val(name, val)
+      set_storage_val(name, val, type)
       set(val)
     },
     update: (fn: (val: T) => T) => {
       update((val) => {
         const new_val = fn(val)
-        set_session_val(name, new_val)
+        set_storage_val(name, new_val, type)
         return new_val
       })
     },
