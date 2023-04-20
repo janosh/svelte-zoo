@@ -2,7 +2,7 @@ import { persisted_store, url_param_store, type StorageType } from '$lib'
 import { get } from 'svelte/store'
 import { expect, test } from 'vitest'
 
-test.each([['localStorage'], ['sessionStorage']])(
+test.each([[`localStorage`], [`sessionStorage`]])(
   `persisted_store`,
   (type: StorageType) => {
     const store = persisted_store(`test`, `initial`, type)

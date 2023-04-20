@@ -8,7 +8,7 @@
   // https://github.com/<user>/<repo>/blob/<branch>, e.g. https://github.com/sveltejs/kit/blob/master
   export let github: string | boolean = Boolean(repo)
   export let stackblitz: string | boolean | null = null
-  export let file: string = '' // path to file in repo
+  export let file: string = `` // path to file in repo
   // can be prefixed with git ref (branch, tag, or SHA) to point to specific revision (e.g. master, v1.0.0, 73f70eb), defaults to `-` which
   // points to HEAD of the repo's default branch
   // if left at default '', will link to repo itself, not any of its files
