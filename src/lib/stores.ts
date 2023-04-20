@@ -8,13 +8,13 @@ export function persisted_store<T>(
   type: StorageType = `localStorage`
 ) {
   function set_storage_val(name: string, val: T, type: StorageType) {
-    if (typeof window[type] !== `undefined`) {
+    if (typeof window !== `undefined`) {
       window[type][name] = JSON.stringify(val)
     }
   }
 
   // runs during store initialization
-  if (typeof window[type] !== `undefined`) {
+  if (typeof window !== `undefined`) {
     if (window[type][name]) {
       // if the value is already in storage, use that
       initial = JSON.parse(window[type][name])
