@@ -24,7 +24,7 @@ test.each([[true, false]])(
   }
 )
 
-test(`test calls clipboard.writeText with src when clicking the copy button`, () => {
+test(`calls clipboard.writeText with src when clicking the copy button`, () => {
   new CodeExample({ target: document.body, props: { src } })
 
   navigator.clipboard = { writeText: vi.fn() } // mock clipboard
@@ -32,7 +32,7 @@ test(`test calls clipboard.writeText with src when clicking the copy button`, ()
   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(src)
 })
 
-test(`test renders a code section with the src`, () => {
+test(`renders a code section with the src`, () => {
   new CodeExample({ target: document.body, props: { src } })
 
   expect(doc_query(`section > pre > code`).textContent).toBe(src)

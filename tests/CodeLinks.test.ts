@@ -28,7 +28,7 @@ test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
   ).toBeInstanceOf(HTMLAnchorElement)
 })
 
-test.each([[null], [``]])(
+test.each([[undefined], [``]])(
   `raises error on stackblitz=true and no file`,
   (file) => {
     expect(() => {
