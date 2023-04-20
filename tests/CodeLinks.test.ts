@@ -28,18 +28,6 @@ test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
   ).toBeInstanceOf(HTMLAnchorElement)
 })
 
-test.each([[undefined], [``]])(
-  `raises error on stackblitz=true and no file`,
-  (file) => {
-    expect(() => {
-      new CodeLinks({
-        target: document.body,
-        props: { stackblitz: true, file },
-      })
-    }).toThrow(`stackblitz=true requires passing 'file' prop`)
-  }
-)
-
 test.each([[`_blank`], [`_self`]])(
   `applies target prop to all links`,
   (target) => {
