@@ -42,6 +42,12 @@ export function persisted_store<T>(
   }
 }
 
+export const local_store = <T>(name: string, initial: T) =>
+  persisted_store(name, initial, `localStorage`)
+
+export const session_store = <T>(name: string, initial: T) =>
+  persisted_store(name, initial, `sessionStorage`)
+
 export function url_param_store(name: string, initial: string | null) {
   function set_url_param(name: string, val: string | null) {
     const url = new URL(location.toString())

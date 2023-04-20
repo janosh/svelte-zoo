@@ -1,23 +1,43 @@
-import { persisted_store, url_param_store, type StorageType } from '$lib'
+import {
+  local_store,
+  persisted_store,
+  session_store,
+  url_param_store,
+} from '$lib'
 import { get } from 'svelte/store'
-import { expect, test } from 'vitest'
+import { beforeEach, expect, test } from 'vitest'
 
-test.each([[`localStorage`], [`sessionStorage`]])(
-  `persisted_store`,
-  (type: StorageType) => {
-    const store = persisted_store(`test`, `initial`, type)
-    expect(get(store)).toBe(`initial`)
-    expect(window[type][`test`]).toBe(`"initial"`)
+beforeEach(() => {
+  localStorage.clear()
+  sessionStorage.clear()
+})
 
-    store.set(`new`)
-    expect(get(store)).toBe(`new`)
-    expect(window[type][`test`]).toBe(`"new"`)
+test.each([
+  [local_store, `localStorage`],
+  [session_store, `sessionStorage`],
+  [persisted_store, `localStorage`],
+  [persisted_store, `sessionStorage`],
+])(`store tests`, (storeFunction, type) => {
+  const testName = `test_${type}`
+  const initialValue = `initial_${type}`
+  const newValue = `new_${type}`
+  const suffix = `_suffix_${type}`
+  const store =
+    storeFunction === persisted_store
+      ? storeFunction(testName, initialValue, type)
+      : storeFunction(testName, initialValue)
 
-    store.update((val) => val + `_suffix`)
-    expect(get(store)).toBe(`new_suffix`)
-    expect(window[type][`test`]).toBe(`"new_suffix"`)
-  }
-)
+  expect(get(store)).toBe(initialValue)
+  expect(window[type][testName]).toBe(`"${initialValue}"`)
+
+  store.set(newValue)
+  expect(get(store)).toBe(newValue)
+  expect(window[type][testName]).toBe(`"${newValue}"`)
+
+  store.update((val) => val + suffix)
+  expect(get(store)).toBe(newValue + suffix)
+  expect(window[type][testName]).toBe(`"${newValue}${suffix}"`)
+})
 
 test(`url_param_store`, () => {
   const store = url_param_store(`test`, `initial`)
