@@ -9,10 +9,9 @@
 
   const emojis = [`🥳`, `🎉`, `✨`]
 
-  let confetti: { emoji: string; x: number; y: number; r: number }[] = [
-    ...Array(n_items).keys(),
-  ]
-    .map((idx) => ({
+  let confetti: { emoji: string; x: number; y: number; r: number }[] = Array(n_items)
+    .fill(0)
+    .map((_, idx) => ({
       emoji: emojis[idx % emojis.length],
       x: Math.random() * 100,
       y: -20 - Math.random() * 100,
