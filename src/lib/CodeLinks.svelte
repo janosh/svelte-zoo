@@ -18,7 +18,7 @@
   export let margin: string | null = null
   export let padding: string | null = null
 
-  $: repo_handle = repo.split(`/`).slice(-2).join(`/`)
+  $: repo_handle = repo?.split(`/`).slice(-2).join(`/`)
 
   const links = { target, rel: `noreferrer`, class: `btn` }
 </script>

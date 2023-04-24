@@ -59,16 +59,20 @@ test.each([
   [{ github }, 0],
   [{ stackblitz, github }, 0],
   [{ stackblitz, github, repo }, 2],
-  [{ stackblitz, repo }, 2],
-  [{ repl, github }, 1],
-])(`renders GitHub link if passed meta.github`, (meta, n_expected) => {
-  new CodeExample({
-    target: document.body,
-    props: { src, meta },
-  })
+  [{ stackblitz, repo }, 1],
+  [{ repl, github }, 0],
+])(
+  `renders correct links based on passed meta=%o, n_expected=%i`,
+  async (meta, n_expected) => {
+    new CodeExample({
+      target: document.body,
+      props: { src, meta },
+    })
 
-  const code_links = document.querySelector(`section > aside`)
-  expect(code_links?.querySelectorAll(`a`), code_links?.innerHTML).toHaveLength(
-    n_expected
-  )
-})
+    const code_links = document.querySelector(`section > aside`)
+    expect(
+      code_links?.querySelectorAll(`a`),
+      code_links?.innerHTML
+    ).toHaveLength(n_expected)
+  }
+)

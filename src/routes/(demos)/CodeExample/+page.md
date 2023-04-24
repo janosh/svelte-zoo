@@ -1,9 +1,14 @@
-```svelte example
+Getting a bit meta. Here's the `CodeExample.svelte` component documenting itself by rendering itself and syntax highlighting the code that calls it in a copyable code block.
+
+### Non-collapsible example
+
+```svelte example hideStyle
 <script>
   // this is the actual example, above is just its output
   import { CodeExample } from '$lib'
   import { repository as repo, name } from '$root/package.json'
 
+  let counter = 0
   const meta = {
     pkg: name,
     id: `uniq-id`,
@@ -13,14 +18,46 @@
   }
 </script>
 
-<CodeExample {meta} src="<button>some button</button>">
-  <button slot="example">some button</button>
+<CodeExample
+  {meta}
+  src={`<p slot="example">
+    <button on:click="{() => counter--}">-</button>
+    {counter}
+    <button on:click="{() => counter++}">+</button>
+  </p>`}
+  --zoo-example-code-top="5pt"
+>
+  <p slot="example">
+    <button on:click={() => counter--}>-</button>
+    {counter}
+    <button on:click={() => counter++}>+</button>
+  </p>
 </CodeExample>
+
+<style>
+  p {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+</style>
 ```
 
-Use CSS selector `div.code-example` to apply global styles to your code examples.
+Use CSS selector `div.code-example` to apply global styles to your code examples. Example:
 
-The DOM structure of this component is a bit ugly but here you go. Might help write CSS selectors.
+```css
+div.code-example {
+  padding: 1rem;
+}
+div.code-example pre {
+  font-size: 1.2rem;
+}
+div.code-example section aside {
+  background-color: tomato;
+}
+```
+
+The DOM structure of this component is a bit ugly but here you go. Should help with writing CSS selectors.
 
 ```html
 {#if collapsible}

@@ -22,7 +22,6 @@
 
   let node: HTMLElement // the <code> element
   $: ({ id, collapsible, code_above, pkg } = meta)
-  $: ({ repl, github, stackblitz, file, repo } = meta)
 
   $: if (pkg && node) {
     // replace $lib with package name in code
@@ -37,7 +36,7 @@
       <Icon icon={open ? `collapse` : `Expand`} />
       {open ? `Close` : `View code`}
     </button>
-    <CodeLinks {github} {repl} {stackblitz} {file} />
+    <CodeLinks github={meta.github} stackblitz={meta.stackblitz} repo={meta.repo} />
   </nav>
 {/if}
 <!-- wrap in div with id for precise CSS selectors in playwright E2E tests -->
@@ -50,10 +49,11 @@
     <aside>
       <CopyButton content={node?.innerText ?? src} />
       {#if !collapsible}
-        <CodeLinks {github} {repl} {stackblitz} {file} {repo} />
+        <CodeLinks github={meta.github} stackblitz={meta.stackblitz} repo={meta.repo} />
       {/if}
     </aside>
     <pre><code bind:this={node}><slot name="code">{src}</slot></code></pre>
+    <slot name="after-code" />
   </section>
 
   {#if code_above}
@@ -70,7 +70,8 @@
     visibility: hidden;
     opacity: 0;
     max-height: 0;
-    transition: max-height 0.3s, opacity 0.3s, visibility 0.3s;
+    transition: max-height, opacity, visibility;
+    transition-duration: var(--zoo-example-code-transition-duration, 0.3s);
   }
   section.open {
     visibility: visible;
@@ -80,24 +81,26 @@
   }
   aside {
     position: absolute;
-    top: 1em;
-    right: 1em;
     display: flex;
     gap: 1ex;
+    top: var(--zoo-example-code-top, 1em);
+    right: var(--zoo-example-code-right, 1em);
+    bottom: var(--zoo-example-code-bottom);
+    left: var(--zoo-example-code-left);
   }
   nav {
     display: flex;
-    gap: 1ex;
     justify-content: end;
-    margin-top: 1em;
+    margin-top: var(--zoo-example-nav-margin-top, 1em);
+    gap: var(--zoo-example-nav-gap, 1ex);
   }
   pre code {
     background-color: transparent;
     display: inline-block;
   }
   pre {
-    border-radius: 4pt;
     overflow-x: auto;
+    border-radius: var(--zoo-example-code-border-radius, 4pt);
     background-color: var(--zoo-example-code-bg, rgba(255, 255, 255, 0.05));
     padding: var(--zoo-example-code-padding, 1em);
   }
@@ -107,11 +110,11 @@
     cursor: pointer;
     border: none;
     border-radius: 3pt;
-    background-color: var(--zoo-example-btn-bg, darkcyan);
     padding: 2pt 4pt;
     font-size: 12pt;
     line-height: initial;
     transition: background-color 0.2s;
+    background-color: var(--zoo-example-btn-bg, darkcyan);
   }
   :global(div.code-example aside :is(button, a.btn)):hover {
     background-color: var(--zoo-example-btn-bg-hover, teal);
