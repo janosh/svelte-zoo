@@ -27,7 +27,8 @@ test.each([[true, false]])(
 test(`calls clipboard.writeText with src when clicking the copy button`, () => {
   new CodeExample({ target: document.body, props: { src } })
 
-  navigator.clipboard = { writeText: vi.fn() } // mock clipboard
+  // @ts-expect-error - mock clipboard
+  navigator.clipboard = { writeText: vi.fn() }
   doc_query(`section > aside > button`).click()
   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(src)
 })

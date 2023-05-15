@@ -6,7 +6,7 @@
   export let width: string = `1em`
   export let height: string = width
 
-  if (!icons[icon]) {
+  $: if (!(icon in icons)) {
     console.error(`Icon '${icon}' not found`)
   }
 </script>

@@ -29,7 +29,7 @@ test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
 })
 
 test.each([[`_blank`], [`_self`]])(
-  `applies target prop to all links`,
+  `applies target=%s to all links`,
   (target) => {
     new CodeLinks({ target: document.body, props: { target } })
 

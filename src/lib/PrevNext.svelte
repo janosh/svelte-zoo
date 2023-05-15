@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
 
-  export let items: (string | Item)[] = []
+  export let items: T[] = []
   export let node: string = `nav`
   export let current: string = ``
   export let style: string | null = null
@@ -18,7 +18,8 @@
     next: `Next &rarr;`,
   }
 
-  type Item = [string, unknown]
+  type Item = string | [string, unknown]
+  type T = $$Generic<Item>
 
   $: arr = (items ?? []).map((itm) =>
     typeof itm == `string` ? [itm, itm] : itm

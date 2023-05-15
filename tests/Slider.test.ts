@@ -10,7 +10,7 @@ test(`forwards DOM events`, () => {
   slider.$on(`input`, input_spy)
   slider.$on(`click`, click_spy)
 
-  const num_input = doc_query(`input[type=number]`)
+  const num_input = doc_query<HTMLInputElement>(`input[type=number]`)
 
   num_input.value = `5`
   num_input.dispatchEvent(new Event(`input`))
@@ -26,7 +26,7 @@ test(`takes value, min, max, step, and disabled props`, () => {
     props: { value: 5, min: 0, max: 10, step: 1, disabled: true },
   })
 
-  const num_input = doc_query(`input[type=number]`)
+  const num_input = doc_query<HTMLInputElement>(`input[type=number]`)
 
   expect(num_input.value).toBe(`5`)
   expect(num_input.min).toBe(`0`)

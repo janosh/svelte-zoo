@@ -10,11 +10,12 @@ test.each([[`top-left`], [`top-right`], [`bottom-left`], [`bottom-right`]])(
       href: repository,
       title: `Fancy words`,
       aria_label: `Click here for riches`,
-      target: `_blank`,
+      target: `_blank` as const,
       corner,
       style: `z-index: 42;`,
     }
     const { href, title, aria_label, target } = props
+    // @ts-expect-error - vitest poorly infers corner type
     new GitHubCorner({ target: document.body, props })
 
     expect(
