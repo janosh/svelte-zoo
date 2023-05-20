@@ -3,14 +3,15 @@ export { default as CodeExample } from './CodeExample.svelte'
 export { default as CodeLinks } from './CodeLinks.svelte'
 export { default as Confetti } from './Confetti.svelte'
 export { default as CopyButton } from './CopyButton.svelte'
+export { default as FileDetails } from './FileDetails.svelte'
 export { default as GitHubCorner } from './GitHubCorner.svelte'
 export { default as Icon } from './Icon.svelte'
 export { default as PrevNext } from './PrevNext.svelte'
 export { default as RadioButtons } from './RadioButtons.svelte'
 export { default as Slider } from './Slider.svelte'
-export * from './stores'
 export { default as Toggle } from './Toggle.svelte'
 export { default as Tooltip } from './Tooltip.svelte'
+export * from './stores'
 
 export function get_bg_color(elem: HTMLElement | null): string {
   // recurse up the DOM tree to find the first non-transparent background color
