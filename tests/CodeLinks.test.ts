@@ -28,7 +28,7 @@ test.each([[true], [`src/lib/CodeLinks.svelte`]])(`CodeLinks`, (file) => {
   ).toBeInstanceOf(HTMLAnchorElement)
 })
 
-test.each([[`_blank`], [`_self`]])(
+test.each([[`_blank`], [`_self`]] as const)(
   `applies target=%s to all links`,
   (target) => {
     new CodeLinks({ target: document.body, props: { target } })

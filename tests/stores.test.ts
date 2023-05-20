@@ -1,4 +1,3 @@
-import type { StorageType } from '$lib'
 import {
   local_store,
   persisted_store,
@@ -18,8 +17,7 @@ test.each([
   [session_store, `sessionStorage`],
   [persisted_store, `localStorage`],
   [persisted_store, `sessionStorage`],
-  // @ts-expect-error vitest bad inference
-])(`store tests`, (store_factory, type: StorageType) => {
+] as const)(`store tests`, (store_factory, type) => {
   const testName = `test_${type}`
   const initialValue = `initial_${type}`
   const newValue = `new_${type}`
