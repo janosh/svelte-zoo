@@ -1,9 +1,19 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
   import { page } from '$app/stores'
   import { GitHubCorner } from '$lib'
   import { repository } from '$root/package.json'
   import { demos } from '$site/stores'
+  import { CmdPalette } from 'svelte-multiselect'
   import '../app.css'
+
+  const routes = Object.keys(import.meta.glob(`./**/+page.{svelte,md}`))
+
+  const actions = routes.map((filename) => {
+    const parts = filename.split(`/`).filter((part) => !part.startsWith(`(`)) // remove hidden route segments
+    const route = parts.length === 2 ? `/` : `/${parts.slice(1, -1).join(`/`)}`
+    return { label: route, action: () => goto(route) }
+  })
 
   $demos = Object.keys(
     import.meta.glob(
@@ -18,6 +28,8 @@
 </script>
 
 <GitHubCorner href={repository} />
+
+<CmdPalette {actions} placeholder="Go to..." />
 
 {#if !$page.error && $page.url.pathname !== `/`}
   <a href="." aria-label="Back to index page">&laquo; home</a>

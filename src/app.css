@@ -7,6 +7,13 @@
   --zoo-pr-link-bg: rgba(255, 255, 255, 0.1);
   --zoo-pr-link-padding: 2pt 5pt;
   --zoo-pr-link-border-radius: 3pt;
+
+  --sms-margin: 1em auto;
+  --sms-options-bg: rgb(50, 48, 66);
+  --sms-max-width: 23em;
+  --sms-border: 0.1px solid gray;
+  --sms-focus-border: 0.1px solid white;
+  --sms-active-color: var(--blue);
 }
 body {
   background: var(--page-bg);
@@ -37,6 +44,7 @@ pre code {
   font-size: 10pt;
 }
 pre {
+  position: relative;
   border-radius: 1ex;
   font-size: 0.75em;
 }
