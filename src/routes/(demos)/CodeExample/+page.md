@@ -34,6 +34,22 @@ Getting a bit meta. Here's the `CodeExample.svelte` component documenting itself
   </p>
 </CodeExample>
 
+<CodeExample
+  meta={{ ...meta, collapsible: true }}
+  src={`<p slot="example">
+    <button on:click="{() => counter--}">-</button>
+    {counter}
+    <button on:click="{() => counter++}">+</button>
+  </p>`}
+  --zoo-example-code-top="5pt"
+>
+  <p slot="example">
+    <button on:click={() => counter--}>-</button>
+    {counter}
+    <button on:click={() => counter++}>+</button>
+  </p>
+</CodeExample>
+
 <style>
   p {
     display: flex;

@@ -45,16 +45,16 @@
     <slot name="example" />
   {/if}
 
-  <section class:open>
-    <aside>
-      <CopyButton content={node?.innerText ?? src} />
-      {#if !collapsible}
+  <pre class:open>
+      <aside>
+        <CopyButton content={node?.innerText ?? src} />
+        {#if !collapsible}
         <CodeLinks github={meta.github} stackblitz={meta.stackblitz} repo={meta.repo} />
       {/if}
-    </aside>
-    <pre><code bind:this={node}><slot name="code">{src}</slot></code></pre>
-    <slot name="after-code" />
-  </section>
+      </aside>
+      <code bind:this={node}><slot name="code">{src}</slot></code>
+    </pre>
+  <slot name="after-code" />
 
   {#if code_above}
     <slot name="example" />
@@ -65,24 +65,10 @@
   div.code-example {
     margin: var(--zoo-example-margin, 2em auto);
   }
-  section {
-    position: relative;
-    visibility: hidden;
-    opacity: 0;
-    max-height: 0;
-    transition: max-height, opacity, visibility;
-    transition-duration: var(--zoo-example-code-transition-duration, 0.3s);
-  }
-  section.open {
-    visibility: visible;
-    opacity: 1;
-    max-height: 9999vh;
-    margin: var(--zoo-example-code-margin, 1em 0 0 0);
-  }
   aside {
     position: absolute;
     display: flex;
-    gap: 1ex;
+    gap: 5pt;
     top: var(--zoo-example-code-top, 1em);
     right: var(--zoo-example-code-right, 1em);
     bottom: var(--zoo-example-code-bottom);
@@ -99,13 +85,25 @@
     display: inline-block;
   }
   pre {
+    position: relative;
     overflow-x: auto;
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    transition: max-height, opacity, visibility;
+    transition-duration: var(--zoo-example-code-transition-duration, 0.3s);
     border-radius: var(--zoo-example-code-border-radius, 4pt);
     background-color: var(--zoo-example-code-bg, rgba(255, 255, 255, 0.05));
     padding: var(--zoo-example-code-padding, 1em);
   }
+  pre.open {
+    visibility: visible;
+    opacity: 1;
+    max-height: 9999vh;
+    margin: var(--zoo-example-code-margin, 1em 0 0 0);
+  }
 
-  :global(div.code-example :is(nav, section > aside) :is(button, a.btn)) {
+  :global(div.code-example :is(button, a.btn)) {
     color: white;
     cursor: pointer;
     border: none;
@@ -116,7 +114,7 @@
     transition: background-color 0.2s;
     background-color: var(--zoo-example-btn-bg, darkcyan);
   }
-  :global(div.code-example aside :is(button, a.btn)):hover {
+  :global(div.code-example :is(button, a.btn)):hover {
     background-color: var(--zoo-example-btn-bg-hover, teal);
   }
 </style>

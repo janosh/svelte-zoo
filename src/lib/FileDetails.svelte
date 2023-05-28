@@ -8,8 +8,8 @@
     language?: string
     node?: HTMLDetailsElement | null
   }[] = []
-  export let toggle_all_btn_title: string = 'Toggle all'
-  export let default_lang: string = 'typescript'
+  export let toggle_all_btn_title: string = `Toggle all`
+  export let default_lang: string = `typescript`
 
   function toggle_all() {
     const any_open = files.some((file) => file.node?.open)
@@ -23,7 +23,7 @@
 
 {#if files?.length > 1}
   <button on:click={toggle_all} title={toggle_all_btn_title}>
-    {files.some((file) => file.node?.open) ? 'Close' : 'Open'} all
+    {files.some((file) => file.node?.open) ? `Close` : `Open`} all
   </button>
 {/if}
 
@@ -34,7 +34,7 @@
       <details bind:this={file.node}>
         <summary>
           <slot name="title" {idx} {...file}>
-            <code>{title.split('/').at(-1)}</code>
+            <code>{title.split(`/`).at(-1)}</code>
           </slot>
         </summary>
 

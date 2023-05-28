@@ -7,7 +7,7 @@ import { doc_query } from '.'
 const [id, src] = [`uniq-id`, `some code`]
 
 test.each([[true, false]])(
-  `CodeExample toggles class .open on code section on button click`,
+  `CodeExample toggles class .open on <pre> on button click`,
   async (collapsible) => {
     const meta = { collapsible, id }
 
@@ -16,10 +16,10 @@ test.each([[true, false]])(
     expect(doc_query(`div.code-example#${id}`)).toBeInstanceOf(HTMLDivElement)
 
     if (collapsible) {
-      expect(document.querySelector(`section.open`)).toBeNull()
+      expect(document.querySelector(`pre.open`)).toBeNull()
       doc_query(`nav > button`).click()
       await tick()
-      expect(document.querySelector(`section.open`)).toBeInstanceOf(HTMLElement)
+      expect(document.querySelector(`pre.open`)).toBeInstanceOf(HTMLElement)
     }
   }
 )
@@ -29,14 +29,14 @@ test(`calls clipboard.writeText with src when clicking the copy button`, () => {
 
   // @ts-expect-error - mock clipboard
   navigator.clipboard = { writeText: vi.fn() }
-  doc_query(`section > aside > button`).click()
+  doc_query(`aside > button`).click()
   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(src)
 })
 
-test(`renders a code section with the src`, () => {
+test(`renders a <pre> with the src`, () => {
   new CodeExample({ target: document.body, props: { src } })
 
-  expect(doc_query(`section > pre > code`).textContent).toBe(src)
+  expect(doc_query(`pre > code`).textContent).toBe(src)
 })
 
 test(`replaces $lib import with package name if passed as meta.pkg`, async () => {
@@ -48,7 +48,7 @@ test(`replaces $lib import with package name if passed as meta.pkg`, async () =>
 
   await tick()
 
-  expect(doc_query(`section > pre > code`).textContent).toBe(expected)
+  expect(doc_query(`pre > code`).textContent).toBe(expected)
 })
 
 const [github, stackblitz, repl] = [true, true, `https://svelte.dev/repl`]
@@ -70,7 +70,7 @@ test.each([
       props: { src, meta },
     })
 
-    const code_links = document.querySelector(`section > aside`)
+    const code_links = document.querySelector(`aside`)
     expect(
       code_links?.querySelectorAll(`a`),
       code_links?.innerHTML
