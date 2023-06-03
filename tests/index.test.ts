@@ -29,9 +29,9 @@ test(`get_bg_color() returns the background color of an element`, () => {
   const div = doc_query(`div`)
   const par = doc_query(`p`)
   const span = doc_query(`span`)
-  expect(lib.get_bg_color(div)).toBe(`red`)
-  expect(lib.get_bg_color(par)).toBe(`green`)
-  expect(lib.get_bg_color(span)).toBe(`green`)
+  expect(lib.get_bg_color(div)).toBe(`rgb(255, 0, 0)`)
+  expect(lib.get_bg_color(par)).toBe(`rgb(0, 128, 0)`)
+  expect(lib.get_bg_color(span)).toBe(`rgb(0, 128, 0)`)
 })
 
 test(`range() returns an array of numbers`, () => {

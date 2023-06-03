@@ -37,6 +37,7 @@ More docs to come...
     CodeLinks, // link code fences to Svelte REPL, GitHub or StackBlitz for interactive sandboxing
     Confetti, // let confetti emoji rain across the screen to playfully show some event was triggered
     CopyButton, // add to code fences to allow copying its contents
+    FileDetails, // use HTML <details> to show/hide file contents
     GitHubCorner, // place an animated GitHub icon linking to your repo in the screen corner
     Icon, // used by the other components to render the occasional icon but can also be imported for outside use
     PrevNext, // links to previous and next posts/pages/items in a list
