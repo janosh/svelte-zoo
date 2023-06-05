@@ -1,27 +1,11 @@
 <script lang="ts">
-  import { afterNavigate, goto } from '$app/navigation'
+  import { goto } from '$app/navigation'
   import { page } from '$app/stores'
   import { CopyButton, GitHubCorner } from '$lib'
   import { repository } from '$root/package.json'
   import { demos } from '$site/stores'
   import { CmdPalette } from 'svelte-multiselect'
   import '../app.css'
-
-  afterNavigate(() => {
-    for (const node of document.querySelectorAll(`pre > code`)) {
-      // skip if <pre> already contains a button (presumably for copy)
-      const pre = node.parentElement
-      if (!pre || pre.querySelector(`button`)) continue
-
-      new CopyButton({
-        target: pre,
-        props: {
-          content: node.textContent ?? ``,
-          style: `position: absolute; top: 9pt; right: 9pt;`,
-        },
-      })
-    }
-  })
 
   const routes = Object.keys(import.meta.glob(`./**/+page.{svelte,md}`))
 
@@ -44,7 +28,7 @@
 </script>
 
 <GitHubCorner href={repository} />
-
+<CopyButton global />
 <CmdPalette {actions} placeholder="Go to..." />
 
 {#if !$page.error && $page.url.pathname !== `/`}

@@ -10,6 +10,7 @@
   }[] = []
   export let toggle_all_btn_title: string = `Toggle all`
   export let default_lang: string = `typescript`
+  export let as: string = `ol`
 
   function toggle_all() {
     const any_open = files.some((file) => file.node?.open)
@@ -27,22 +28,24 @@
   </button>
 {/if}
 
-<ol>
+<svelte:element this={as}>
   {#each files as file, idx (file.title)}
-    {@const { title, content, language = default_lang } = file}
+    {@const { title, content, language = default_lang } = file ?? {}}
     <li>
       <details bind:this={file.node}>
-        <summary>
-          <slot name="title" {idx} {...file}>
-            <code>{title.split(`/`).at(-1)}</code>
-          </slot>
-        </summary>
+        {#if title || $$slots.title}
+          <summary>
+            <slot name="title" {idx} {...file}>
+              <code>{title.split(`/`).at(-1)}</code>
+            </slot>
+          </summary>
+        {/if}
 
         <pre><code>{@html hljs.highlight(content, { language }).value}</code></pre>
       </details>
     </li>
   {/each}
-</ol>
+</svelte:element>
 
 <style>
   button {
