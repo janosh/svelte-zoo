@@ -42,11 +42,16 @@ code {
 pre code {
   background-color: transparent;
   font-size: 10pt;
+  display: inline-block;
+  width: 100%;
 }
 pre {
   position: relative;
   border-radius: 1ex;
   font-size: 0.75em;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 6pt 9pt;
+  overflow-x: scroll;
 }
 h1 {
   font-size: clamp(2rem, 2rem + 2vw, 3rem);
