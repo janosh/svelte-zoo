@@ -4,10 +4,11 @@
 
   const options = [1, 2, 3]
   let selected
-  const handler = (event) =>
+  const handler = (event) => {
     console.log(
       'New value is ' + event.target.value + ' triggered by on:' + event.type
     )
+  }
 </script>
 
 <RadioButtons
@@ -30,6 +31,11 @@ Pre-selected value:
 
   const options = ['foo', 'bar', 'baz']
   let selected = 'baz'
+  const handler = (event) => {
+    console.log(
+      'New value is ' + event.target.value + ' triggered by on:' + event.type
+    )
+  }
 </script>
 
 <RadioButtons

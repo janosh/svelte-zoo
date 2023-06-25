@@ -47,7 +47,7 @@
 </script>
 
 {#if !(global || global_selector)}
-  <svelte:element this={as} on:click={copy} {style}>
+  <svelte:element this={as} on:click={copy} {style} role="button" tabindex={0}>
     <slot>
       <Icon icon={labels[state][1]} />
       <span>{labels[state][0]}</span>
