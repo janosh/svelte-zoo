@@ -1,6 +1,6 @@
 <script lang="ts">
   // see svelte.config.js where this component is passed to mdsvexamples
-  import { CodeLinks, CopyButton, Icon } from '.'
+  import { CodeLinks, CopyButton, Icon } from '$lib'
 
   // src+meta are passed in by mdsvexamples
   export let src: string = `` // code fence content, sadly without indentation so we prefer node?.innerText below

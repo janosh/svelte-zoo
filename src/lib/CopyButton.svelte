@@ -1,6 +1,6 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
-  import { CopyButton, Icon } from '.'
+  import { CopyButton, Icon } from '$lib'
 
   export let content: string = ``
   export let style: string | null = null
