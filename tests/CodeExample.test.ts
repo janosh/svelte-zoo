@@ -21,7 +21,7 @@ test.each([[true, false]])(
       await tick()
       expect(document.querySelector(`pre.open`)).toBeInstanceOf(HTMLElement)
     }
-  }
+  },
 )
 
 test(`calls clipboard.writeText with src when clicking the copy button`, () => {
@@ -73,7 +73,7 @@ test.each([
     const code_links = document.querySelector(`aside`)
     expect(
       code_links?.querySelectorAll(`a`),
-      code_links?.innerHTML
+      code_links?.innerHTML,
     ).toHaveLength(n_expected)
-  }
+  },
 )

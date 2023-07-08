@@ -61,5 +61,5 @@ test.each([[true], [false]])(
     await tick()
 
     expect(spy).toHaveBeenCalledTimes(disabled ? 0 : 1)
-  }
+  },
 )

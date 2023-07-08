@@ -5,7 +5,7 @@ export type StorageType = 'localStorage' | 'sessionStorage'
 export function persisted_store<T>(
   name: string,
   initial: T,
-  type: StorageType = `localStorage`
+  type: StorageType = `localStorage`,
 ) {
   function set_storage_val(name: string, val: T, type: StorageType) {
     if (typeof window !== `undefined`) {

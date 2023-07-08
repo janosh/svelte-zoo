@@ -1,6 +1,6 @@
 export function sortable(
   node: HTMLElement,
-  { header_selector = `thead th` } = {}
+  { header_selector = `thead th` } = {},
 ) {
   // this action can be applied to bob-standard HTML tables to make them sortable by
   // clicking on column headers (and clicking again to toggle sorting direction)

@@ -25,11 +25,11 @@ describe.each([[true], [file]] as const)(
       }
       const repo_handle = repo.split(`/`).slice(-2).join(`/`)
       const stackblitz_link = doc_query(
-        `a[href*='https://stackblitz.com/github/${repo_handle}${url_params}']`
+        `a[href*='https://stackblitz.com/github/${repo_handle}${url_params}']`,
       )
       expect(stackblitz_link).toBeInstanceOf(HTMLAnchorElement)
     })
-  }
+  },
 )
 
 test.each([[`_blank`], [`_self`]] as const)(
@@ -40,5 +40,5 @@ test.each([[`_blank`], [`_self`]] as const)(
     for (const link of document.querySelectorAll(`a`)) {
       expect(link.target, `${link} has wrong target`).toBe(target)
     }
-  }
+  },
 )

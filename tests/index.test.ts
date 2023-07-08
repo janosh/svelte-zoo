@@ -5,7 +5,7 @@ import { doc_query } from '.'
 
 test(`src/lib/index.ts re-exports all Svelte components`, () => {
   const components = Object.keys(import.meta.glob(`$lib/*.svelte`)).map(
-    (path) => path.split(`/`).pop()?.split(`.`).shift()
+    (path) => path.split(`/`).pop()?.split(`.`).shift(),
   )
   // $lib is also allowed to export other things, so we use arrayContaining()
   expect(Object.keys(lib)).toEqual(expect.arrayContaining(components))
@@ -13,7 +13,7 @@ test(`src/lib/index.ts re-exports all Svelte components`, () => {
 
 test(`src/lib/icons/index.ts re-exports all icons`, () => {
   const components = Object.keys(import.meta.glob(`$lib/icons/*.svelte`)).map(
-    (path) => path.split(`/`).pop()?.split(`.`).shift()
+    (path) => path.split(`/`).pop()?.split(`.`).shift(),
   )
   expect(Object.keys(icons)).toStrictEqual(components)
 })
