@@ -22,7 +22,7 @@ test.each([
 
   expect(
     doc_query(
-      `a[href='${href}'][target='${target}'][title='${title}'][aria-label='${aria_label}']`
-    )
+      `a[href='${href}'][target='${target}'][title='${title}'][aria-label='${aria_label}']`,
+    ),
   ).toBeInstanceOf(HTMLAnchorElement)
 })

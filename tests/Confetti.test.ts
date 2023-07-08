@@ -10,8 +10,8 @@ describe(`Confetti`, () => {
       const wrapper = doc_query(`div`)
       expect(wrapper.children.length).toBe(n_items ?? 50)
       expect(new Set(wrapper.textContent)).toStrictEqual(
-        new Set([`✨`, ` `, `🥳`, `🎉`])
+        new Set([`✨`, ` `, `🥳`, `🎉`]),
       )
-    }
+    },
   )
 })
