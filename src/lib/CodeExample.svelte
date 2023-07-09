@@ -45,15 +45,12 @@
     <slot name="example" />
   {/if}
 
-  <pre class:open>
-      <aside>
-        <CopyButton content={node?.innerText ?? src} />
-        {#if !collapsible}
+  <pre class:open><code bind:this={node}><slot name="code">{src}</slot></code><aside>
+      <CopyButton content={node?.innerText ?? src} />
+      {#if !collapsible}
         <CodeLinks github={meta.github} stackblitz={meta.stackblitz} repo={meta.repo} />
       {/if}
-      </aside>
-      <code bind:this={node}><slot name="code">{src}</slot></code>
-    </pre>
+    </aside></pre>
   <slot name="after-code" />
 
   {#if code_above}

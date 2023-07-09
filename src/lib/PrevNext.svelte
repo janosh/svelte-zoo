@@ -42,26 +42,31 @@
 </script>
 
 <svelte:window on:keyup={handle_keyup} />
-
-<svelte:element this={node} {style} class="prev-next">
-  <slot name="prev" item={prev[1]}>
-    <slot kind="prev" item={prev[1]}>
-      <div>
-        {#if titles.prev}<span>{@html titles.prev}</span>{/if}
-        <a href={prev[0]}>{prev[0]}</a>
-      </div>
-    </slot>
-  </slot>
-  <slot name="between" />
-  <slot name="next" item={next[1]}>
-    <slot kind="next" item={next[1]}>
-      <div>
-        {#if titles.next}<span>{@html titles.next}</span>{/if}
-        <a href={next[0]}>{next[0]}</a>
-      </div>
-    </slot>
-  </slot>
-</svelte:element>
+{#if arr.length > 2}
+  <svelte:element this={node} {style} class="prev-next">
+    {#if prev?.length >= 2}
+      <slot name="prev" item={prev[1]}>
+        <slot kind="prev" item={prev[1]}>
+          <div>
+            {#if titles.prev}<span>{@html titles.prev}</span>{/if}
+            <a href={prev[0]}>{prev[0]}</a>
+          </div>
+        </slot>
+      </slot>
+    {/if}
+    <slot name="between" />
+    {#if next?.length >= 2}
+      <slot name="next" item={next[1]}>
+        <slot kind="next" item={next[1]}>
+          <div>
+            {#if titles.next}<span>{@html titles.next}</span>{/if}
+            <a href={next[0]}>{next[0]}</a>
+          </div>
+        </slot>
+      </slot>
+    {/if}
+  </svelte:element>
+{/if}
 
 <style>
   .prev-next {

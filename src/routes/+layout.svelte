@@ -15,12 +15,9 @@
     return { label: route, action: () => goto(route) }
   })
 
-  $demos = Object.keys(
-    import.meta.glob(
-      /* eslint-disable-next-line @typescript-eslint/quotes */
-      './\\(demos\\)/**/+page*.{svx,md,svelte}'
-    )
-  ).map((filename) => `/` + filename.split(`/`).at(-2))
+  $demos = Object.keys(import.meta.glob(`./*demos*/**/+page*.{md,svelte}`)).map(
+    (filename) => `/` + filename.split(`/`).at(-2)
+  )
 
   if ($demos.length < 3) {
     console.error(`Too few demo routes found: ${$demos.length}`)
