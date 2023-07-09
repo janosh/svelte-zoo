@@ -5,7 +5,7 @@
   "homepage": "https://janosh.github.io/svelte-zoo",
   "repository": "https://github.com/janosh/svelte-zoo",
   "license": "MIT",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "type": "module",
   "svelte": "./dist/index.js",
   "bugs": "https://github.com/janosh/svelte-zoo/issues",
@@ -19,33 +19,33 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@sveltejs/kit": "^1.22.1",
-    "highlight.js": "^11.8.0",
-    "svelte": "4.0.5"
+    "@sveltejs/kit": "^1.27.1",
+    "highlight.js": "^11.9.0",
+    "svelte": "4.2.2"
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^2.0.2",
-    "@sveltejs/package": "^2.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.61.0",
-    "@typescript-eslint/parser": "^5.61.0",
-    "@vitest/coverage-v8": "^0.33.0",
-    "eslint": "^8.44.0",
-    "eslint-plugin-svelte": "^2.32.2",
-    "hastscript": "^7.2.0",
+    "@sveltejs/adapter-static": "^2.0.3",
+    "@sveltejs/package": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "@vitest/coverage-v8": "^0.34.6",
+    "eslint": "^8.52.0",
+    "eslint-plugin-svelte": "^2.34.0",
+    "hastscript": "^8.0.0",
     "jsdom": "^22.1.0",
     "mdsvex": "^0.11.0",
-    "mdsvexamples": "^0.3.3",
-    "prettier": "^3.0.0",
-    "prettier-plugin-svelte": "^2.10.1",
-    "rehype-autolink-headings": "^6.1.1",
-    "rehype-slug": "^5.1.0",
-    "svelte-check": "^3.4.5",
-    "svelte-multiselect": "^10.0.0",
+    "mdsvexamples": "^0.4.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-svelte": "^3.0.3",
+    "rehype-autolink-headings": "^7.0.0",
+    "rehype-slug": "^6.0.0",
+    "svelte-check": "^3.5.2",
+    "svelte-multiselect": "^10.2.0",
     "svelte-preprocess": "^5.0.4",
-    "svelte2tsx": "^0.6.19",
-    "typescript": "5.1.6",
-    "vite": "^4.4.2",
-    "vitest": "^0.33.0"
+    "svelte2tsx": "^0.6.23",
+    "typescript": "5.2.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
   },
   "keywords": [
     "svelte",
@@ -83,6 +83,7 @@
       "default": "./dist/stores.js"
     }
   },
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ]
