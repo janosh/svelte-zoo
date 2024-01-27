@@ -11,6 +11,7 @@ export { default as RadioButtons } from './RadioButtons.svelte'
 export { default as Slider } from './Slider.svelte'
 export { default as Toggle } from './Toggle.svelte'
 export { default as Tooltip } from './Tooltip.svelte'
+export * from './actions'
 export * from './stores'
 
 export function get_bg_color(elem: HTMLElement | null): string {
