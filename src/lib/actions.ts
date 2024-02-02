@@ -48,10 +48,10 @@ export function sortable(
 }
 
 type HighlightOptions = {
-  query: string
-  disabled: boolean
-  acceptNode: (node: Node) => number
-  css_class: string
+  query?: string
+  disabled?: boolean
+  node_filter?: (node: Node) => number
+  css_class?: string
 }
 
 export function highlight_matches(node: HTMLElement, ops: HighlightOptions) {
@@ -65,7 +65,7 @@ function update_highlights(node: Node, ops: HighlightOptions) {
   const {
     query = ``,
     disabled = false,
-    acceptNode = () => NodeFilter.FILTER_ACCEPT,
+    node_filter = () => NodeFilter.FILTER_ACCEPT,
     css_class = `highlight-match`,
   } = ops
 
@@ -75,7 +75,7 @@ function update_highlights(node: Node, ops: HighlightOptions) {
   if (!query || disabled || typeof CSS == `undefined` || !CSS.highlights) return // abort if CSS highlight API not supported
 
   const tree_walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {
-    acceptNode,
+    acceptNode: node_filter,
   })
   const text_nodes: Node[] = []
   let current_node = tree_walker.nextNode()

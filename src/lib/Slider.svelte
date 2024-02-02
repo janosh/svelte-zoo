@@ -40,7 +40,7 @@
     place-items: center;
     gap: var(--zoo-slider-gap, 1ex);
     margin: var(--zoo-slider-margin);
-    padding: var(--zoo-slider-padding, 0 4pt);
+    padding: var(--zoo-slider-padding);
   }
   input[type='number'] {
     background: transparent;
