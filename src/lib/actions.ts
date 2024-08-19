@@ -1,6 +1,24 @@
+export function get_html_sort_value(element: Element): string {
+  if (element.dataset.sortValue !== undefined) {
+    return element.dataset.sortValue
+  }
+  for (const child of element.children) {
+    const child_val = get_html_sort_value(child)
+    if (child_val !== ``) {
+      return child_val
+    }
+  }
+  return element.textContent ?? ``
+}
+
 export function sortable(
   node: HTMLElement,
-  { header_selector = `thead th` } = {},
+  {
+    header_selector = `thead th`,
+    asc_class = `table-sort-asc`,
+    desc_class = `table-sort-desc`,
+    sorted_style = { backgroundColor: `rgba(255, 255, 255, 0.1)` },
+  } = {},
 ) {
   // this action can be applied to bob-standard HTML tables to make them sortable by
   // clicking on column headers (and clicking again to toggle sorting direction)
@@ -9,37 +27,50 @@ export function sortable(
   let sort_dir = 1 // 1 = asc, -1 = desc
 
   for (const [idx, header] of headers.entries()) {
-    // add cursor pointer to headers
-    header.style.cursor = `pointer`
-    const init_bg = header.style.backgroundColor
+    header.style.cursor = `pointer` // add cursor pointer to headers
+
+    const init_styles = { ...header.style }
     header.addEventListener(`click`, () => {
+      // reset all headers to initial state
       for (const header of headers) {
-        // removing any existing arrows
-        header.textContent = header.textContent?.replace(/ ↑| ↓/, ``)
-        header.classList.remove(`asc`, `desc`)
-        header.style.backgroundColor = init_bg
+        header.textContent = header.textContent?.replace(/ ↑| ↓/, ``) ?? ``
+        header.classList.remove(asc_class, desc_class)
+        Object.assign(header.style, init_styles)
       }
-      header.classList.toggle(sort_dir > 0 ? `asc` : `desc`)
-      header.style.backgroundColor = `rgba(255, 255, 255, 0.1)`
-      // append arrow to header text
       if (idx === sort_col_idx) {
         sort_dir *= -1 // reverse sort direction
       } else {
         sort_col_idx = idx // set new sort column index
         sort_dir = 1 // reset sort direction
       }
-      header.innerHTML = `${header.textContent} ${sort_dir > 0 ? `↑` : `↓`}`
+      header.classList.add(sort_dir > 0 ? asc_class : desc_class)
+      Object.assign(header.style, sorted_style)
+      header.textContent = `${header.textContent?.replace(/ ↑| ↓/, ``)} ${sort_dir > 0 ? `↑` : `↓`}`
+
       const table_body = node.querySelector(`tbody`)
       if (!table_body) return
 
       // re-sort table
       const rows = Array.from(table_body.querySelectorAll(`tr`))
       rows.sort((row_1, row_2) => {
-        const val_1 = row_1.cells[sort_col_idx].textContent ?? ``
-        const val_2 = row_2.cells[sort_col_idx].textContent ?? ``
-        return (
-          sort_dir * val_1.localeCompare(val_2, undefined, { numeric: true })
-        )
+        const cell_1 = row_1.cells[sort_col_idx]
+        const cell_2 = row_2.cells[sort_col_idx]
+        const val_1 = get_html_sort_value(cell_1)
+        const val_2 = get_html_sort_value(cell_2)
+
+        if (val_1 === val_2) return 0
+        if (val_1 === ``) return 1 // treat empty string as lower than any value
+        if (val_2 === ``) return -1 // any value is considered higher than empty string
+
+        const num_1 = Number(val_1)
+        const num_2 = Number(val_2)
+
+        if (isNaN(num_1) && isNaN(num_2)) {
+          return (
+            sort_dir * val_1.localeCompare(val_2, undefined, { numeric: true })
+          )
+        }
+        return sort_dir * (num_1 - num_2)
       })
 
       for (const row of rows) table_body.appendChild(row)
