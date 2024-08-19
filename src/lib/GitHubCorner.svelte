@@ -8,11 +8,8 @@
   export let color: string | null = null
   export let fill: string | null = null
   // bottomLeft/Right look bad, shouldn't normally be used
-  export let corner:
-    | 'top-left'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-right' = `top-right`
+  export let corner: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' =
+    `top-right`
   export let style: string = ``
 </script>
 
@@ -84,6 +81,12 @@
     40%,
     80% {
       transform: rotate(10deg);
+    }
+  }
+  /* hide this component by default when printing since it would show up on every page */
+  @media print {
+    a {
+      display: var(--zoo-github-corner-print-display, none);
     }
   }
 </style>

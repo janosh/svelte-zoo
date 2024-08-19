@@ -7,16 +7,19 @@
   export let cursor: string | null = null
   export let style: string | null = null
   export let tip_style: string | null = null
+  export { class_name as class }
+
+  let class_name: string | null = null
 
   $: if (text && $$slots.tip) {
     console.error(
-      `svelte-zoo tooltip: both text prop and slot='tip' were passed, only one is allowed`
+      `svelte-zoo tooltip: both text prop and slot='tip' were passed, only one is allowed`,
     )
   }
 </script>
 
 {#if $$slots.tip || text}
-  <span style:cursor {style}>
+  <span style:cursor {style} class={class_name}>
     <slot />
     <slot name="trigger" />
     <div
