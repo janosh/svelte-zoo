@@ -4,8 +4,10 @@
   export let color: string | null = null
   export let duration: string = `1.5s`
   export let size: string = `1em`
+  export { class_name as class }
+  export let div: HTMLDivElement
 
-  let div: HTMLDivElement
+  let class_name: string | null = null
   onMount(() => {
     if (!color) {
       color = getComputedStyle(div).color
@@ -20,6 +22,7 @@
   {color}"
   style:width={size}
   style:height={size}
+  class={class_name}
 />
 
 <style>

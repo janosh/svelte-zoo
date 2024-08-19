@@ -17,19 +17,21 @@
     prev: `&larr; Previous`,
     next: `Next &rarr;`,
   }
+  export { class_name as class }
 
+  let class_name: string | null = null
   type Item = string | [string, unknown]
   type T = $$Generic<Item>
 
   $: arr = (items ?? []).map((itm) =>
-    typeof itm == `string` ? [itm, itm] : itm
+    typeof itm == `string` ? [itm, itm] : itm,
   ) as Item[]
   $: if (arr.length < 2) console.error(`PrevNext received ${arr.length} items`)
   $: idx = arr.findIndex(([key]) => key == current)
   $: if (idx < 0) {
     const valid = arr.map(([key]) => key)
     console.error(
-      `PrevNext received invalid current=${current}, expected one of ${valid}`
+      `PrevNext received invalid current=${current}, expected one of ${valid}`,
     )
   }
   $: prev = arr[idx - 1] ?? arr[arr.length - 1]
@@ -42,8 +44,9 @@
 </script>
 
 <svelte:window on:keyup={handle_keyup} />
+
 {#if arr.length > 2}
-  <svelte:element this={node} {style} class="prev-next">
+  <svelte:element this={node} {style} class="prev-next {class_name}">
     {#if prev?.length >= 2}
       <slot name="prev" item={prev[1]}>
         <slot kind="prev" item={prev[1]}>

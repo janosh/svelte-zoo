@@ -9,9 +9,12 @@
   export let disabled: boolean = false
   export let id: string | null = null
   export let number: 'before' | 'after' | false = `before`
+  export { class_name as class }
+
+  let class_name: string | null = null
 </script>
 
-<label {id} {style} aria-disabled={disabled ? `true` : `false`}>
+<label {id} {style} aria-disabled={disabled ? `true` : `false`} class={class_name}>
   <slot name="label">
     <slot>{label}</slot>
   </slot>

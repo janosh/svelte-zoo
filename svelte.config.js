@@ -24,7 +24,7 @@ const rehypePlugins = [
 ]
 
 const { default: pkg } = await import(`./package.json`, {
-  assert: { type: `json` },
+  with: { type: `json` },
 })
 const defaults = {
   Wrapper: `/src/lib/CodeExample.svelte`,

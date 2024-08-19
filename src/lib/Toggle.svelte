@@ -3,7 +3,9 @@
   export let required: boolean = false
   export let style: string = ``
   export let id: string = ``
+  export { class_name as class }
 
+  let class_name: string | null = null
   // normally input type=checkbox toggles on space bar, this handler also responds to enter
   function handleKeydown(event: KeyboardEvent) {
     if (event.key === `Enter`) {
@@ -13,9 +15,18 @@
   }
 </script>
 
-<label {style}>
+<label {style} class={class_name}>
   <slot />
-  <input type="checkbox" bind:checked {id} {required} on:keydown={handleKeydown} />
+  <input
+    type="checkbox"
+    bind:checked
+    {id}
+    {required}
+    on:keydown={handleKeydown}
+    on:change
+    on:blur
+    on:click
+  />
   <span />
 </label>
 
