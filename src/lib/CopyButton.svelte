@@ -9,6 +9,14 @@
   export let global: boolean = false
   export let skip_selector: string | null = `button`
   export let as: string = `button`
+  export let labels: Record<
+    'default' | 'success' | 'error',
+    { icon: string; text: string }
+  > = {
+    default: { icon: `Copy`, text: `Copy` },
+    success: { icon: `Check`, text: `Copied` },
+    error: { icon: `Alert`, text: `Error` },
+  }
 
   if (global || global_selector) {
     afterNavigate(() => {
@@ -28,12 +36,6 @@
     })
   }
 
-  const labels = {
-    default: [`Copy`, `Copy`],
-    success: [`Copied`, `Check`],
-    error: [`Error`, `Alert`],
-  }
-
   async function copy() {
     try {
       await navigator.clipboard.writeText(content)
@@ -47,10 +49,10 @@
 </script>
 
 {#if !(global || global_selector)}
+  {@const { text, icon } = labels[state]}
   <svelte:element this={as} on:click={copy} {style} role="button" tabindex={0}>
     <slot>
-      <Icon icon={labels[state][1]} />
-      <span>{labels[state][0]}</span>
+      <Icon {icon} /><span>{text}</span>
     </slot>
   </svelte:element>
 {/if}
