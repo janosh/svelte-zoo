@@ -1,13 +1,14 @@
 <script lang="ts">
   export let checked: boolean = false // whether the toggle is on or off
   export let required: boolean = false
-  export let style: string = ``
-  export let id: string = ``
+  export let style: string | null = null
+  export let input_style: string = ``
+  export let id: string | null = null
   export { class_name as class }
 
   let class_name: string | null = null
   // normally input type=checkbox toggles on space bar, this handler also responds to enter
-  function handleKeydown(event: KeyboardEvent) {
+  function on_keydown(event: KeyboardEvent) {
     if (event.key === `Enter`) {
       checked = !checked
       event.preventDefault()
@@ -22,10 +23,11 @@
     bind:checked
     {id}
     {required}
-    on:keydown={handleKeydown}
+    on:keydown={on_keydown}
     on:change
     on:blur
     on:click
+    style={input_style}
   />
   <span />
 </label>
@@ -65,7 +67,15 @@
   }
   input:checked + span::after {
     background: var(--zoo-toggle-knob-after-background, green);
-    transform: var(--zoo-toggle-knob-after-transform, translate(100%));
+    transform: var(
+      --zoo-toggle-knob-after-transform,
+      translate(
+        calc(
+          var(--zoo-toggle-knob-width, 3em) - var(--zoo-toggle-knob-height, 1.5em) -
+            var(--zoo-toggle-knob-padding, 0.1em) + var(--zoo-toggle-knob-border, 1px)
+        )
+      )
+    );
   }
   input:focus + span {
     border: var(--zoo-toggle-knob-focus-border, 1px solid cornflowerblue);
