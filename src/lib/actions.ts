@@ -1,3 +1,5 @@
+import tippy, { type Instance, type Props } from 'tippy.js'
+
 export function get_html_sort_value(element: Element): string {
   if (element.dataset.sortValue !== undefined) {
     return element.dataset.sortValue
@@ -138,4 +140,101 @@ function update_highlights(node: Node, ops: HighlightOptions) {
 
   // create Highlight object from ranges and add to registry
   CSS.highlights.set(css_class, new Highlight(...ranges.flat()))
+}
+
+export function titles_as_tooltips(
+  node: HTMLElement,
+  params: Partial<Props> = {},
+): {
+  update: (new_params: Partial<Props>) => void
+  destroy: () => void
+} {
+  import(`tippy.js/dist/tippy.css`)
+
+  const instances: Instance[] = []
+  let current_instance: Instance | null = null
+
+  function create_tooltip(element: HTMLElement) {
+    const title =
+      element.title ||
+      element.getAttribute(`aria-label`) ||
+      element.getAttribute(`data-title`)
+    if (!title) return null
+
+    element.removeAttribute(`title`)
+    element.setAttribute(`data-title`, title)
+
+    // Replace \r with <br/> to make multiline tooltips work
+    const content = title.replaceAll(`\r`, `<br/>`)
+
+    const instance = tippy(element, {
+      content,
+      allowHTML: true, // Allow HTML in the tooltip content
+      ...{ placement: `bottom`, ...params },
+      onShow: (instance) => {
+        if (current_instance && current_instance !== instance) {
+          current_instance.hide()
+        }
+        current_instance = instance
+        params.onShow?.(instance)
+      },
+      onHide: (instance) => {
+        if (current_instance === instance) {
+          current_instance = null
+        }
+        params.onHide?.(instance)
+      },
+    })
+
+    return instance
+  }
+
+  function setup_tooltips() {
+    const node_instance = create_tooltip(node)
+    if (node_instance) instances.push(node_instance)
+
+    node
+      .querySelectorAll(`[title], [aria-label], [data-title]`)
+      .forEach((element) => {
+        const instance = create_tooltip(element as HTMLElement)
+        if (instance) instances.push(instance)
+      })
+  }
+
+  setup_tooltips()
+
+  return {
+    update: (new_params: Partial<Props>) => {
+      instances.forEach((instance) => {
+        instance.setProps({
+          ...new_params,
+          onShow: (instance) => {
+            if (current_instance && current_instance !== instance) {
+              current_instance.hide()
+            }
+            current_instance = instance
+            new_params.onShow?.(instance)
+          },
+          onHide: (instance) => {
+            if (current_instance === instance) {
+              current_instance = null
+            }
+            new_params.onHide?.(instance)
+          },
+        })
+      })
+    },
+    destroy: () => {
+      instances.forEach((instance) => {
+        instance.destroy()
+      })
+      node.querySelectorAll(`[data-title]`).forEach((element) => {
+        const orig_title = element.getAttribute(`data-title`)
+        if (orig_title) {
+          element.setAttribute(`title`, orig_title)
+          element.removeAttribute(`data-title`)
+        }
+      })
+    },
+  }
 }
