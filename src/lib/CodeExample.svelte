@@ -33,7 +33,7 @@
   <nav>
     <slot name="title" />
     <button on:click={() => (open = !open)}>
-      <Icon icon={open ? `collapse` : `Expand`} />
+      <Icon icon={open ? `Collapse` : `Expand`} />
       {open ? `Close` : `View code`}
     </button>
     <CodeLinks github={meta.github} stackblitz={meta.stackblitz} repo={meta.repo} />

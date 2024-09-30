@@ -4,7 +4,7 @@ import { mdsvex } from 'mdsvex'
 import mdsvexamples from 'mdsvexamples'
 import link_headings from 'rehype-autolink-headings'
 import heading_slugs from 'rehype-slug'
-import preprocess from 'svelte-preprocess'
+import { sveltePreprocess } from 'svelte-preprocess'
 
 const rehypePlugins = [
   heading_slugs,
@@ -38,7 +38,7 @@ export default {
   extensions: [`.svelte`, `.md`, `.svx`],
 
   preprocess: [
-    preprocess(),
+    sveltePreprocess(),
     mdsvex({ extensions: [`.md`, `.svx`], remarkPlugins, rehypePlugins }),
   ],
 
