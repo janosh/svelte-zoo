@@ -31,13 +31,13 @@ export function sortable(
   for (const [idx, header] of headers.entries()) {
     header.style.cursor = `pointer` // add cursor pointer to headers
 
-    const init_styles = { ...header.style }
+    const init_styles = header.getAttribute(`style`) ?? ``
     header.addEventListener(`click`, () => {
       // reset all headers to initial state
       for (const header of headers) {
         header.textContent = header.textContent?.replace(/ ↑| ↓/, ``) ?? ``
         header.classList.remove(asc_class, desc_class)
-        Object.assign(header.style, init_styles)
+        header.setAttribute(`style`, init_styles)
       }
       if (idx === sort_col_idx) {
         sort_dir *= -1 // reverse sort direction
