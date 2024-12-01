@@ -44,7 +44,7 @@ export default {
 
   compilerOptions: {
     // enable direct prop access for vitest unit tests
-    accessors: process.env.TEST,
+    accessors: Boolean(process.env.TEST),
   },
 
   kit: {

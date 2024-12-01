@@ -1,14 +1,14 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
 
+  type Item = string | [string, unknown]
+  type T = $$Generic<Item>
+
   export let items: T[] = []
   export let node: string = `nav`
   export let current: string = ``
   export let style: string | null = null
-  export let on_keyup: (obj: { prev: Item; next: Item }) => Record<string, string> = ({
-    prev,
-    next,
-  }) => ({ ArrowLeft: prev[0], ArrowRight: next[0], Escape: `/` })
+  export let log: `verbose` | `errors` | `silent` = `errors`
   export let goto_options: { replaceState: boolean; noScroll: boolean } = {
     replaceState: true,
     noScroll: true,
@@ -17,25 +17,37 @@
     prev: `&larr; Previous`,
     next: `Next &rarr;`,
   }
+  export let on_keyup: (obj: { prev: Item; next: Item }) => Record<string, string> = ({
+    prev,
+    next,
+  }) => ({ ArrowLeft: prev[0], ArrowRight: next[0], Escape: `/` })
   export { class_name as class }
 
   let class_name: string | null = null
-  type Item = string | [string, unknown]
-  type T = $$Generic<Item>
 
+  // Convert items to consistent [key, value] format
   $: arr = (items ?? []).map((itm) =>
-    typeof itm == `string` ? [itm, itm] : itm,
+    typeof itm === `string` ? [itm, itm] : itm,
   ) as Item[]
-  $: if (arr.length < 2) console.error(`PrevNext received ${arr.length} items`)
-  $: idx = arr.findIndex(([key]) => key == current)
-  $: if (idx < 0) {
-    const valid = arr.map(([key]) => key)
-    console.error(
-      `PrevNext received invalid current=${current}, expected one of ${valid}`,
-    )
-  }
+
+  // Calculate prev/next items with wraparound
+  $: idx = arr.findIndex(([key]) => key === current)
   $: prev = arr[idx - 1] ?? arr[arr.length - 1]
   $: next = arr[idx + 1] ?? arr[0]
+
+  // Validation and logging
+  $: if (log !== `silent`) {
+    if (arr.length < 2 && log === `verbose`) {
+      console.warn(`PrevNext received ${arr.length} items - minimum of 2 expected`)
+    }
+
+    if (idx < 0 && log === `errors`) {
+      const valid = arr.map(([key]) => key)
+      console.error(
+        `PrevNext received invalid current=${current}, expected one of ${valid}`,
+      )
+    }
+  }
 
   function handle_keyup(event: KeyboardEvent) {
     const to = on_keyup({ prev, next })[event.key]
