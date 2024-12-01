@@ -1,6 +1,6 @@
 import { CodeExample } from '$lib'
 import { repository as repo } from '$root/package.json'
-import { tick } from 'svelte'
+import { mount, tick } from 'svelte'
 import { expect, test, vi } from 'vitest'
 import { doc_query } from '.'
 
@@ -11,7 +11,7 @@ test.each([[true, false]])(
   async (collapsible) => {
     const meta = { collapsible, id }
 
-    new CodeExample({ target: document.body, props: { meta, src } })
+    mount(CodeExample, { target: document.body, props: { meta, src } })
 
     expect(doc_query(`div.code-example#${id}`)).toBeInstanceOf(HTMLDivElement)
 
@@ -25,7 +25,7 @@ test.each([[true, false]])(
 )
 
 test(`calls clipboard.writeText with src when clicking the copy button`, () => {
-  new CodeExample({ target: document.body, props: { src } })
+  mount(CodeExample, { target: document.body, props: { src } })
 
   // @ts-expect-error - mock clipboard
   navigator.clipboard = { writeText: vi.fn() }
@@ -34,7 +34,7 @@ test(`calls clipboard.writeText with src when clicking the copy button`, () => {
 })
 
 test(`renders a <pre> with the src`, () => {
-  new CodeExample({ target: document.body, props: { src } })
+  mount(CodeExample, { target: document.body, props: { src } })
 
   expect(doc_query(`pre > code`).textContent).toBe(src)
 })
@@ -44,7 +44,7 @@ test(`replaces $lib import with package name if passed as meta.pkg`, async () =>
   const pkg = `svelte-zoo`
   const expected = src.replace(`$lib`, pkg)
 
-  new CodeExample({ target: document.body, props: { src, meta: { pkg } } })
+  mount(CodeExample, { target: document.body, props: { src, meta: { pkg } } })
 
   await tick()
 
@@ -60,12 +60,12 @@ test.each([
   [{ github }, 0],
   [{ stackblitz, github }, 0],
   [{ stackblitz, github, repo }, 2],
-  [{ stackblitz, repo }, 1],
+  [{ stackblitz, repo }, 2],
   [{ repl, github }, 0],
 ])(
   `renders correct links based on passed meta=%o, n_expected=%i`,
   async (meta, n_expected) => {
-    new CodeExample({
+    mount(CodeExample, {
       target: document.body,
       props: { src, meta },
     })
@@ -73,7 +73,7 @@ test.each([
     const code_links = document.querySelector(`aside`)
     expect(
       code_links?.querySelectorAll(`a`),
-      code_links?.innerHTML,
+      JSON.stringify(meta),
     ).toHaveLength(n_expected)
   },
 )

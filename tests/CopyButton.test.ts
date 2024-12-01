@@ -1,5 +1,5 @@
 import { CopyButton } from '$lib'
-import { tick } from 'svelte'
+import { mount, tick } from 'svelte'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { doc_query } from '.'
 
@@ -12,7 +12,7 @@ test.each([
   [``, ``],
   [`some code`, `color: red;`],
 ])(`CopyButton functionality`, async (content, style) => {
-  new CopyButton({ target: document.body, props: { content, style } })
+  mount(CopyButton, { target: document.body, props: { content, style } })
   const btn = doc_query(`button`)
 
   expect(btn).toBeInstanceOf(HTMLButtonElement)
@@ -46,7 +46,7 @@ test(`CopyButton with custom labels`, async () => {
     error: { icon: `CustomError`, text: `CustomAlert` },
   }
 
-  new CopyButton({
+  mount(CopyButton, {
     target: document.body,
     props: { content: `custom text`, labels },
   })

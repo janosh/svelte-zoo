@@ -1,14 +1,15 @@
 import { Slider } from '$lib'
+import { mount } from 'svelte'
 import { expect, test, vi } from 'vitest'
 import { doc_query } from '.'
 
 test(`forwards DOM events`, () => {
   const input_spy = vi.fn()
   const click_spy = vi.fn()
-  const slider = new Slider({ target: document.body })
-
-  slider.$on(`input`, input_spy)
-  slider.$on(`click`, click_spy)
+  mount(Slider, {
+    target: document.body,
+    events: { input: input_spy, click: click_spy },
+  })
 
   const num_input = doc_query<HTMLInputElement>(`input[type=number]`)
 
@@ -21,7 +22,7 @@ test(`forwards DOM events`, () => {
 })
 
 test(`takes value, min, max, step, and disabled props`, () => {
-  new Slider({
+  mount(Slider, {
     target: document.body,
     props: { value: 5, min: 0, max: 10, step: 1, disabled: true },
   })

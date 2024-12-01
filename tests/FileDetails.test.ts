@@ -1,5 +1,5 @@
 import { FileDetails } from '$lib'
-import { tick } from 'svelte'
+import { mount, tick } from 'svelte'
 import { expect, test } from 'vitest'
 import { doc_query } from '.'
 
@@ -10,7 +10,7 @@ const files = [
 const click = new MouseEvent(`click`)
 
 test(`FileDetails renders all files passed`, async () => {
-  new FileDetails({ target: document.body, props: { files } })
+  mount(FileDetails, { target: document.body, props: { files } })
   await tick()
 
   const details = document.querySelectorAll(`li > details`)
@@ -22,7 +22,7 @@ test(`FileDetails renders all files passed`, async () => {
 })
 
 test(`FileDetails renders file titles and contents`, async () => {
-  new FileDetails({ target: document.body, props: { files } })
+  mount(FileDetails, { target: document.body, props: { files } })
   await tick()
 
   const titles = document.querySelectorAll(`summary`)
@@ -41,7 +41,7 @@ test(`FileDetails opens and closes files when the toggle button is clicked`, asy
     { title: `file2`, content: `content2`, open: false },
   ]
 
-  new FileDetails({
+  mount(FileDetails, {
     target: document.body,
     props: { files },
   })
@@ -76,7 +76,7 @@ test(`toggle all button opens and closes all details`, async () => {
   ]
 
   const toggle_all_btn_title = `toggle all`
-  new FileDetails({
+  mount(FileDetails, {
     target: document.body,
     props: { files, toggle_all_btn_title },
   })

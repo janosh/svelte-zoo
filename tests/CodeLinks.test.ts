@@ -1,5 +1,6 @@
 import { CodeLinks } from '$lib'
 import { repository as repo } from '$root/package.json'
+import { mount } from 'svelte'
 import { describe, expect, test } from 'vitest'
 import { doc_query } from '.'
 
@@ -12,7 +13,7 @@ describe.each([[true], [file]] as const)(
       const repl = `https://svelte.dev/repl`
       const props = { repo, github, repl, stackblitz, file }
 
-      new CodeLinks({ target: document.body, props })
+      mount(CodeLinks, { target: document.body, props })
 
       const github_link = doc_query(`a[href*='${repo}']`)
       expect(github_link).toBeInstanceOf(HTMLAnchorElement)
@@ -35,7 +36,7 @@ describe.each([[true], [file]] as const)(
 test.each([[`_blank`], [`_self`]] as const)(
   `applies target=%s to all links`,
   (target) => {
-    new CodeLinks({ target: document.body, props: { target } })
+    mount(CodeLinks, { target: document.body, props: { target } })
 
     for (const link of document.querySelectorAll(`a`)) {
       expect(link.target, `${link} has wrong target`).toBe(target)

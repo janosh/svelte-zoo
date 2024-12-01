@@ -1,4 +1,5 @@
 import { Icon } from '$lib'
+import { mount } from 'svelte'
 import { expect, test, vi } from 'vitest'
 
 test(`all icons have fill="currentColor" and take $$props`, () => {
@@ -36,7 +37,7 @@ test.each([[``], [`foo`]])(
   (icon) => {
     console.error = vi.fn()
 
-    new Icon({ target: document.body, props: { icon } })
+    mount(Icon, { target: document.body, props: { icon } })
 
     expect(console.error).toHaveBeenCalledOnce()
     expect(console.error).toHaveBeenCalledWith(`Icon '${icon}' not found`)

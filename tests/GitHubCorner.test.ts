@@ -1,5 +1,6 @@
 import { GitHubCorner } from '$lib'
 import { repository } from '$root/package.json'
+import { mount } from 'svelte'
 import { expect, test } from 'vitest'
 import { doc_query } from '.'
 
@@ -18,7 +19,7 @@ test.each([
     style: `z-index: 42;`,
   } as const
   const { href, title, aria_label, target } = props
-  new GitHubCorner({ target: document.body, props })
+  mount(GitHubCorner, { target: document.body, props })
 
   expect(
     doc_query(
