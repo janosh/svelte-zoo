@@ -29,7 +29,7 @@
     on:click
     style={input_style}
   />
-  <span />
+  <span></span>
 </label>
 
 <style>

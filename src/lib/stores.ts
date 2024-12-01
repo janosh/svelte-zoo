@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 
-export type StorageType = 'localStorage' | 'sessionStorage'
+export type StorageType = `localStorage` | `sessionStorage`
 
 export function persisted_store<T>(
   name: string,

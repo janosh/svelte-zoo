@@ -8,7 +8,7 @@
   export let slider_style: string = ``
   export let disabled: boolean = false
   export let id: string | null = null
-  export let number: 'before' | 'after' | false = `before`
+  export let number: `before` | `after` | false = `before`
   export { class_name as class }
 
   let class_name: string | null = null

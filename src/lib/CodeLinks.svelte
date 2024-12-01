@@ -14,7 +14,7 @@
   // if left at default '', will link to repo itself, not any of its files
   // related: https://github.com/sveltejs/kit/issues/8318
   export let btn_text: { repl?: string; github?: string; stackblitz?: string } | null = {}
-  export let target: '_blank' | '_self' = `_blank`
+  export let target: `_blank` | `_self` = `_blank`
   export let margin: string | null = null
   export let padding: string | null = null
 

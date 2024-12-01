@@ -3,7 +3,7 @@
   import { createEventDispatcher } from 'svelte'
 
   export let component: typeof RadioButtons
-  export let options: RadioButtons['options']
+  export let options: RadioButtons[`options`]
   export let selected: string | number | null = null
 
   const dispatch = createEventDispatcher()

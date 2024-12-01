@@ -4,11 +4,11 @@
   export let href: string
   export let title: string = `View code on GitHub`
   export let aria_label: string = title
-  export let target: '_self' | '_blank' = `_self`
+  export let target: `_self` | `_blank` = `_self`
   export let color: string | null = null
   export let fill: string | null = null
   // bottomLeft/Right look bad, shouldn't normally be used
-  export let corner: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' =
+  export let corner: `top-left` | `top-right` | `bottom-left` | `bottom-right` =
     `top-right`
   export let style: string = ``
 </script>

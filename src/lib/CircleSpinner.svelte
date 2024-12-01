@@ -23,7 +23,7 @@
   style:width={size}
   style:height={size}
   class={class_name}
-/>
+></div>
 
 <style>
   div {

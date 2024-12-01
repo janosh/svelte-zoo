@@ -2,7 +2,7 @@ ci:
   autoupdate_schedule: quarterly
   skip: [eslint]
 
-default_stages: [commit]
+default_stages: [pre-commit]
 
 default_install_hook_types: [pre-commit, commit-msg]
 
@@ -33,7 +33,7 @@ repos:
     rev: v2.3.0
     hooks:
       - id: codespell
-        stages: [commit, commit-msg]
+        stages: [pre-commit, commit-msg]
         args: [--ignore-words-list, falsy, --check-filenames]
 
   - repo: https://github.com/pre-commit/mirrors-eslint
@@ -49,6 +49,7 @@ repos:
           - eslint-plugin-svelte
           - svelte
           - typescript
+          - '@stylistic/eslint-plugin'
 
   - repo: local
     hooks:

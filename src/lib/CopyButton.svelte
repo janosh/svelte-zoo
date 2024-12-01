@@ -4,13 +4,13 @@
 
   export let content: string = ``
   export let style: string | null = null
-  export let state: 'default' | 'success' | 'error' = `default`
+  export let state: `default` | `success` | `error` = `default`
   export let global_selector: string | null = null
   export let global: boolean = false
   export let skip_selector: string | null = `button`
   export let as: string = `button`
   export let labels: Record<
-    'default' | 'success' | 'error',
+    `default` | `success` | `error`,
     { icon: string; text: string }
   > = {
     default: { icon: `Copy`, text: `Copy` },
