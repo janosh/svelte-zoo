@@ -4,7 +4,11 @@ import { expect, test, vi } from 'vitest'
 
 test(`all icons have fill="currentColor" and take $$props`, () => {
   for (const [key, code] of Object.entries(
-    import.meta.glob(`$lib/icons/*.svelte`, { as: `raw`, eager: true }),
+    import.meta.glob(`$lib/icons/*.svelte`, {
+      query: `?raw`,
+      eager: true,
+      import: `default`,
+    }),
   )) {
     expect(code, `${key} missing fill='currentColor'`).toContain(
       `fill="currentColor"`,
@@ -15,7 +19,11 @@ test(`all icons have fill="currentColor" and take $$props`, () => {
 
 test(`all icons reference source"`, () => {
   for (const [key, code] of Object.entries(
-    import.meta.glob(`$lib/icons/*.svelte`, { as: `raw`, eager: true }),
+    import.meta.glob(`$lib/icons/*.svelte`, {
+      query: `?raw`,
+      eager: true,
+      import: `default`,
+    }),
   )) {
     expect(
       code.startsWith(`<!-- https://icones.js.org/collection/all?s=`),
@@ -26,7 +34,11 @@ test(`all icons reference source"`, () => {
 
 test(`all icons have a viewBox`, () => {
   for (const [key, code] of Object.entries(
-    import.meta.glob(`$lib/icons/*.svelte`, { as: `raw`, eager: true }),
+    import.meta.glob(`$lib/icons/*.svelte`, {
+      query: `?raw`,
+      eager: true,
+      import: `default`,
+    }),
   )) {
     expect(code, `${key} missing viewBox`).toContain(`viewBox="0 0 `)
   }
