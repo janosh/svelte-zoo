@@ -27,9 +27,6 @@
     const viewport_height = window.innerHeight
 
     // Reset position for measurements
-    tooltip_div.style.visibility = `hidden`
-    tooltip_div.style.opacity = `0`
-    tooltip_div.style.pointerEvents = `none`
     tooltip_div.style.width = ``
     tooltip_div.style.maxWidth = max_width
     tooltip_div.style.left = `0`
@@ -123,6 +120,15 @@
     border: var(--zoo-tooltip-border);
     pointer-events: none;
     user-select: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  @starting-style {
+    .tooltip {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 
   .tooltip::before {

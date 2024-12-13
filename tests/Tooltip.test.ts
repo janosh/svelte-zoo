@@ -120,4 +120,15 @@ describe(`Tooltip`, () => {
     expect(container.style.margin).toBe(`10px`)
     expect(tooltip.style.padding).toBe(`20px`)
   })
+
+  test(`tooltip is invisible by default`, async () => {
+    mount(Tooltip, { target, props: { text: `Tooltip Text` } })
+
+    const tooltip = target.querySelector(`.tooltip`) as HTMLElement
+
+    // Check computed styles to verify initial invisible state
+    const computedStyle = window.getComputedStyle(tooltip)
+    expect(computedStyle.visibility).toBe(`hidden`)
+    expect(computedStyle.opacity).toBe(`0`)
+  })
 })
