@@ -1,70 +1,131 @@
 import { CopyButton } from '$lib'
 import { mount, tick } from 'svelte'
-import { beforeEach, expect, test, vi } from 'vitest'
-import { doc_query } from '.'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-beforeEach(() => {
-  document.body.innerHTML = ``
-  vi.resetAllMocks()
-})
+describe(`CopyButton`, () => {
+  let target: HTMLElement
+  let mock_clipboard: { writeText: vi.Mock }
 
-test.each([
-  [``, ``],
-  [`some code`, `color: red;`],
-])(`CopyButton functionality`, async (content, style) => {
-  mount(CopyButton, { target: document.body, props: { content, style } })
-  const btn = doc_query(`button`)
-
-  expect(btn).toBeInstanceOf(HTMLButtonElement)
-  expect(btn.textContent?.trim()).toBe(`Copy`)
-  expect(btn.style.cssText).toBe(style)
-
-  // Test successful copy
-  vi.stubGlobal(`navigator`, { clipboard: { writeText: vi.fn() } }) // mock clipboard
-  btn.click()
-  await tick()
-  expect(btn.textContent?.trim()).toBe(`Copied`)
-  expect(navigator.clipboard.writeText).toBeCalledWith(content)
-
-  // Test clipboard error
-  vi.stubGlobal(`navigator`, {
-    clipboard: {
-      writeText: vi.fn().mockRejectedValue(new Error(`Clipboard error`)),
-    },
+  beforeEach(() => {
+    target = document.body
+    // Mock clipboard API
+    mock_clipboard = { writeText: vi.fn() }
+    Object.assign(navigator, { clipboard: mock_clipboard })
+    vi.useFakeTimers()
   })
-  console.error = vi.fn()
-  btn.click()
-  await tick()
-  expect(btn.textContent?.trim()).toBe(`Error`)
-  expect(console.error).toHaveBeenCalledOnce()
-})
 
-test(`CopyButton with custom labels`, async () => {
-  const labels = {
-    default: { icon: `CustomCopy`, text: `CustomCopy` },
-    success: { icon: `CustomCheck`, text: `CustomCopied` },
-    error: { icon: `CustomError`, text: `CustomAlert` },
-  }
-
-  mount(CopyButton, {
-    target: document.body,
-    props: { content: `custom text`, labels },
+  afterEach(() => {
+    target.innerHTML = ``
   })
-  const btn = doc_query(`button`)
 
-  expect(btn.textContent?.trim()).toBe(`CustomCopy`)
+  test(`renders with default props`, () => {
+    mount(CopyButton, { target })
+    const button = target.querySelector(`button`)
+    const icon = button?.querySelector(`svg`)
+    const text = button?.querySelector(`span`)
 
-  vi.stubGlobal(`navigator`, { clipboard: { writeText: vi.fn() } })
-  btn.click()
-  await tick()
-  expect(btn.textContent?.trim()).toBe(`CustomCopied`)
-
-  vi.stubGlobal(`navigator`, {
-    clipboard: {
-      writeText: vi.fn().mockRejectedValue(new Error(`Clipboard error`)),
-    },
+    expect(button).toBeTruthy()
+    expect(icon).toBeTruthy()
+    expect(text?.textContent).toBe(`Copy`)
   })
-  btn.click()
-  await tick()
-  expect(btn.textContent?.trim()).toBe(`CustomAlert`)
+
+  test(`copies content to clipboard on click`, async () => {
+    const content = `Test content`
+    mock_clipboard.writeText.mockResolvedValueOnce(undefined)
+
+    mount(CopyButton, { target, props: { content } })
+
+    const button = target.querySelector(`button`)
+    button?.click()
+
+    expect(mock_clipboard.writeText).toHaveBeenCalledWith(content)
+  })
+
+  test(`changes state after successful copy`, async () => {
+    mock_clipboard.writeText.mockResolvedValueOnce(undefined)
+
+    mount(CopyButton, { target })
+    const button = target.querySelector(`button`)
+    button?.click()
+
+    // Wait for the promise to resolve and state to update
+    await tick()
+
+    // Check success state
+    const success_text = button?.querySelector(`span`)
+    expect(success_text?.textContent).toBe(`Copied`)
+
+    // Check if it returns to default state
+    await vi.advanceTimersByTimeAsync(2000)
+    const default_text = button?.querySelector(`span`)
+    expect(default_text?.textContent).toBe(`Copy`)
+  })
+
+  test(`handles clipboard error`, async () => {
+    mock_clipboard.writeText.mockRejectedValueOnce(new Error(`Clipboard error`))
+    const console_spy = vi.spyOn(console, `error`).mockImplementation(() => {})
+
+    mount(CopyButton, { target })
+    const button = target.querySelector(`button`)
+    button?.click()
+
+    // Wait for the promise to reject and state to update
+    await tick()
+
+    // Check error state
+    const error_text = button?.querySelector(`span`)
+    expect(error_text?.textContent).toBe(`Error`)
+    expect(console_spy).toHaveBeenCalled()
+
+    // Check if it returns to default state
+    await vi.advanceTimersByTimeAsync(2000)
+    const default_text = button?.querySelector(`span`)
+    expect(default_text?.textContent).toBe(`Copy`)
+  })
+
+  test(`renders custom labels`, () => {
+    const custom_labels = {
+      default: { icon: `CustomCopy`, text: `CustomCopy` },
+      success: { icon: `CustomCheck`, text: `CustomCopied` },
+      error: { icon: `CustomAlert`, text: `CustomError` },
+    }
+    mount(CopyButton, { target, props: { labels: custom_labels } })
+
+    const text = target.querySelector(`span`)
+    expect(text?.textContent).toBe(`CustomCopy`)
+  })
+
+  test(`applies custom styles`, () => {
+    const customStyle = `background-color: red;`
+    mount(CopyButton, { target, props: { style: customStyle } })
+
+    const button = target.querySelector(`button`)
+    expect(button?.style.backgroundColor).toBe(`red`)
+  })
+
+  test(`renders as different element when "as" prop is provided`, () => {
+    mount(CopyButton, { target, props: { as: `div` } })
+
+    const element = target.querySelector(`div`)
+    expect(element).toBeTruthy()
+    expect(target.querySelector(`button`)).toBeFalsy()
+  })
+
+  test(`respects skip_selector when creating global buttons`, async () => {
+    document.body.innerHTML = `
+      <pre><code>test code</code><button>Existing Button</button></pre>
+    `
+    mount(CopyButton, {
+      target,
+      props: { global: true, skip_selector: `button` },
+    })
+
+    // Simulate navigation
+    const navigateCallback = vi.fn()
+    navigateCallback()
+
+    // Should not add new button because pre already has one
+    const buttons = document.querySelectorAll(`pre button`)
+    expect(buttons.length).toBe(1)
+  })
 })

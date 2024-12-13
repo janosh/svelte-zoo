@@ -5,7 +5,7 @@
   "homepage": "https://janosh.github.io/svelte-zoo",
   "repository": "https://github.com/janosh/svelte-zoo",
   "license": "MIT",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "type": "module",
   "svelte": "./dist/index.js",
   "bugs": "https://github.com/janosh/svelte-zoo/issues",
@@ -19,18 +19,18 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@sveltejs/kit": "^2.10.1",
+    "@sveltejs/kit": "^2.11.1",
     "highlight.js": "^11.10.0",
-    "svelte": "5.10.1",
+    "svelte": "5.12.0",
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2.12.1",
     "@sveltejs/adapter-static": "^3.0.6",
     "@sveltejs/package": "^2.3.7",
-    "@sveltejs/vite-plugin-svelte": "^5.0.1",
+    "@sveltejs/vite-plugin-svelte": "^5.0.2",
     "@vitest/coverage-v8": "^2.1.8",
-    "eslint": "^9.16.0",
+    "eslint": "^9.17.0",
     "eslint-plugin-svelte": "^2.46.1",
     "hastscript": "^9.0.0",
     "jsdom": "^25.0.1",
