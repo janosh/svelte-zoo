@@ -71,8 +71,8 @@
       --zoo-toggle-knob-after-transform,
       translate(
         calc(
-          var(--zoo-toggle-knob-width, 3em) - var(--zoo-toggle-knob-height, 1.5em) -
-            var(--zoo-toggle-knob-padding, 0.1em) + var(--zoo-toggle-knob-border, 1px)
+          var(--zoo-toggle-knob-width, 3em) - var(--zoo-toggle-knob-height, 1.5em) +
+            var(--zoo-toggle-knob-padding, 0.1em) - var(--zoo-toggle-knob-border, 2px)
         )
       )
     );
