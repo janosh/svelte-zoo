@@ -238,3 +238,48 @@ export function titles_as_tooltips(
     },
   }
 }
+
+type ClickOutsideConfig<T extends HTMLElement> = {
+  enabled?: boolean
+  exclude?: string[]
+  callback?: (node: T, config: ClickOutsideConfig<T>) => void
+}
+
+export function click_outside<T extends HTMLElement>(
+  node: T,
+  config: ClickOutsideConfig<T> = {},
+) {
+  let { callback, enabled = true, exclude = [] } = config
+
+  function handle_click(event: MouseEvent) {
+    if (!enabled) return
+
+    const target = event.target as HTMLElement
+    const path = event.composedPath()
+
+    // Check if click target is the node or inside it
+    if (path.includes(node)) return
+
+    // Check excluded selectors
+    if (exclude.some((selector) => target.closest(selector))) return
+
+    // Execute callback if provided, passing node and current config
+    callback?.(node, config)
+
+    // Dispatch custom event if click was outside
+    node.dispatchEvent(new CustomEvent(`outside-click`))
+  }
+
+  document.addEventListener(`click`, handle_click, true)
+
+  return {
+    update(new_config: ClickOutsideConfig<T>) {
+      enabled = new_config.enabled ?? true
+      exclude = new_config.exclude ?? []
+      callback = new_config.callback
+    },
+    destroy() {
+      document.removeEventListener(`click`, handle_click, true)
+    },
+  }
+}
