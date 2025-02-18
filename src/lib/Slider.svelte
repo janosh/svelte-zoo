@@ -1,25 +1,53 @@
 <script lang="ts">
-  export let value: number = 0
-  export let label: string = ``
-  export let min: number = 0
-  export let max: number = 100
-  export let step: number = 1
-  export let style: string = ``
-  export let slider_style: string = ``
-  export let disabled: boolean = false
-  export let id: string | null = null
-  export let number: `before` | `after` | false = `before`
-  export { class_name as class }
+  import type { Snippet } from 'svelte'
 
-  let class_name: string | null = null
+  interface Props {
+    value?: number
+    label?: string
+    min?: number
+    max?: number
+    step?: number
+    style?: string
+    slider_style?: string
+    disabled?: boolean
+    id?: string | null
+    number?: `before` | `after` | false
+    class?: string | null
+    onclick?: (event: MouseEvent) => void
+    oninput?: (event: Event) => void
+    onchange?: (event: Event) => void
+    label_snippet?: Snippet<[]>
+    children?: Snippet<[]>
+  }
+
+  let {
+    value = $bindable(0),
+    label = ``,
+    min = 0,
+    max = 100,
+    step = 1,
+    style = ``,
+    slider_style = ``,
+    disabled = false,
+    id = null,
+    number = `before`,
+    class: class_name = null,
+    onclick,
+    oninput,
+    onchange,
+    label_snippet,
+    children,
+  }: Props = $props()
 </script>
 
 <label {id} {style} aria-disabled={disabled ? `true` : `false`} class={class_name}>
-  <slot name="label">
-    <slot>{label}</slot>
-  </slot>
+  {#if label_snippet}
+    {@render label_snippet()}
+  {:else if children}
+    {@render children()}
+  {:else}{label}{/if}
   {#if number == `before`}
-    <input type="number" bind:value {min} {max} {step} on:click on:input {disabled} />
+    <input type="number" bind:value {min} {max} {step} {onclick} {oninput} {disabled} />
   {/if}
   <input
     type="range"
@@ -27,13 +55,13 @@
     {min}
     {max}
     {step}
-    on:change
-    on:drag
+    {onchange}
+    {oninput}
     {disabled}
     style={slider_style}
   />
   {#if number == `after`}
-    <input type="number" bind:value {min} {max} {step} on:click on:input {disabled} />
+    <input type="number" bind:value {min} {max} {step} {onclick} {oninput} {disabled} />
   {/if}
 </label>
 

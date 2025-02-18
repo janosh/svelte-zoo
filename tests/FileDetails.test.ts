@@ -7,7 +7,6 @@ const files = [
   { title: `file1`, content: `content1` },
   { title: `file2`, content: `content2` },
 ]
-const click = new MouseEvent(`click`)
 
 test(`FileDetails renders all files passed`, async () => {
   mount(FileDetails, { target: document.body, props: { files } })
@@ -53,14 +52,14 @@ test(`FileDetails opens and closes files when the toggle button is clicked`, asy
   }
 
   const btn = doc_query(`button`)
-  btn.dispatchEvent(click)
+  btn.click()
   await tick()
 
   for (const detail of details) {
     expect(detail.open).toBe(true)
   }
 
-  btn.dispatchEvent(click)
+  btn.click()
   await tick()
 
   for (const detail of details) {
@@ -88,21 +87,21 @@ test(`toggle all button opens and closes all details`, async () => {
   const btn = doc_query(`button[title='${toggle_all_btn_title}']`)
 
   // open all details
-  btn.dispatchEvent(click)
+  btn.click()
   await tick()
 
   // all details elements should now be open
-  for (const detail of details) {
-    expect(detail.open).toBe(true)
+  for (const [idx, detail] of details.entries()) {
+    expect(detail.open, `detail ${idx}`).toBe(true)
   }
 
   // Click the toggle button again to close all details
-  btn.dispatchEvent(click)
+  btn.click()
   await tick()
 
   // all details elements should now be closed
-  for (const detail of details) {
-    expect(detail.open).toBe(false)
+  for (const [idx, detail] of details.entries()) {
+    expect(detail.open, `detail ${idx}`).toBe(false)
   }
 
   // Open some of the details
@@ -111,11 +110,11 @@ test(`toggle all button opens and closes all details`, async () => {
   await tick()
 
   // Click the toggle button to close all details
-  btn.dispatchEvent(click)
+  btn.click()
   await tick()
 
   // All details elements should now be closed
-  for (const detail of details) {
-    expect(detail.open).toBe(false)
+  for (const [idx, detail] of details.entries()) {
+    expect(detail.open, `detail ${idx}`).toBe(false)
   }
 })

@@ -22,7 +22,5 @@
     Then do
     <pre><code>npm install svelte-zoo</code></pre>
   {/if}
-
 {/if}
-
 ```

@@ -1,17 +1,32 @@
 <script lang="ts">
   import hljs from 'highlight.js'
   import 'highlight.js/styles/vs2015.css'
+  import type { Snippet } from 'svelte'
 
-  export let files: {
+  type File = {
     title: string
     content: string
     language?: string
     node?: HTMLDetailsElement | null
-  }[] = []
-  export let toggle_all_btn_title: string = `Toggle all`
-  export let default_lang: string = `typescript`
-  export let as: string = `ol`
-  export let style: string | null = null
+  }
+
+  interface Props {
+    files?: File[]
+    toggle_all_btn_title?: string
+    default_lang?: string
+    as?: string
+    style?: string | null
+    title_snippet?: Snippet<[{ idx: number } & File]>
+  }
+
+  let {
+    files = $bindable([]),
+    toggle_all_btn_title = `Toggle all`,
+    default_lang = `typescript`,
+    as = `ol`,
+    style = null,
+    title_snippet,
+  }: Props = $props()
 
   function toggle_all() {
     const any_open = files.some((file) => file.node?.open)
@@ -24,7 +39,7 @@
 </script>
 
 {#if files?.length > 1}
-  <button on:click={toggle_all} title={toggle_all_btn_title}>
+  <button onclick={toggle_all} title={toggle_all_btn_title}>
     {files.some((file) => file.node?.open) ? `Close` : `Open`} all
   </button>
 {/if}
@@ -33,12 +48,16 @@
   {#each files as file, idx (file.title)}
     {@const { title, content, language = default_lang } = file ?? {}}
     <li>
+      <!-- https://github.com/sveltejs/svelte/issues/12721#issuecomment-2269544690 -->
+      <!-- svelte-ignore binding_property_non_reactive -->
       <details bind:this={file.node}>
-        {#if title || $$slots.title}
+        {#if title || title_snippet}
           <summary>
-            <slot name="title" {idx} {...file}>
+            {#if title_snippet}
+              {@render title_snippet({ idx, ...file })}
+            {:else}
               <code>{title.split(`/`).at(-1)}</code>
-            </slot>
+            {/if}
           </summary>
         {/if}
 

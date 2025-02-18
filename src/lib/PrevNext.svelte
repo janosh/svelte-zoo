@@ -1,53 +1,76 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-
+  import type { Snippet } from 'svelte'
   type Item = string | [string, unknown]
   type T = $$Generic<Item>
 
-  export let items: T[] = []
-  export let node: string = `nav`
-  export let current: string = ``
-  export let style: string | null = null
-  export let log: `verbose` | `errors` | `silent` = `errors`
-  export let goto_options: { replaceState: boolean; noScroll: boolean } = {
-    replaceState: true,
-    noScroll: true,
+  interface Props {
+    items?: T[]
+    node?: string
+    current?: string
+    style?: string | null
+    log?: `verbose` | `errors` | `silent`
+    goto_options?: { replaceState: boolean; noScroll: boolean }
+    titles?: { prev: string; next: string }
+    on_keyup?: (obj: { prev: Item; next: Item }) => Record<string, string>
+    class?: string | null
+    prev_snippet?: Snippet<[[item: Item]]>
+    children?: Snippet<[[kind: `prev` | `next`, item: Item]]>
+    between?: Snippet
+    next_snippet?: Snippet<[[item: Item]]>
   }
-  export let titles: { prev: string; next: string } = {
-    prev: `&larr; Previous`,
-    next: `Next &rarr;`,
-  }
-  export let on_keyup: (obj: { prev: Item; next: Item }) => Record<string, string> = ({
-    prev,
-    next,
-  }) => ({ ArrowLeft: prev[0], ArrowRight: next[0], Escape: `/` })
-  export { class_name as class }
 
-  let class_name: string | null = null
+  let {
+    items = [],
+    node = `nav`,
+    current = ``,
+    style = null,
+    log = `errors`,
+    goto_options = {
+      replaceState: true,
+      noScroll: true,
+    },
+    titles = {
+      prev: `&larr; Previous`,
+      next: `Next &rarr;`,
+    },
+    on_keyup = ({ prev, next }) => ({
+      ArrowLeft: prev[0],
+      ArrowRight: next[0],
+      Escape: `/`,
+    }),
+    class: class_name = null,
+    prev_snippet,
+    children,
+    between,
+    next_snippet,
+  }: Props = $props()
 
   // Convert items to consistent [key, value] format
-  $: arr = (items ?? []).map((itm) =>
-    typeof itm === `string` ? [itm, itm] : itm,
-  ) as Item[]
+  let arr = $derived(
+    (items ?? []).map((itm) => (typeof itm === `string` ? [itm, itm] : itm)) as Item[],
+  )
 
   // Calculate prev/next items with wraparound
-  $: idx = arr.findIndex(([key]) => key === current)
-  $: prev = arr[idx - 1] ?? arr[arr.length - 1]
-  $: next = arr[idx + 1] ?? arr[0]
+  let idx = $derived(arr.findIndex(([key]) => key === current))
+  let prev = $derived(arr[idx - 1] ?? arr[arr.length - 1])
+  let next = $derived(arr[idx + 1] ?? arr[0])
 
   // Validation and logging
-  $: if (log !== `silent`) {
-    if (arr.length < 2 && log === `verbose`) {
-      console.warn(`PrevNext received ${arr.length} items - minimum of 2 expected`)
-    }
+  $effect.pre(() => {
+    if (log !== `silent`) {
+      if (arr.length < 2 && log === `verbose`) {
+        console.warn(`PrevNext received ${arr.length} items - minimum of 2 expected`)
+      }
 
-    if (idx < 0 && log === `errors`) {
-      const valid = arr.map(([key]) => key)
-      console.error(
-        `PrevNext received invalid current=${current}, expected one of ${valid}`,
-      )
+      if (idx < 0 && log === `errors`) {
+        const valid = arr.map(([key]) => key)
+        console.error(
+          `PrevNext received invalid current=${current}, expected one of ${valid}`,
+        )
+      }
     }
-  }
+  })
 
   function handle_keyup(event: KeyboardEvent) {
     const to = on_keyup({ prev, next })[event.key]
@@ -55,30 +78,34 @@
   }
 </script>
 
-<svelte:window on:keyup={handle_keyup} />
+<svelte:window onkeyup={handle_keyup} />
 
 {#if arr.length > 2}
   <svelte:element this={node} {style} class="prev-next {class_name}">
     {#if prev?.length >= 2}
-      <slot name="prev" item={prev[1]}>
-        <slot kind="prev" item={prev[1]}>
-          <div>
-            {#if titles.prev}<span>{@html titles.prev}</span>{/if}
-            <a href={prev[0]}>{prev[0]}</a>
-          </div>
-        </slot>
-      </slot>
+      {#if prev_snippet}
+        {@render prev_snippet({ item: prev[1] })}
+      {:else if children}
+        {@render children({ kind: `prev`, item: prev[1] })}
+      {:else}
+        <div>
+          {#if titles.prev}<span>{@html titles.prev}</span>{/if}
+          <a href={prev[0]}>{prev[0]}</a>
+        </div>
+      {/if}
     {/if}
-    <slot name="between" />
+    {@render between?.()}
     {#if next?.length >= 2}
-      <slot name="next" item={next[1]}>
-        <slot kind="next" item={next[1]}>
-          <div>
-            {#if titles.next}<span>{@html titles.next}</span>{/if}
-            <a href={next[0]}>{next[0]}</a>
-          </div>
-        </slot>
-      </slot>
+      {#if next_snippet}
+        {@render next_snippet({ item: next[1] })}
+      {:else if children}
+        {@render children({ kind: `next`, item: next[1] })}
+      {:else}
+        <div>
+          {#if titles.next}<span>{@html titles.next}</span>{/if}
+          <a href={next[0]}>{next[0]}</a>
+        </div>
+      {/if}
     {/if}
   </svelte:element>
 {/if}

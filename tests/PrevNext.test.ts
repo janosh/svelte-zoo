@@ -107,34 +107,37 @@ test(`handles items with labels`, () => {
 })
 
 test.each([
-  [`verbose`, [`page1`], `warn`] as const,
-  [`errors`, [`page1`, `page2`, `page3`], `error`] as const,
-  [`silent`, [`page1`], null] as const,
-])(`log=%s mode handles %i items with %s`, async (log, test_items, level) => {
-  const warn = vi.spyOn(console, `warn`)
-  const error = vi.spyOn(console, `error`)
+  [`verbose`, [`page1`], `warn`],
+  [`errors`, [`page1`, `page2`, `page3`], `error`],
+  [`silent`, [`page1`], null],
+] as const)(
+  `log=%s mode handles %i items with %s`,
+  async (log, test_items, level) => {
+    const warn = vi.spyOn(console, `warn`)
+    const error = vi.spyOn(console, `error`)
 
-  mount(PrevNext, {
-    target: document.body,
-    props: { items: test_items, current: `invalid`, log },
-  })
+    mount(PrevNext, {
+      target: document.body,
+      props: { items: test_items, current: `invalid`, log },
+    })
 
-  if (level === `warn`) {
-    expect(warn).toHaveBeenCalledWith(
-      `PrevNext received 1 items - minimum of 2 expected`,
-    )
-  } else if (level === `error`) {
-    expect(error).toHaveBeenCalledWith(
-      expect.stringContaining(`PrevNext received invalid current=invalid`),
-    )
-  } else {
-    expect(warn).not.toHaveBeenCalled()
-    expect(error).not.toHaveBeenCalled()
-  }
+    if (level === `warn`) {
+      expect(warn).toHaveBeenCalledWith(
+        `PrevNext received 1 items - minimum of 2 expected`,
+      )
+    } else if (level === `error`) {
+      expect(error).toHaveBeenCalledWith(
+        expect.stringContaining(`PrevNext received invalid current=invalid`),
+      )
+    } else {
+      expect(warn).not.toHaveBeenCalled()
+      expect(error).not.toHaveBeenCalled()
+    }
 
-  warn.mockRestore()
-  error.mockRestore()
-})
+    warn.mockRestore()
+    error.mockRestore()
+  },
+)
 
 test(`handles custom goto options`, () => {
   const target = document.body

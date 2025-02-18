@@ -3,9 +3,13 @@ Without passing `value`, it initializes to `undefined`
 ```svelte example
 <script>
   import { Slider } from '$lib'
+
+  function oninput(event) {
+    console.log(`oninput`, event)
+  }
 </script>
 
-<Slider />
+<Slider {oninput} />
 ```
 
 Passing `min`, `max` and initial `value` prop:

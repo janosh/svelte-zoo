@@ -13,7 +13,7 @@ test(`all icons have fill="currentColor" and take $$props`, () => {
     expect(code, `${key} missing fill='currentColor'`).toContain(
       `fill="currentColor"`,
     )
-    expect(code, `${key} missing $$props`).toContain(`{...$$props}`)
+    expect(code, `${key} missing $$props`).toContain(`{...props}`)
   }
 })
 
@@ -25,10 +25,9 @@ test(`all icons reference source"`, () => {
       import: `default`,
     }),
   )) {
-    expect(
-      code.startsWith(`<!-- https://icones.js.org/collection/all?s=`),
-      `${key} missing source`,
-    ).toBe(true)
+    expect(code, `${key} missing source`).toContain(
+      `<!-- https://icones.js.org/collection/all?s=`,
+    )
   }
 })
 

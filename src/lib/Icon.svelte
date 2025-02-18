@@ -1,14 +1,24 @@
 <script lang="ts">
   import * as icons from './icons'
 
-  export let icon: string
-  export let style: string = `display: inline-block; vertical-align: middle;`
-  export let width: string = `1em`
-  export let height: string = width
-
-  $: if (!(icon in icons)) {
-    console.error(`Icon '${icon}' not found`)
+  interface Props {
+    icon: keyof typeof icons
+    style?: string
+    width?: string
+    height?: string
   }
+
+  let {
+    icon,
+    style = `display: inline-block; vertical-align: middle;`,
+    width = `1em`,
+    height = width,
+  }: Props = $props()
+
+  const SvelteComponent = $derived.by(() => {
+    if (!(icon in icons)) console.error(`Icon '${icon}' not found`)
+    return icons[icon]
+  })
 </script>
 
-<svelte:component this={icons[icon]} {style} {width} {height} />
+<SvelteComponent {style} {width} {height} />

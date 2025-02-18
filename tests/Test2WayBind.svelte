@@ -1,13 +1,23 @@
 <script lang="ts">
-  import type { RadioButtons } from '$lib'
-  import { createEventDispatcher } from 'svelte'
+  import { SvelteComponent } from 'svelte'
 
-  export let component: typeof RadioButtons
-  export let options: RadioButtons[`options`]
-  export let selected: string | number | null = null
+  interface Props {
+    component: typeof SvelteComponent
+    options: []
+    selected?: string | number | null
+    [key: string]: unknown
+    onselected: (selected: string | number | null) => void
+  }
 
-  const dispatch = createEventDispatcher()
-  $: dispatch(`selected-changed`, { selected })
+  let {
+    Component,
+    options,
+    selected = $bindable(null),
+    onselected,
+    ...rest
+  }: Props = $props()
+
+  $effect(() => onselected?.(selected))
 </script>
 
-<svelte:component this={component} {options} bind:selected {...$$restProps} />
+<Component {options} bind:selected {...rest} />

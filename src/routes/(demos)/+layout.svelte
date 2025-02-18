@@ -4,6 +4,12 @@
   import { name } from '$root/package.json'
   import { DemoNav } from '$site'
   import { demos } from '$site/stores'
+  import type { Snippet } from 'svelte'
+
+  interface Props {
+    children?: Snippet<[]>
+  }
+  let { children }: Props = $props()
 </script>
 
 <h1>
@@ -13,7 +19,7 @@
 <main>
   <DemoNav style="place-content: center;" />
 
-  <slot />
+  {@render children?.()}
 
   <PrevNext items={$demos} current={$page.url.pathname} />
 </main>

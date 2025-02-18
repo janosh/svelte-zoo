@@ -1,22 +1,35 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
   import { CopyButton, Icon } from '$lib'
+  import { mount } from 'svelte'
 
-  export let content: string = ``
-  export let style: string | null = null
-  export let state: `default` | `success` | `error` = `default`
-  export let global_selector: string | null = null
-  export let global: boolean = false
-  export let skip_selector: string | null = `button`
-  export let as: string = `button`
-  export let labels: Record<
-    `default` | `success` | `error`,
-    { icon: string; text: string }
-  > = {
-    default: { icon: `Copy`, text: `Copy` },
-    success: { icon: `Check`, text: `Copied` },
-    error: { icon: `Alert`, text: `Error` },
+  interface Props {
+    content?: string
+    style?: string | null
+    state?: `default` | `success` | `error`
+    global_selector?: string | null
+    global?: boolean
+    skip_selector?: string | null
+    as?: string
+    labels?: Record<`default` | `success` | `error`, { icon: string; text: string }>
+    children?: import('svelte').Snippet
   }
+
+  let {
+    content = ``,
+    style = null,
+    state = $bindable(`default`),
+    global_selector = null,
+    global = false,
+    skip_selector = `button`,
+    as = `button`,
+    labels = {
+      default: { icon: `Copy`, text: `Copy` },
+      success: { icon: `Check`, text: `Copied` },
+      error: { icon: `Alert`, text: `Error` },
+    },
+    children,
+  }: Props = $props()
 
   if (global || global_selector) {
     afterNavigate(() => {
@@ -25,7 +38,7 @@
         const pre = node.parentElement
         if (!pre || (skip_selector && pre.querySelector(skip_selector))) continue
 
-        new CopyButton({
+        mount(CopyButton, {
           target: pre,
           props: {
             content: node.textContent ?? ``,
@@ -50,9 +63,11 @@
 
 {#if !(global || global_selector)}
   {@const { text, icon } = labels[state]}
-  <svelte:element this={as} on:click={copy} {style} role="button" tabindex={0}>
-    <slot>
+  <svelte:element this={as} onclick={copy} {style} role="button" tabindex={0}>
+    {#if children}
+      {@render children()}
+    {:else}
       <Icon {icon} /><span>{text}</span>
-    </slot>
+    {/if}
   </svelte:element>
 {/if}

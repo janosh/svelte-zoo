@@ -1,22 +1,32 @@
 <script lang="ts">
-  export let text: string | null = null
-  export let max_width: string = `14em`
-  export let bg: string | null = null
-  export let cursor: string | null = null
-  export let style: string | null = null
-  export let tip_style: string | null = null
-  export { class_name as class }
-
-  let class_name: string | null = null
-  let tooltip_div: HTMLDivElement
-  let container: HTMLSpanElement
-  let is_visible = false
-
-  $: if (text && $$slots.tip) {
-    console.error(
-      `svelte-zoo tooltip: both text prop and slot='tip' were passed, only one is allowed`,
-    )
+  interface Props {
+    text?: string | null
+    max_width?: string
+    bg?: string | null
+    cursor?: string | null
+    style?: string | null
+    tip_style?: string | null
+    class?: string | null
+    tip?: import('svelte').Snippet
+    children?: import('svelte').Snippet
+    trigger?: import('svelte').Snippet
   }
+
+  let {
+    text = null,
+    max_width = `14em`,
+    bg = null,
+    cursor = null,
+    style = null,
+    tip_style = null,
+    class: class_name = null,
+    tip,
+    children,
+    trigger,
+  }: Props = $props()
+  let tooltip_div: HTMLDivElement | undefined = $state()
+  let container: HTMLSpanElement | undefined = $state()
+  let is_visible = false
 
   function position_tooltip() {
     if (!tooltip_div || !container) return
@@ -78,26 +88,26 @@
   }
 </script>
 
-{#if $$slots.tip || text}
+{#if tip || text}
   <span
     bind:this={container}
     style:cursor
     {style}
     class={class_name}
-    on:mouseenter={show_tooltip}
-    on:mouseleave={hide_tooltip}
+    onmouseenter={show_tooltip}
+    onmouseleave={hide_tooltip}
     role="tooltip"
   >
-    <slot />
-    <slot name="trigger" />
+    {@render children?.()}
+    {@render trigger?.()}
     <div bind:this={tooltip_div} style:background={bg} style={tip_style} class="tooltip">
-      <slot name="tip">{text}</slot>
+      {#if tip}{@render tip()}{:else}{text}{/if}
     </div>
   </span>
 {:else}
   <!-- if no tip was passed, don't wrap the trigger in an unnecessary span -->
-  <slot />
-  <slot name="trigger" />
+  {@render children?.()}
+  {@render trigger?.()}
 {/if}
 
 <style>

@@ -1,24 +1,31 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy'
   // let emojis rain across the screen to playfully show some event was triggered
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
-  export let speed: number = 0.2
-  export let n_items: number = 50
-  export let freeze: boolean = false
+  interface Props {
+    speed?: number
+    n_items?: number
+    freeze?: boolean
+  }
+
+  let { speed = 0.2, n_items = 50, freeze = false }: Props = $props()
 
   const emojis = [`🥳`, `🎉`, `✨`]
 
-  let confetti: { emoji: string; x: number; y: number; r: number }[] = Array(n_items)
-    .fill(0)
-    .map((_, idx) => ({
-      emoji: emojis[idx % emojis.length],
-      x: Math.random() * 100,
-      y: -20 - Math.random() * 100,
-      r: 0.1 + Math.random() * 1,
-    }))
-    .sort((a, b) => a.r - b.r)
-  let frame_id: number
+  let confetti: { emoji: string; x: number; y: number; r: number }[] = $state(
+    Array(n_items)
+      .fill(0)
+      .map((_, idx) => ({
+        emoji: emojis[idx % emojis.length],
+        x: Math.random() * 100,
+        y: -20 - Math.random() * 100,
+        r: 0.1 + Math.random() * 1,
+      }))
+      .sort((a, b) => a.r - b.r),
+  )
+  let frame_id: number = $state()
 
   function loop() {
     if (typeof requestAnimationFrame == `undefined`) return
@@ -36,8 +43,12 @@
     return () => cancelAnimationFrame(frame_id)
   })
 
-  $: if (freeze) cancelAnimationFrame(frame_id)
-  $: if (!freeze) loop()
+  run(() => {
+    if (freeze) cancelAnimationFrame(frame_id)
+  })
+  run(() => {
+    if (!freeze) loop()
+  })
 </script>
 
 <div transition:fade>

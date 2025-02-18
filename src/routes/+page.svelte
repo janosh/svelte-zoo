@@ -4,8 +4,8 @@
 </script>
 
 <Readme>
-  <svelte:fragment slot="nav">
+  {#snippet nav()}
     <h2>📝 &thinsp; Component Demos</h2>
     <DemoNav />
-  </svelte:fragment>
+  {/snippet}
 </Readme>

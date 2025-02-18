@@ -1,13 +1,21 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  export let color: string | null = null
-  export let duration: string = `1.5s`
-  export let size: string = `1em`
-  export { class_name as class }
-  export let div: HTMLDivElement
+  interface Props {
+    color?: string | null
+    duration?: string
+    size?: string
+    div: HTMLDivElement
+    class?: string | null
+  }
 
-  let class_name: string | null = null
+  let {
+    color = $bindable(null),
+    duration = `1.5s`,
+    size = `1em`,
+    div = $bindable(),
+    class: class_name = null,
+  }: Props = $props()
   onMount(() => {
     if (!color) {
       color = getComputedStyle(div).color

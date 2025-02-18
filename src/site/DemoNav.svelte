@@ -2,13 +2,16 @@
   import { page } from '$app/stores'
   import { demos } from './stores'
 
-  export let style: string | null = null
-  export let routes: string[] = $demos
+  interface Props {
+    style?: string | null
+    routes?: string[]
+  }
+  let { style = null, routes = $demos }: Props = $props()
 
-  $: is_current = (path: string) => {
+  let is_current = $derived((path: string) => {
     if (path == $page.url.pathname) return `page`
     return undefined
-  }
+  })
 </script>
 
 <nav {style}>

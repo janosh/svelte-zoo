@@ -1,24 +1,38 @@
 <script lang="ts">
   import { Icon } from '$lib'
 
-  export let repo: string = `` // GitHub repo URL
-  // ref can be branch, tag, or SHA (master, v1.0.0, 73f70eb), defaults to `-` which
-  // points to HEAD of the repo's default branch
-  export let repl: string | null = null
-  // https://github.com/<user>/<repo>/blob/<branch>, e.g. https://github.com/sveltejs/kit/blob/master
-  export let github: string | boolean = Boolean(repo)
-  export let stackblitz: string | boolean | null = null
-  export let file: string = `` // path to file in repo
-  // can be prefixed with git ref (branch, tag, or SHA) to point to specific revision (e.g. master, v1.0.0, 73f70eb), defaults to `-` which
-  // points to HEAD of the repo's default branch
-  // if left at default '', will link to repo itself, not any of its files
-  // related: https://github.com/sveltejs/kit/issues/8318
-  export let btn_text: { repl?: string; github?: string; stackblitz?: string } | null = {}
-  export let target: `_blank` | `_self` = `_blank`
-  export let margin: string | null = null
-  export let padding: string | null = null
+  interface Props {
+    repo?: string // GitHub repo URL ref can be branch, tag, or SHA
+    // (master, v1.0.0, 73f70eb), defaults to `-` which
+    // points to HEAD of the repo's default branch
+    repl?: string | null
+    // https://github.com/<user>/<repo>/blob/<branch>, e.g. https://github.com/sveltejs/kit/blob/master
+    github?: string | boolean
+    stackblitz?: string | boolean | null
+    file?: string // path to file in repo can be prefixed with git ref
+    // (branch, tag, or SHA) to point to specific revision (e.g. master, v1.0.0, 73f70eb),
+    // defaults to `-` which points to HEAD of the repo's default branch
+    // if left at default '', will link to repo itself, not any of its files
+    // related: https://github.com/sveltejs/kit/issues/8318
+    btn_text?: { repl?: string; github?: string; stackblitz?: string } | null
+    target?: `_blank` | `_self`
+    margin?: string | null
+    padding?: string | null
+  }
 
-  $: repo_handle = repo?.split(`/`).slice(-2).join(`/`)
+  let {
+    repo = ``,
+    repl = null,
+    github = Boolean(repo),
+    stackblitz = null,
+    file = ``,
+    btn_text = {},
+    target = `_blank`,
+    margin = null,
+    padding = null,
+  }: Props = $props()
+
+  let repo_handle = $derived(repo?.split(`/`).slice(-2).join(`/`))
 
   const links = { target, rel: `noreferrer`, class: `btn` }
 </script>

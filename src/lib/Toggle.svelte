@@ -1,32 +1,55 @@
 <script lang="ts">
-  export let checked: boolean = false // whether the toggle is on or off
-  export let required: boolean = false
-  export let style: string | null = null
-  export let input_style: string = ``
-  export let id: string | null = null
-  export { class_name as class }
+  import type { Snippet } from 'svelte'
 
-  let class_name: string | null = null
+  interface Props {
+    checked?: boolean // whether the toggle is on or off
+    required?: boolean
+    style?: string | null
+    input_style?: string
+    id?: string | null
+    class?: string | null
+    onclick?: (event: MouseEvent) => void
+    onchange?: (event: Event) => void
+    onblur?: (event: FocusEvent) => void
+    onkeydown?: (event: KeyboardEvent) => void
+    children?: Snippet<[]>
+  }
+
+  let {
+    checked = $bindable(false),
+    required = false,
+    style = null,
+    input_style = ``,
+    id = null,
+    class: class_name = null,
+    onclick,
+    onchange,
+    onblur,
+    onkeydown,
+    children,
+  }: Props = $props()
+
   // normally input type=checkbox toggles on space bar, this handler also responds to enter
-  function on_keydown(event: KeyboardEvent) {
+  function handle_keydown(event: KeyboardEvent) {
+    onkeydown?.(event)
     if (event.key === `Enter`) {
-      checked = !checked
       event.preventDefault()
+      checked = !checked
     }
   }
 </script>
 
 <label {style} class={class_name}>
-  <slot />
+  {@render children?.()}
   <input
     type="checkbox"
     bind:checked
     {id}
     {required}
-    on:keydown={on_keydown}
-    on:change
-    on:blur
-    on:click
+    onkeydown={handle_keydown}
+    {onchange}
+    {onblur}
+    {onclick}
     style={input_style}
   />
   <span></span>

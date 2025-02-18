@@ -1,13 +1,5 @@
 <script lang="ts">
-  export let options: Option[]
-  export let selected: string | number | null = null
-  export { class_name as class }
-  export let style: string | null = null
-  export let id: string | null = null
-  export let name: string | null = null
-  export let disabled: boolean = false
-  export let required: boolean = false
-  export let aria_label: string | null = null
+  import type { Snippet } from 'svelte'
 
   type GenericOption = string | number | { value: unknown; label: string | number }
   type Option = $$Generic<GenericOption>
@@ -17,14 +9,46 @@
     if (op instanceof Object) {
       if (op.label === undefined) {
         console.error(
-          `RadioButton option ${JSON.stringify(op)} is an object but has no label key`
+          `RadioButton option ${JSON.stringify(op)} is an object but has no label key`,
         )
       }
       return op.label
     }
     return op
   }
-  let class_name = `zoo-radio-btn`
+  interface Props {
+    options: Option[]
+    selected?: string | number | null
+    style?: string | null
+    id?: string | null
+    name?: string | null
+    disabled?: boolean
+    required?: boolean
+    aria_label?: string | null
+    class?: string | null
+    onclick?: (event: MouseEvent) => void
+    onchange?: (event: Event) => void
+    oninput?: (event: Event) => void
+    option_snippet?: Snippet<[{ option: Option; selected: boolean; active: boolean }]>
+    children?: Snippet<[{ option: Option; selected: boolean; active: boolean }]>
+  }
+
+  let {
+    options,
+    selected = $bindable(),
+    style = null,
+    id = null,
+    name = null,
+    disabled = false,
+    required = false,
+    aria_label = null,
+    class: class_name = `zoo-radio-btn`,
+    onclick,
+    onchange,
+    oninput,
+    option_snippet,
+    children,
+  }: Props = $props()
 </script>
 
 <div {id} {style} class={class_name}>
@@ -39,13 +63,15 @@
         {disabled}
         {required}
         bind:group={selected}
-        on:change
-        on:input
-        on:click
+        {onchange}
+        {oninput}
+        {onclick}
       />
-      <slot name="option" {option} {selected} {active}>
-        <slot {option} {selected} {active}><span>{label}</span></slot>
-      </slot>
+      {#if option_snippet}
+        {@render option_snippet({ option, selected, active })}
+      {:else if children}
+        {@render children({ option, selected, active })}
+      {:else}<span>{label}</span>{/if}
     </label>
   {/each}
 </div>

@@ -4,8 +4,14 @@
   import { CopyButton, GitHubCorner } from '$lib'
   import { repository } from '$root/package.json'
   import { demos } from '$site/stores'
+  import type { Snippet } from 'svelte'
   import { CmdPalette } from 'svelte-multiselect'
   import '../app.css'
+
+  interface Props {
+    children?: Snippet<[]>
+  }
+  let { children }: Props = $props()
 
   const routes = Object.keys(import.meta.glob(`./**/+page.{svelte,md}`))
 
@@ -16,7 +22,7 @@
   })
 
   $demos = Object.keys(import.meta.glob(`./*demos*/**/+page*.{md,svelte}`)).map(
-    (filename) => `/` + filename.split(`/`).at(-2)
+    (filename) => `/` + filename.split(`/`).at(-2),
   )
 
   if ($demos.length < 3) {
@@ -32,7 +38,7 @@
   <a href="." aria-label="Back to index page">&laquo; home</a>
 {/if}
 
-<slot />
+{@render children?.()}
 
 <style>
   a[href='.'] {
