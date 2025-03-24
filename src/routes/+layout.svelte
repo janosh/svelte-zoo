@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import { page } from '$app/stores'
+  import { page } from '$app/state'
   import { CopyButton, GitHubCorner } from '$lib'
   import { repository } from '$root/package.json'
   import { demos } from '$site/stores'
@@ -34,7 +34,7 @@
 <CopyButton global />
 <CmdPalette {actions} placeholder="Go to..." />
 
-{#if !$page.error && $page.url.pathname !== `/`}
+{#if !page.error && page.url.pathname !== `/`}
   <a href="." aria-label="Back to index page">&laquo; home</a>
 {/if}
 

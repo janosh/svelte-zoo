@@ -72,14 +72,14 @@ describe(`Toggle`, () => {
   })
 
   test(`applies custom style`, () => {
-    const style = `margin: 10px`
+    const style = `margin: 10px;`
     mount(Toggle, { target, props: { style } })
     const label = target.querySelector(`label`)
     expect(label?.getAttribute(`style`)).toBe(style)
   })
 
   test(`applies custom input style`, () => {
-    const input_style = `width: 20px`
+    const input_style = `width: 20px;`
     mount(Toggle, { target, props: { input_style } })
     const input = target.querySelector(`input`)
     expect(input?.getAttribute(`style`)).toBe(input_style)

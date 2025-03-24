@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores'
+  import { page } from '$app/state'
   import { PrevNext } from '$lib'
   import { name } from '$root/package.json'
   import { DemoNav } from '$site'
@@ -21,7 +21,7 @@
 
   {@render children?.()}
 
-  <PrevNext items={$demos} current={$page.url.pathname} />
+  <PrevNext items={$demos} current={page.url.pathname} />
 </main>
 
 <style>

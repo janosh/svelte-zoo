@@ -52,7 +52,7 @@
 </script>
 
 <div {id} {style} class={class_name}>
-  {#each options as option}
+  {#each options as option (JSON.stringify(option))}
     {@const label = get_label(option)}
     {@const active = selected && get_label(option) === get_label(selected)}
     <label class:active aria-label={aria_label}>

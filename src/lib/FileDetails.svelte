@@ -49,7 +49,6 @@
     {@const { title, content, language = default_lang } = file ?? {}}
     <li>
       <!-- https://github.com/sveltejs/svelte/issues/12721#issuecomment-2269544690 -->
-      <!-- svelte-ignore binding_property_non_reactive -->
       <details bind:this={file.node}>
         {#if title || title_snippet}
           <summary>

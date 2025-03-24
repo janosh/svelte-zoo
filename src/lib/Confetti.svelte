@@ -52,7 +52,7 @@
 </script>
 
 <div transition:fade>
-  {#each confetti as con}
+  {#each confetti as con (JSON.stringify(con))}
     <span style="left: {con.x}%; top: {con.y}%; transform: scale({con.r})">
       {con.emoji}
     </span>

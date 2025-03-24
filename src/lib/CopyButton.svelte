@@ -67,7 +67,7 @@
     {#if children}
       {@render children()}
     {:else}
-      <Icon {icon} /><span>{text}</span>
+      <Icon {icon} />&nbsp;<span>{text}</span>
     {/if}
   </svelte:element>
 {/if}

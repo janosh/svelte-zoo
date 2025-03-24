@@ -65,3 +65,47 @@ This action highlights substrings of DOM context that match a given string.
   }
 </style>
 ```
+
+### `titles_as_tooltips`
+
+This action creates tooltips from elements with `title`, `aria-label`, or `data-title` attributes.
+
+```svelte example
+<script>
+  import { titles_as_tooltips } from '$lib'
+</script>
+
+<div use:titles_as_tooltips>
+  <button title="This is a tooltip">Hover me (title)</button>
+
+  <button aria-label="This one uses aria-label">Hover me (aria-label)</button>
+
+  <button data-title="Multiline tooltip!&#13;Here's a second line.">
+    Hover me (multiline)
+  </button>
+</div>
+
+<p>
+  You can also apply the action to specific elements:
+  <span use:titles_as_tooltips={{ placement: 'right' }} title="Custom placement">
+    Hover me (right side)
+  </span>
+</p>
+
+<style>
+  div {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  button, span {
+    cursor: pointer;
+  }
+
+  span {
+    text-decoration: underline;
+    color: var(--color-primary);
+  }
+</style>
+```
