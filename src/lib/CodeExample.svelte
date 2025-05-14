@@ -25,7 +25,6 @@
     code?: import('svelte').Snippet
     after_code?: import('svelte').Snippet
   }
-
   let {
     src = ``,
     meta = {},
@@ -36,15 +35,8 @@
     after_code,
   }: Props = $props()
 
-  let node: HTMLElement = $state() // the <code> element
+  let node: HTMLElement | null = $state(null) // the <code> element
   let { id, collapsible, code_above, pkg } = $derived(meta)
-
-  $effect(() => {
-    if (pkg && node?.innerHTML) {
-      // replace $lib with package name in code
-      node.innerHTML = node.innerHTML?.replaceAll(`$lib`, pkg)
-    }
-  })
 </script>
 
 {#if collapsible}
@@ -64,7 +56,10 @@
   {/if}
 
   <pre class:open><code bind:this={node}
-      >{#if code}{@render code()}{:else}{src}{/if}</code
+      >{#if code}{@render code()}{:else}{src?.replaceAll(
+          `$lib`,
+          pkg ?? `$lib`,
+        )}{/if}</code
     ><aside>
       <CopyButton content={node?.innerText ?? src} />
       {#if !collapsible}
@@ -118,20 +113,5 @@
     opacity: 1;
     max-height: 9999vh;
     margin: var(--zoo-example-code-margin, 1em 0 0 0);
-  }
-
-  :global(div.code-example :is(button, a.btn)) {
-    color: white;
-    cursor: pointer;
-    border: none;
-    border-radius: 3pt;
-    padding: 2pt 4pt;
-    font-size: 12pt;
-    line-height: initial;
-    transition: background-color 0.2s;
-    background-color: var(--zoo-example-btn-bg, darkcyan);
-  }
-  :global(div.code-example :is(button, a.btn)):hover {
-    background-color: var(--zoo-example-btn-bg-hover, teal);
   }
 </style>

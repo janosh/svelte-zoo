@@ -101,7 +101,7 @@
     {@render children?.()}
     {@render trigger?.()}
     <div bind:this={tooltip_div} style:background={bg} style={tip_style} class="tooltip">
-      {#if tip}{@render tip()}{:else}{text}{/if}
+      {#if tip}{@render tip()}{:else}{@html text}{/if}
     </div>
   </span>
 {:else}

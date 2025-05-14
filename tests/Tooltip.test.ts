@@ -92,7 +92,6 @@ describe(`Tooltip`, () => {
       target,
       props: {
         text: `Tooltip Text`,
-        // @ts-expect-error - Svelte typing issue with class prop
         class: `custom-class`,
       },
     })
@@ -130,5 +129,19 @@ describe(`Tooltip`, () => {
     const computedStyle = window.getComputedStyle(tooltip)
     expect(computedStyle.visibility).toBe(`hidden`)
     expect(computedStyle.opacity).toBe(`0`)
+  })
+
+  test(`renders text prop with html content using {@html}`, async () => {
+    const html_content = `<strong>Bold Text</strong>`
+    mount(Tooltip, {
+      target,
+      props: { text: html_content },
+    })
+
+    const container = target.querySelector(`span`)
+    container?.dispatchEvent(new MouseEvent(`mouseenter`))
+
+    const tooltip = target.querySelector(`.tooltip`)
+    expect(tooltip?.innerHTML).toContain(html_content)
   })
 })
