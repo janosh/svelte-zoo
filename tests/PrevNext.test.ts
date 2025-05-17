@@ -153,15 +153,12 @@ test(`handles custom goto options`, () => {
 
 test(`handles custom keyup handler`, () => {
   const target = document.body
-  const on_keyup = vi.fn(({ prev, next }) => ({
+  const onkeyup = vi.fn(({ prev, next }) => ({
     PageUp: prev[0],
     PageDown: next[0],
   }))
 
-  mount(PrevNext, {
-    target,
-    props: { items, current: `page2`, on_keyup },
-  })
+  mount(PrevNext, { target, props: { items, current: `page2`, onkeyup } })
 
   window.dispatchEvent(new KeyboardEvent(`keyup`, { key: `PageUp` }))
   expect(goto).toHaveBeenCalledWith(`page1`, expect.any(Object))

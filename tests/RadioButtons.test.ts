@@ -13,7 +13,7 @@ test(`2-way binding of RadioButtons`, async () => {
 
   // test internal change to selected binds outwards
 
-  doc_query(`div.zoo-radio-btn > label > input`).click()
+  doc_query(`input[type='radio']`).click()
   await tick()
 
   expect(onselected).toHaveBeenCalledTimes(1)
@@ -30,7 +30,7 @@ test(`RadioButtons forwards update and click events`, async () => {
   expect(onchange).not.toHaveBeenCalled()
   expect(onclick).not.toHaveBeenCalled()
 
-  doc_query(`div.zoo-radio-btn > label > input`).click()
+  doc_query(`input[type='radio']`).click()
   await tick()
 
   expect(onchange).toHaveBeenCalledOnce()
@@ -51,7 +51,7 @@ test.each([[true], [false]])(
       },
     })
 
-    const input = doc_query(`div.zoo-radio-btn > label > input`)
+    const input = doc_query(`input[type='radio']`)
     input.click()
     await tick()
 

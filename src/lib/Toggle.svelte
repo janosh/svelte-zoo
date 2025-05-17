@@ -4,29 +4,26 @@
   interface Props {
     checked?: boolean // whether the toggle is on or off
     required?: boolean
-    style?: string | null
     input_style?: string
     id?: string | null
-    class?: string | null
     onclick?: (event: MouseEvent) => void
     onchange?: (event: Event) => void
     onblur?: (event: FocusEvent) => void
     onkeydown?: (event: KeyboardEvent) => void
     children?: Snippet<[]>
+    [key: string]: unknown
   }
-
   let {
     checked = $bindable(false),
     required = false,
-    style = null,
     input_style = ``,
     id = null,
-    class: class_name = null,
     onclick,
     onchange,
     onblur,
     onkeydown,
     children,
+    ...rest
   }: Props = $props()
 
   // normally input type=checkbox toggles on space bar, this handler also responds to enter
@@ -39,7 +36,7 @@
   }
 </script>
 
-<label {style} class={class_name}>
+<label {...rest}>
   {@render children?.()}
   <input
     type="checkbox"

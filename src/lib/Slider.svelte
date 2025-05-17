@@ -7,17 +7,16 @@
     min?: number
     max?: number
     step?: number
-    style?: string
     slider_style?: string
     disabled?: boolean
     id?: string | null
     number?: `before` | `after` | false
-    class?: string | null
     onclick?: (event: MouseEvent) => void
     oninput?: (event: Event) => void
     onchange?: (event: Event) => void
     label_snippet?: Snippet<[]>
     children?: Snippet<[]>
+    [key: string]: unknown
   }
 
   let {
@@ -26,21 +25,20 @@
     min = 0,
     max = 100,
     step = 1,
-    style = ``,
     slider_style = ``,
     disabled = false,
     id = null,
     number = `before`,
-    class: class_name = null,
     onclick,
     oninput,
     onchange,
     label_snippet,
     children,
+    ...rest
   }: Props = $props()
 </script>
 
-<label {id} {style} aria-disabled={disabled ? `true` : `false`} class={class_name}>
+<label {id} aria-disabled={disabled ? `true` : `false`} {...rest}>
   {#if label_snippet}
     {@render label_snippet()}
   {:else if children}

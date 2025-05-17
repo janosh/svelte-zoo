@@ -6,16 +6,16 @@
     duration?: string
     size?: string
     div: HTMLDivElement
-    class?: string | null
+    [key: string]: unknown
   }
-
   let {
     color = $bindable(null),
     duration = `1.5s`,
     size = `1em`,
     div = $bindable(),
-    class: class_name = null,
+    ...rest
   }: Props = $props()
+
   onMount(() => {
     if (!color) {
       color = getComputedStyle(div).color
@@ -30,7 +30,7 @@
   {color}"
   style:width={size}
   style:height={size}
-  class={class_name}
+  {...rest}
 ></div>
 
 <style>

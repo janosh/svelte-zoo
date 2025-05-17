@@ -1,23 +1,23 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
   import { CopyButton, Icon } from '$lib'
+  import type { Snippet } from 'svelte'
   import { mount } from 'svelte'
 
   interface Props {
     content?: string
-    style?: string | null
     state?: `default` | `success` | `error`
     global_selector?: string | null
     global?: boolean
     skip_selector?: string | null
     as?: string
     labels?: Record<`default` | `success` | `error`, { icon: string; text: string }>
-    children?: import('svelte').Snippet
+    children?: Snippet<[]>
+    [key: string]: unknown
   }
 
   let {
     content = ``,
-    style = null,
     state = $bindable(`default`),
     global_selector = null,
     global = false,
@@ -29,6 +29,7 @@
       error: { icon: `Alert`, text: `Error` },
     },
     children,
+    ...rest
   }: Props = $props()
 
   if (global || global_selector) {
@@ -63,7 +64,7 @@
 
 {#if !(global || global_selector)}
   {@const { text, icon } = labels[state]}
-  <svelte:element this={as} onclick={copy} {style} role="button" tabindex={0}>
+  <svelte:element this={as} onclick={copy} role="button" tabindex={0} {...rest}>
     {#if children}
       {@render children()}
     {:else}

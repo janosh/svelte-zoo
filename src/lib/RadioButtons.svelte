@@ -19,39 +19,36 @@
   interface Props {
     options: Option[]
     selected?: string | number | null
-    style?: string | null
     id?: string | null
     name?: string | null
     disabled?: boolean
     required?: boolean
     aria_label?: string | null
-    class?: string | null
     onclick?: (event: MouseEvent) => void
     onchange?: (event: Event) => void
     oninput?: (event: Event) => void
     option_snippet?: Snippet<[{ option: Option; selected: boolean; active: boolean }]>
     children?: Snippet<[{ option: Option; selected: boolean; active: boolean }]>
+    [key: string]: unknown
   }
-
   let {
     options,
     selected = $bindable(),
-    style = null,
     id = null,
     name = null,
     disabled = false,
     required = false,
     aria_label = null,
-    class: class_name = `zoo-radio-btn`,
     onclick,
     onchange,
     oninput,
     option_snippet,
     children,
+    ...rest
   }: Props = $props()
 </script>
 
-<div {id} {style} class={class_name}>
+<div {id} {...rest}>
   {#each options as option (JSON.stringify(option))}
     {@const label = get_label(option)}
     {@const active = selected && get_label(option) === get_label(selected)}

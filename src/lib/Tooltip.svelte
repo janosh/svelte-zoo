@@ -1,29 +1,29 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
+
   interface Props {
-    text?: string | null
+    text?: string
     max_width?: string
     bg?: string | null
     cursor?: string | null
-    style?: string | null
     tip_style?: string | null
-    class?: string | null
-    tip?: import('svelte').Snippet
-    children?: import('svelte').Snippet
-    trigger?: import('svelte').Snippet
+    tip?: Snippet<[{ text: string }]>
+    children?: Snippet<[{ text: string }]>
+    trigger?: Snippet<[{ text: string }]>
+    [key: string]: unknown
   }
-
   let {
-    text = null,
+    text = ``,
     max_width = `14em`,
     bg = null,
     cursor = null,
-    style = null,
     tip_style = null,
-    class: class_name = null,
     tip,
     children,
     trigger,
+    ...rest
   }: Props = $props()
+
   let tooltip_div: HTMLDivElement | undefined = $state()
   let container: HTMLSpanElement | undefined = $state()
   let is_visible = false
@@ -92,22 +92,21 @@
   <span
     bind:this={container}
     style:cursor
-    {style}
-    class={class_name}
     onmouseenter={show_tooltip}
     onmouseleave={hide_tooltip}
     role="tooltip"
+    {...rest}
   >
-    {@render children?.()}
-    {@render trigger?.()}
+    {@render children?.({ text })}
+    {@render trigger?.({ text })}
     <div bind:this={tooltip_div} style:background={bg} style={tip_style} class="tooltip">
-      {#if tip}{@render tip()}{:else}{@html text}{/if}
+      {#if tip}{@render tip({ text })}{:else}{@html text}{/if}
     </div>
   </span>
 {:else}
   <!-- if no tip was passed, don't wrap the trigger in an unnecessary span -->
-  {@render children?.()}
-  {@render trigger?.()}
+  {@render children?.({ text })}
+  {@render trigger?.({ text })}
 {/if}
 
 <style>

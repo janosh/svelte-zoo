@@ -1,6 +1,7 @@
 <script lang="ts">
   // see svelte.config.js where this component is passed to mdsvexamples
   import { CodeLinks, CopyButton, Icon } from '$lib'
+  import type { Snippet } from 'svelte'
 
   interface Props {
     // src+meta are passed in by mdsvexamples
@@ -20,10 +21,10 @@
       file?: string
     }
     open?: boolean
-    title?: import('svelte').Snippet
-    example?: import('svelte').Snippet
-    code?: import('svelte').Snippet
-    after_code?: import('svelte').Snippet
+    title?: Snippet<[]>
+    example?: Snippet<[]>
+    code?: Snippet<[]>
+    after_code?: Snippet<[]>
   }
   let {
     src = ``,
