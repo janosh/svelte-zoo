@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy'
   // let emojis rain across the screen to playfully show some event was triggered
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
@@ -24,11 +23,15 @@
       }))
       .sort((a, b) => a.r - b.r),
   )
-  let frame_id: number = $state()
+  let frame_id: number | undefined
+  let is_running = false
 
   function loop() {
     if (typeof requestAnimationFrame == `undefined`) return
+    if (freeze) return
+
     frame_id = requestAnimationFrame(loop)
+    is_running = true
 
     confetti = confetti.map((emoji) => {
       emoji.y += speed * emoji.r
@@ -37,16 +40,26 @@
     })
   }
 
+  function start_animation() {
+    if (!is_running && !freeze) loop()
+  }
+
+  function stop_animation() {
+    if (frame_id) {
+      cancelAnimationFrame(frame_id)
+      frame_id = undefined
+      is_running = false
+    }
+  }
+
   onMount(() => {
-    loop()
-    return () => cancelAnimationFrame(frame_id)
+    start_animation()
+    return stop_animation
   })
 
-  run(() => {
-    if (freeze) cancelAnimationFrame(frame_id)
-  })
-  run(() => {
-    if (!freeze) loop()
+  $effect(() => {
+    if (freeze) stop_animation()
+    else start_animation()
   })
 </script>
 
