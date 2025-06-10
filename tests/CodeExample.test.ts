@@ -46,8 +46,6 @@ test(`replaces $lib import with package name if passed as meta.pkg`, async () =>
 
   mount(CodeExample, { target: document.body, props: { src, meta: { pkg } } })
 
-  await tick()
-
   expect(doc_query(`pre > code`).textContent).toBe(expected)
 })
 

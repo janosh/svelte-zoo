@@ -148,7 +148,6 @@ describe(`Toggle`, () => {
 
     input.click()
     input.dispatchEvent(new Event(`change`))
-    await tick()
 
     expect(input.checked).toBe(true)
     expect(checked).toBe(true)

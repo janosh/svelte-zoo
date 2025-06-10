@@ -37,12 +37,9 @@ describe(`Tooltip`, () => {
   })
 
   test(`shows tooltip on mouseenter and hides on mouseleave`, async () => {
-    mount(Tooltip, {
-      target,
-      props: { text: `Tooltip Text` },
-    })
+    mount(Tooltip, { target, props: { text: `Tooltip Text` } })
 
-    await tick() // Wait for initial mount
+    await tick()
     const container = target.querySelector(`span`)
     const tooltip = target.querySelector(`.tooltip`) as HTMLElement
 
@@ -60,13 +57,10 @@ describe(`Tooltip`, () => {
   test(`respects max-width prop`, async () => {
     mount(Tooltip, {
       target,
-      props: {
-        text: `Tooltip Text`,
-        max_width: `200px`,
-      },
+      props: { text: `Tooltip Text`, max_width: `200px` },
     })
 
-    await tick() // Wait for initial mount
+    await tick()
     const container = target.querySelector(`span`)
     container?.dispatchEvent(new MouseEvent(`mouseenter`))
 
