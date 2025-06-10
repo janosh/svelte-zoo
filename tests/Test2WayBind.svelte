@@ -8,7 +8,6 @@
     [key: string]: unknown
     onselected: (selected: string | number | null) => void
   }
-
   let {
     Component,
     options,

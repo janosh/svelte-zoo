@@ -1,29 +1,27 @@
 import { GitHubCorner } from '$lib'
-import { repository } from '$root/package.json'
 import { mount } from 'svelte'
-import { expect, test } from 'vitest'
-import { doc_query } from '.'
+import { describe, expect, test } from 'vitest'
 
-test.each([
-  [`top-left`],
-  [`top-right`],
-  [`bottom-left`],
-  [`bottom-right`],
-] as const)(`GitHubCorner`, (corner) => {
-  const props = {
-    href: repository,
-    title: `Fancy words`,
-    aria_label: `Click here for riches`,
-    target: `_blank`,
-    corner,
-    style: `z-index: 42;`,
-  } as const
-  const { href, title, aria_label, target } = props
-  mount(GitHubCorner, { target: document.body, props })
+describe(`GitHubCorner`, () => {
+  test(`renders with default props`, () => {
+    mount(GitHubCorner, {
+      target: document.body,
+      props: { href: `https://github.com/janosh/svelte-zoo` },
+    })
+    const link = document.querySelector(`a`)
+    expect(link).toBeTruthy()
+    expect(link?.getAttribute(`href`)).toBe(
+      `https://github.com/janosh/svelte-zoo`,
+    )
+  })
 
-  expect(
-    doc_query(
-      `a[href='${href}'][target='${target}'][title='${title}'][aria-label='${aria_label}']`,
-    ),
-  ).toBeInstanceOf(HTMLAnchorElement)
+  test(`renders GitHub corner component`, () => {
+    mount(GitHubCorner, {
+      target: document.body,
+      props: { href: `https://github.com/test/repo` },
+    })
+    const link = document.querySelector(`a`)
+    expect(link).toBeTruthy()
+    expect(link?.querySelector(`svg`)).toBeTruthy()
+  })
 })

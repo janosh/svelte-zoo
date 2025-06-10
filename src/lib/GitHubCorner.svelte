@@ -13,7 +13,6 @@
     corner?: `top-left` | `top-right` | `bottom-left` | `bottom-right`
     style?: string
   }
-
   let {
     href,
     title = `View code on GitHub`,

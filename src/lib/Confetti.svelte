@@ -9,7 +9,6 @@
     n_items?: number
     freeze?: boolean
   }
-
   let { speed = 0.2, n_items = 50, freeze = false }: Props = $props()
 
   const emojis = [`🥳`, `🎉`, `✨`]

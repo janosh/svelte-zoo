@@ -18,7 +18,6 @@
     style?: string | null
     title_snippet?: Snippet<[{ idx: number } & File]>
   }
-
   let {
     files = $bindable([]),
     toggle_all_btn_title = `Toggle all`,

@@ -10,7 +10,6 @@ const files = [
 
 test(`FileDetails renders all files passed`, async () => {
   mount(FileDetails, { target: document.body, props: { files } })
-  await tick()
 
   const details = document.querySelectorAll(`li > details`)
   expect(details.length).toBe(files.length)
@@ -22,7 +21,6 @@ test(`FileDetails renders all files passed`, async () => {
 
 test(`FileDetails renders file titles and contents`, async () => {
   mount(FileDetails, { target: document.body, props: { files } })
-  await tick()
 
   const titles = document.querySelectorAll(`summary`)
   expect(titles.length).toBe(files.length)
@@ -53,14 +51,12 @@ test(`FileDetails opens and closes files when the toggle button is clicked`, asy
 
   const btn = doc_query(`button`)
   btn.click()
-  await tick()
 
   for (const detail of details) {
     expect(detail.open).toBe(true)
   }
 
   btn.click()
-  await tick()
 
   for (const detail of details) {
     expect(detail.open).toBe(false)
@@ -81,14 +77,12 @@ test(`toggle all button opens and closes all details`, async () => {
   })
 
   await tick()
-
   const details = document.querySelectorAll(`details`)
 
   const btn = doc_query(`button[title='${toggle_all_btn_title}']`)
 
   // open all details
   btn.click()
-  await tick()
 
   // all details elements should now be open
   for (const [idx, detail] of details.entries()) {
@@ -97,7 +91,6 @@ test(`toggle all button opens and closes all details`, async () => {
 
   // Click the toggle button again to close all details
   btn.click()
-  await tick()
 
   // all details elements should now be closed
   for (const [idx, detail] of details.entries()) {
@@ -107,11 +100,9 @@ test(`toggle all button opens and closes all details`, async () => {
   // Open some of the details
   details[0].open = true
   details[1].open = true
-  await tick()
 
   // Click the toggle button to close all details
   btn.click()
-  await tick()
 
   // All details elements should now be closed
   for (const [idx, detail] of details.entries()) {
