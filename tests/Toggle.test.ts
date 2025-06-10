@@ -5,31 +5,25 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 describe(`Toggle`, () => {
   let target: HTMLElement
 
+  beforeEach(() => (target = document.body))
   afterEach(() => (target.innerHTML = ``))
 
-  beforeEach(() => (target = document.body))
+  const getInput = () =>
+    target.querySelector(`input[type="checkbox"]`) as HTMLInputElement
 
   test(`renders unchecked by default`, () => {
     mount(Toggle, { target })
-    const input = target.querySelector(
-      `input[type="checkbox"]`,
-    ) as HTMLInputElement
-    expect(input.checked).toBe(false)
+    expect(getInput().checked).toBe(false)
   })
 
-  test(`renders checked when checked prop is true`, () => {
+  test(`renders checked when prop is true`, () => {
     mount(Toggle, { target, props: { checked: true } })
-    const input = target.querySelector(
-      `input[type="checkbox"]`,
-    ) as HTMLInputElement
-    expect(input.checked).toBe(true)
+    expect(getInput().checked).toBe(true)
   })
 
-  test(`toggles on click`, async () => {
+  test(`toggles on click`, () => {
     mount(Toggle, { target })
-    const input = target.querySelector(
-      `input[type="checkbox"]`,
-    ) as HTMLInputElement
+    const input = getInput()
 
     input.click()
     expect(input.checked).toBe(true)
@@ -40,85 +34,123 @@ describe(`Toggle`, () => {
 
   test(`toggles on Enter key`, async () => {
     mount(Toggle, { target })
-    const input = target.querySelector(
-      `input[type="checkbox"]`,
-    ) as HTMLInputElement
-    expect(input.checked).toBe(false)
+    const input = getInput()
 
-    input.dispatchEvent(new KeyboardEvent(`keydown`, { key: `Enter` }))
-    // TODO fix this, figure why going from on:keydown to onkeydown breaks this test
-    // await tick()
-    // expect(input.checked).toBe(true)
+    input.dispatchEvent(
+      new KeyboardEvent(`keydown`, { key: `Enter`, bubbles: true }),
+    )
+    await tick()
+    expect(input.checked).toBe(true)
 
-    input.dispatchEvent(new KeyboardEvent(`keydown`, { key: `Enter` }))
+    input.dispatchEvent(
+      new KeyboardEvent(`keydown`, { key: `Enter`, bubbles: true }),
+    )
     await tick()
     expect(input.checked).toBe(false)
   })
 
-  test(`doesn't toggle on other keys`, async () => {
+  test(`doesn't toggle on other keys`, () => {
     mount(Toggle, { target })
-    const input = target.querySelector(
-      `input[type="checkbox"]`,
-    ) as HTMLInputElement
+    const input = getInput()
 
     input.dispatchEvent(new KeyboardEvent(`keydown`, { key: `A` }))
     expect(input.checked).toBe(false)
   })
 
+  test(`calls custom keydown handler`, async () => {
+    const onkeydown = vi.fn()
+    mount(Toggle, { target, props: { onkeydown } })
+
+    getInput().dispatchEvent(
+      new KeyboardEvent(`keydown`, { key: `Enter`, bubbles: true }),
+    )
+    await tick()
+
+    expect(onkeydown).toHaveBeenCalledWith(expect.any(KeyboardEvent))
+    expect(getInput().checked).toBe(true)
+  })
+
   test(`applies custom class`, () => {
     mount(Toggle, { target, props: { class: `custom-class` } })
-    const label = target.querySelector(`label`)
-    expect(label?.classList.contains(`custom-class`)).toBe(true)
+    expect(
+      target.querySelector(`label`)?.classList.contains(`custom-class`),
+    ).toBe(true)
   })
 
-  test(`applies custom style`, () => {
-    const style = `margin: 10px;`
-    mount(Toggle, { target, props: { style } })
-    const label = target.querySelector(`label`)
-    expect(label?.getAttribute(`style`)).toBe(style)
-  })
-
-  test(`applies custom input style`, () => {
-    const input_style = `width: 20px;`
-    mount(Toggle, { target, props: { input_style } })
-    const input = target.querySelector(`input`)
-    expect(input?.getAttribute(`style`)).toBe(input_style)
+  test(`applies custom styles`, () => {
+    mount(Toggle, {
+      target,
+      props: { style: `margin: 10px;`, input_style: `width: 20px;` },
+    })
+    expect(target.querySelector(`label`)?.getAttribute(`style`)).toBe(
+      `margin: 10px;`,
+    )
+    expect(target.querySelector(`input`)?.getAttribute(`style`)).toBe(
+      `width: 20px;`,
+    )
   })
 
   test(`sets required attribute`, () => {
     mount(Toggle, { target, props: { required: true } })
-    const input = target.querySelector(`input`)
-    expect(input?.hasAttribute(`required`)).toBe(true)
+    expect(target.querySelector(`input`)?.hasAttribute(`required`)).toBe(true)
   })
 
-  test(`sets custom id`, () => {
+  test(`handles custom id`, () => {
     mount(Toggle, { target, props: { id: `custom-id` } })
-    const input = target.querySelector(`input`)
-    expect(input?.getAttribute(`id`)).toBe(`custom-id`)
+    expect(target.querySelector(`input`)?.getAttribute(`id`)).toBe(`custom-id`)
+
+    target.innerHTML = ``
+    mount(Toggle, { target, props: { id: null } })
+    expect(target.querySelector(`input`)?.hasAttribute(`id`)).toBe(false)
   })
 
-  test(`emits change event`, async () => {
-    const onchange = vi.fn()
-    mount(Toggle, { target, props: { onchange } })
-    const input = target.querySelector(`input[type="checkbox"]`)
+  test.each([
+    [`change`, `onchange`],
+    [`blur`, `onblur`],
+    [`click`, `onclick`],
+  ])(`emits %s event`, (eventType, handlerProp) => {
+    const handler = vi.fn()
+    mount(Toggle, { target, props: { [handlerProp]: handler } })
 
-    input?.dispatchEvent(new Event(`change`, { bubbles: true }))
-    expect(onchange).toHaveBeenCalledOnce()
+    const input = target.querySelector(`input`)
+    if (eventType === `blur`) {
+      input?.dispatchEvent(new FocusEvent(eventType))
+    } else if (eventType === `click`) {
+      input?.click()
+    } else {
+      input?.dispatchEvent(new Event(eventType, { bubbles: true }))
+    }
+
+    expect(handler).toHaveBeenCalledOnce()
   })
 
-  test(`handles blur event`, async () => {
-    const onblur = vi.fn()
-    mount(Toggle, { target, props: { onblur } })
-    const input = target.querySelector(`input`)
-    input?.dispatchEvent(new FocusEvent(`blur`))
-    expect(onblur).toHaveBeenCalledOnce()
+  test(`renders with proper structure`, () => {
+    mount(Toggle, { target })
+    expect(target.querySelector(`label`)).toBeTruthy()
+    expect(target.querySelector(`input[type="checkbox"]`)).toBeTruthy()
+    expect(target.querySelector(`span`)).toBeTruthy()
   })
 
-  test(`handles click event`, async () => {
-    const onclick = vi.fn()
-    mount(Toggle, { target, props: { onclick } })
-    const input = target.querySelector(`input`)
-    input?.click()
-    expect(onclick).toHaveBeenCalledOnce()
+  test(`two-way binding works`, async () => {
+    let checked = false
+    mount(Toggle, {
+      target,
+      props: {
+        checked,
+        onchange: (event: Event) => {
+          checked = (event.target as HTMLInputElement).checked
+        },
+      },
+    })
+
+    const input = getInput()
+    expect(input.checked).toBe(false)
+
+    input.click()
+    input.dispatchEvent(new Event(`change`))
+    await tick()
+
+    expect(input.checked).toBe(true)
+    expect(checked).toBe(true)
   })
 })
