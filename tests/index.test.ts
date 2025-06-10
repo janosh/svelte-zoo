@@ -1,5 +1,4 @@
 import * as lib from '$lib'
-import * as icons from '$lib/icons'
 import { expect, test } from 'vitest'
 import { doc_query } from '.'
 
@@ -9,13 +8,6 @@ test(`src/lib/index.ts re-exports all Svelte components`, () => {
   )
   // $lib is also allowed to export other things, so we use arrayContaining()
   expect(Object.keys(lib)).toEqual(expect.arrayContaining(components))
-})
-
-test(`src/lib/icons/index.ts re-exports all icons`, () => {
-  const components = Object.keys(import.meta.glob(`$lib/icons/*.svelte`)).map(
-    (path) => path.split(`/`).pop()?.split(`.`).shift(),
-  )
-  expect(Object.keys(icons)).toStrictEqual(components)
 })
 
 test(`get_bg_color() returns the background color of an element`, () => {

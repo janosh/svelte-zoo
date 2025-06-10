@@ -1,24 +1,30 @@
 <script lang="ts">
-  import * as icons from './icons'
+  import { type IconName, icon_data } from './icons'
 
   interface Props {
-    icon: keyof typeof icons
-    style?: string
-    width?: string
-    height?: string
+    icon: IconName
+    [key: string]: unknown
   }
+  let { icon, ...rest }: Props = $props()
 
-  let {
-    icon,
-    style = `display: inline-block; vertical-align: middle;`,
-    width = `1em`,
-    height = width,
-  }: Props = $props()
-
-  const SvelteComponent = $derived.by(() => {
-    if (!(icon in icons)) console.error(`Icon '${icon}' not found`)
-    return icons[icon]
+  const data = $derived.by(() => {
+    if (!(icon in icon_data)) {
+      console.error(`Icon '${icon}' not found`)
+      return icon_data.Alert // fallback
+    }
+    return icon_data[icon]
   })
 </script>
 
-<SvelteComponent {style} {width} {height} />
+<svg viewBox={data.viewBox} fill="currentColor" {...rest}>
+  <path d={data.path} />
+</svg>
+
+<style>
+  svg {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+  }
+</style>

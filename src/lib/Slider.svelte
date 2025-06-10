@@ -18,7 +18,6 @@
     children?: Snippet<[]>
     [key: string]: unknown
   }
-
   let {
     value = $bindable(0),
     label = ``,
